@@ -19,7 +19,18 @@ body {
   font-family: sans-serif;
 }
 
-.building {
+.object {
+  width: 1px;
+  height: 1px;
+}
+
+.object::after {
+  content: '';
+  display: block;
+  transform: translate(-50%, -50%);
+}
+
+.building::after {
   width: 150px;
   height: 150px;
   border-radius: 12px;
@@ -27,7 +38,6 @@ body {
   background: #f9f9f9;
   box-shadow:  20px 20px 60px #0003,
               -20px -20px 60px #fff;
-  transform: translate(300px, 200px);
 }
 
 .container {
@@ -36,7 +46,6 @@ body {
   height: 15px;
   background: rgb(73, 73, 73);
   border-radius: 2px;
-  transform: translate(200px, -50px);
   box-shadow: 1px 1px 3px #0003;
 }
 
