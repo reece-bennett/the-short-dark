@@ -1,0 +1,45 @@
+body {
+  margin: 40px;
+  background: #eee;
+}
+
+.building {
+  width: 150px;
+  height: 150px;
+  border-radius: 12px;
+  border: 8px solid #fff;
+  background: #f9f9f9;
+  box-shadow:  20px 20px 60px #0003,
+              -20px -20px 60px #fff;
+}
+
+.bear {
+  position: relative;
+  width: 12px;
+  height: 8px;
+  background: #952;
+  border-radius: 2px;
+  transform: translate(170px, -50px);
+  box-shadow: 1px 1px 3px #0003;
+}
+
+.bear > * {
+  position: absolute;
+  box-shadow: 1px 1px 3px #0003;
+  border-radius: 2px;
+}
+
+.bear .head {
+  background: #a63;
+  width: 8px;
+  height: 10px;
+  transform: translate(8px, -1px);
+}
+
+.bear .nose {
+  background: #b74;
+  width: 5px;
+  height: 5px;
+  transform: translate(13px, 1px);
+  border-right: 1px solid #000;
+}

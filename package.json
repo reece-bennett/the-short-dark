@@ -1,0 +1,20 @@
+{
+  "name": "the-short-dark",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "browser-sync start --server --files css/*.css js/*.js index.html --no-open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reece-bennett/the-short-dark.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/reece-bennett/the-short-dark/issues"
+  },
+  "homepage": "https://github.com/reece-bennett/the-short-dark#readme",
+  "devDependencies": {
+    "browser-sync": "^2.27.9"
+  }
+}
