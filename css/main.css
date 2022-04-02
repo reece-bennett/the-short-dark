@@ -2,6 +2,9 @@
 @import '_sprite.css';
 @import '_bear.css';
 @import '_player.css';
+@import '_building.css';
+@import '_container.css';
+@import '_ui.css';
 
 *,
 *::before,
@@ -17,96 +20,4 @@ body {
   margin: 0;
   background: #eee;
   font-family: sans-serif;
-}
-
-.object {
-  width: 1px;
-  height: 1px;
-}
-
-.object::after {
-  content: '';
-  display: block;
-  transform: translate(-50%, -50%);
-}
-
-.building::after {
-  width: 150px;
-  height: 150px;
-  border-radius: 12px;
-  border: 8px solid #fff;
-  background: #f9f9f9;
-  box-shadow:  20px 20px 60px #0003,
-              -20px -20px 60px #fff;
-}
-
-.container {
-  position: relative;
-  width: 25px;
-  height: 15px;
-  background: rgb(73, 73, 73);
-  border-radius: 2px;
-  box-shadow: 1px 1px 3px #0003;
-}
-
-.inventory {
-  position: absolute;
-  width: 800px;
-  height: 600px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.4);
-  padding: 20px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-}
-
-.tab {
-  background: rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.tab-player {
-  width: 60%;
-}
-
-.tab-container {
-  width: 40%;
-}
-
-.row {
-  background: rgba(255, 255, 255, 1);
-  width: 100%;
-  color: black;
-  display: flex;
-  align-items: center;
-  padding: 10px 15px;
-}
-
-.stats {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  padding: 10px;
-  display: flex;
-  gap: 10px;
-  background: rgba(0, 0, 0, 0.03);
-}
-
-@property --p {
-  syntax: '<percentage>';
-  initial-value: 100%;
-  inherits: false;
-}
-
-.progress {
-  transition: --p 0.2s;
-  --p: 100%;
-  width: 20px;
-  height: 80px;
-  background: linear-gradient(to top, white var(--p), rgba(200, 200, 200) 0);
 }

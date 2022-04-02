@@ -1,7 +1,14 @@
 .player .body {
-  width: 12px;
+  width: 20px;
   height: 12px;
   background: rgb(34, 86, 153);
   border-radius: 4px;
   box-shadow: 1px 1px 4px #0003;
+}
+
+.player .head {
+  width: 10px;
+  height: 10px;
+  background: rgb(202, 199, 189);
+  border-radius: 4px;
 }

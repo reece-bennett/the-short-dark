@@ -1,5 +1,6 @@
 import Player from './player.js'
 import Container from './container.js'
+import Item from './item.js'
 
 let previousTimestamp
 
@@ -7,7 +8,11 @@ const keyDown = new Set()
 const keyPressed = new Set()
 
 const player = new Player(100, 100, keyDown, keyPressed)
-const container = new Container(200, 100, player)
+const gameObjects = [
+  player,
+  new Container(200, 100, player, [Item.waterBottle(), Item.beefJerky(), Item.beefJerky(), Item.cola(), Item.energyBar()]),
+  new Container(100, 300, player, [Item.waterBottle(), Item.waterBottle()])
+]
 
 function init() {
   // Initialise stuff
@@ -26,14 +31,13 @@ function init() {
 }
 
 function update(dt) {
-  player.update(dt)
+  gameObjects.forEach(gameObject => gameObject.update(dt))
 
   keyPressed.clear()
 }
 
 function draw() {
-  player.draw()
-  container.draw()
+  gameObjects.forEach(gameObject => gameObject.draw())
 }
 
 function step(timestamp) {

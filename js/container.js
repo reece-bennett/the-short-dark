@@ -1,4 +1,4 @@
-import { $ } from './util.js'
+import { $, createDiv } from './util.js'
 
 export default class Container {
   x
@@ -6,6 +6,8 @@ export default class Container {
   player
   opened = false
   inventory
+  element
+  sprite
 
   constructor(x, y, player, inventory) {
     this.x = x
@@ -13,7 +15,8 @@ export default class Container {
     this.player = player
     this.inventory = inventory
 
-    $('.container').addEventListener('click', () => {
+    this.element = createDiv($('.game'), 'object', 'container')
+    this.element.addEventListener('click', () => {
       console.log('Clicked')
       const dx = this.x - player.x
       const dy = this.y - player.y
@@ -25,12 +28,13 @@ export default class Container {
         }
       }
     })
+    this.sprite = createDiv(this.element, 'sprite')
   }
 
   update() {}
 
   draw() {
-    $('.container').style.transform = `translate(${this.x}px, ${this.y}px)`
+    this.element.style.transform = `translate(${this.x}px, ${this.y}px)`
   }
 
   open() {

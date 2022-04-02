@@ -1,4 +1,4 @@
-import { $ } from './util.js'
+import { $, createDiv } from './util.js'
 import Item from './item.js'
 
 export default class Player {
@@ -10,6 +10,8 @@ export default class Player {
   inventory = [Item.waterBottle()]
   inventoryOpen = false
   lookingIn
+  element
+  sprite
 
   // Stats in percentages
   health = 1
@@ -23,6 +25,11 @@ export default class Player {
     this.y = y
     this.keyDown = keyDown
     this.keyPressed = keyPressed
+
+    this.element = createDiv($('.game'), 'object', 'player')
+    this.sprite = createDiv(this.element, 'sprite')
+    createDiv(this.sprite, 'body')
+    createDiv(this.sprite, 'head')
   }
 
   update(dt) {

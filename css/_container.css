@@ -1,0 +1,7 @@
+.container .sprite {
+  width: 25px;
+  height: 15px;
+  background: rgb(73, 73, 73);
+  border-radius: 2px;
+  box-shadow: 1px 1px 3px #0003;
+}
