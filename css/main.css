@@ -1,4 +1,11 @@
-* {
+@import '_object.css';
+@import '_sprite.css';
+@import '_bear.css';
+@import '_player.css';
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -21,47 +28,6 @@ body {
   box-shadow:  20px 20px 60px #0003,
               -20px -20px 60px #fff;
   transform: translate(300px, 200px);
-}
-
-.bear {
-  position: relative;
-  width: 12px;
-  height: 8px;
-  background: #952;
-  border-radius: 2px;
-  transform: translate(170px, -50px);
-  box-shadow: 1px 1px 3px #0003;
-}
-
-.bear > * {
-  position: absolute;
-  box-shadow: 1px 1px 3px #0003;
-  border-radius: 2px;
-}
-
-.bear .head {
-  background: #a63;
-  width: 8px;
-  height: 10px;
-  transform: translate(8px, -1px);
-}
-
-.bear .nose {
-  background: #b74;
-  width: 5px;
-  height: 5px;
-  transform: translate(13px, 1px);
-  border-right: 1px solid #000;
-}
-
-.player {
-  position: relative;
-  width: 10px;
-  height: 10px;
-  background: rgb(34, 86, 153);
-  border-radius: 2px;
-  transform: translate(200px, -50px);
-  box-shadow: 1px 1px 3px #0003;
 }
 
 .container {
