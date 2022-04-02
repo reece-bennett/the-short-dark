@@ -1,4 +1,5 @@
 import { $ } from './util.js'
+import Item from './item.js'
 
 export default class Player {
   x
@@ -6,16 +7,16 @@ export default class Player {
   speed = 100
   keyDown
   keyPressed
-  inventory = ['Beeeef', 'Water']
+  inventory = [Item.waterBottle()]
   inventoryOpen = false
   lookingIn
 
   // Stats in percentages
-  health = 100
-  temperature = 100
-  energy = 100
-  food = 100
-  water = 100
+  health = 1
+  temperature = 1
+  energy = 1
+  food = 1
+  water = 1
 
   constructor(x, y, keyDown, keyPressed) {
     this.x = x
@@ -46,7 +47,7 @@ export default class Player {
       this.x += vx
       this.y += vy
 
-      this.energy -= 2 * dt
+      this.energy -= 0.02 * dt
     }
 
     if (this.keyPressed.has('Tab')) {
@@ -57,10 +58,10 @@ export default class Player {
       }
     }
 
-    this.temperature -= 0.5 * dt
-    this.energy -= 0.4 * dt
-    this.food -= 0.4 * dt
-    this.water -= 0.6 * dt
+    this.temperature -= 0.005 * dt
+    this.energy -= 0.004 * dt
+    this.food -= 0.004 * dt
+    this.water -= 0.006 * dt
   }
 
   draw() {
@@ -88,23 +89,29 @@ export default class Player {
     this.inventory.forEach((item, index) => {
       const row = document.createElement('div')
       row.classList.add('row')
-      row.innerText = item
+      row.innerText = item.name
       row.addEventListener('click', () => {
         if (this.lookingIn) {
           this.removeFromInventory(index)
           this.lookingIn.addToInventory(item)
         }
       })
+      row.addEventListener('contextmenu', event => {
+        event.preventDefault()
+        item.use(this)
+        this.inventory.splice(this.inventory.indexOf(item), 1)
+        this.updateInventoryUi()
+      })
       playerTab.append(row)
     })
   }
 
   updateStatsUi() {
-    $('.progress.health').style.setProperty('--p', `${this.health}%`)
-    $('.progress.temperature').style.setProperty('--p', `${this.temperature}%`)
-    $('.progress.energy').style.setProperty('--p', `${this.energy}%`)
-    $('.progress.food').style.setProperty('--p', `${this.food}%`)
-    $('.progress.water').style.setProperty('--p', `${this.water}%`)
+    $('.progress.health').style.setProperty('--p', `${this.health * 100}%`)
+    $('.progress.temperature').style.setProperty('--p', `${this.temperature * 100}%`)
+    $('.progress.energy').style.setProperty('--p', `${this.energy * 100}%`)
+    $('.progress.food').style.setProperty('--p', `${this.food * 100}%`)
+    $('.progress.water').style.setProperty('--p', `${this.water * 100}%`)
   }
 
   addToInventory(item) {

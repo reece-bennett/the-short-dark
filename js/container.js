@@ -5,12 +5,13 @@ export default class Container {
   y
   player
   opened = false
-  inventory = ['Flare', 'Gun']
+  inventory
 
-  constructor(x, y, player) {
+  constructor(x, y, player, inventory) {
     this.x = x
     this.y = y
     this.player = player
+    this.inventory = inventory
 
     $('.container').addEventListener('click', () => {
       console.log('Clicked')
@@ -25,6 +26,8 @@ export default class Container {
       }
     })
   }
+
+  update() {}
 
   draw() {
     $('.container').style.transform = `translate(${this.x}px, ${this.y}px)`
@@ -51,7 +54,7 @@ export default class Container {
     this.inventory.forEach((item, index) => {
       const row = document.createElement('div')
       row.classList.add('row')
-      row.innerText = item
+      row.innerText = item.name
       row.addEventListener('click', () => {
         this.removeFromInventory(index)
         this.player.addToInventory(item)
