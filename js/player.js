@@ -10,6 +10,13 @@ export default class Player {
   inventoryOpen = false
   lookingIn
 
+  // Stats in percentages
+  health = 100
+  temperature = 100
+  energy = 100
+  food = 100
+  water = 100
+
   constructor(x, y, keyDown, keyPressed) {
     this.x = x
     this.y = y
@@ -38,6 +45,8 @@ export default class Player {
 
       this.x += vx
       this.y += vy
+
+      this.energy -= 2 * dt
     }
 
     if (this.keyPressed.has('Tab')) {
@@ -47,11 +56,17 @@ export default class Player {
         this.openInventory()
       }
     }
+
+    this.temperature -= 0.5 * dt
+    this.energy -= 0.4 * dt
+    this.food -= 0.4 * dt
+    this.water -= 0.6 * dt
   }
 
   draw() {
     $('.player').style.transform = `translate(${this.x}px, ${this.y}px)`
     $('.inventory').setAttribute('aria-hidden', !this.inventoryOpen)
+    this.updateStatsUi()
   }
 
   openInventory(container) {
@@ -82,6 +97,14 @@ export default class Player {
       })
       playerTab.append(row)
     })
+  }
+
+  updateStatsUi() {
+    $('.progress.health').style.setProperty('--p', `${this.health}%`)
+    $('.progress.temperature').style.setProperty('--p', `${this.temperature}%`)
+    $('.progress.energy').style.setProperty('--p', `${this.energy}%`)
+    $('.progress.food').style.setProperty('--p', `${this.food}%`)
+    $('.progress.water').style.setProperty('--p', `${this.water}%`)
   }
 
   addToInventory(item) {

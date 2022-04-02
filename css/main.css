@@ -86,3 +86,27 @@ body {
   align-items: center;
   padding: 10px 15px;
 }
+
+.stats {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  padding: 10px;
+  display: flex;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.03);
+}
+
+@property --p {
+  syntax: '<percentage>';
+  initial-value: 100%;
+  inherits: false;
+}
+
+.progress {
+  transition: --p 0.2s;
+  --p: 100%;
+  width: 20px;
+  height: 80px;
+  background: linear-gradient(to top, white var(--p), rgba(200, 200, 200) 0);
+}
