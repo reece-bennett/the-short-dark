@@ -1,0 +1,21 @@
+{
+  "version": 1.1,
+  "atDirectives": [
+    {
+      "name": "@property",
+      "description": "The @property CSS at-rule allows explicitly defining css custom properties, allowing for property type checking, setting default values, and define whether a property can inherit values or not. The @property rule represents a custom property registration directly in a stylesheet without having to run any JS. Valid @property rules result in a registered custom property, as if CSS.registerProperty had been called with equivalent parameters.",
+      "browsers": [
+        "E85",
+        "C85",
+        "O71"
+      ],
+      "status": "experimental",
+      "references": [
+        {
+          "name": "MDN Reference",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/@property"
+        }
+      ]
+    }
+  ]
+}
