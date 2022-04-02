@@ -16,6 +16,6 @@
   "homepage": "https://github.com/reece-bennett/the-short-dark#readme",
   "devDependencies": {
     "browser-sync": "^2.27.9",
-    "standard": "^16.0.4"
+    "eslint": "^8.12.0"
   }
 }
