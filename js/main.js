@@ -16,6 +16,7 @@ let lastUiDraw = 0
 const maxDistance = 1500
 
 const game = {}
+game.running = true
 game.keyDown = new Set()
 game.keyPressed = new Set()
 game.mouse = {
@@ -145,7 +146,7 @@ function step(timestamp) {
   draw()
 
   previousTimestamp = timestamp
-  window.requestAnimationFrame(step)
+  if (game.running) window.requestAnimationFrame(step)
 }
 
 init()
