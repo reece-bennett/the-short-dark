@@ -1,4 +1,4 @@
-import { $, createDiv, distanceBetween } from './util.js'
+import { $, angleBetween, createDiv, distanceBetween } from './util.js'
 import Item from './item.js'
 import { intersect } from './collision.js'
 
@@ -26,11 +26,12 @@ export default class Player {
   food = 1
   water = 1
 
-  constructor(x, y, keyDown, keyPressed, gameObjects) {
+  constructor(x, y, keyDown, keyPressed, mouse, gameObjects) {
     this.x = x
     this.y = y
     this.keyDown = keyDown
     this.keyPressed = keyPressed
+    this.mouse = mouse
     this.gameObjects = gameObjects
 
     this.element = createDiv($('.game'), 'object', 'player')
@@ -89,7 +90,8 @@ export default class Player {
   }
 
   draw() {
-    $('.player').style.transform = `translate(${this.x}px, ${this.y}px)`
+    this.element.style.transform = `translate(${this.x}px, ${this.y}px)`
+    this.sprite.style.transform = `rotate(${angleBetween(this.x, this.y, this.mouse.x, this.mouse.y)}rad)`
     $('.inventory').setAttribute('aria-hidden', !this.inventoryOpen)
     this.updateStatsUi()
   }

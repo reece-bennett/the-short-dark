@@ -11,8 +11,13 @@ let previousTimestamp
 const keyDown = new Set()
 const keyPressed = new Set()
 
+const mouse = {
+  x: 0,
+  y: 0
+}
+
 const gameObjects = []
-const player = new Player(400, 300, keyDown, keyPressed, gameObjects)
+const player = new Player(400, 300, keyDown, keyPressed, mouse, gameObjects)
 
 // Create a scary bear, as specific x/y coords
 const bear = new Bear({x:200, y:300})
@@ -46,6 +51,11 @@ function init() {
 
   document.addEventListener('keyup', event => {
     keyDown.delete(event.code)
+  })
+
+  document.addEventListener('mousemove', event => {
+    mouse.x = event.clientX
+    mouse.y = event.clientY
   })
 
   // Start the main loop
