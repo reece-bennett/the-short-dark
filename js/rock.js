@@ -1,11 +1,12 @@
 import Object from './object.js'
 
 export default class Rock extends Object {
-  constructor({x, y, width, height, rotation}) {
+  constructor({game, x, y, width, height, rotation}) {
     super({
+      game,
       name: 'rock',
-      x: x,
-      y: y,
+      x,
+      y,
       width: width ?? 24, // TODO: Random default rock size between sensible min/max
       height: height ?? 24, // TODO: Random default rock size between sensible min/max
       // Rotation messes with shadows so not doing it for now

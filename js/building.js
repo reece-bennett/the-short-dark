@@ -4,7 +4,6 @@ import { $, createDiv } from './util.js'
 export default class Building {
   x
   y
-  player
   element
   sprite
   isOpen
@@ -27,17 +26,17 @@ export default class Building {
     halfHeight: 75
   }
 
-  constructor(x, y, player) {
+  constructor(game, x, y) {
+    this.game = game
     this.x = x
     this.y = y
-    this.player = player
 
     this.element = createDiv($('.game'), 'object', 'building')
     this.sprite = createDiv(this.element, 'sprite')
     createDiv(this.sprite, 'wall')
     this.door = createDiv(this.sprite, 'door')
     this.door.addEventListener('click', () => {
-      if (player.distanceTo(this.x, this.y - 75) < 50) {
+      if (game.player.distanceTo(this.x, this.y - 75) < 50) {
         if (this.isOpen) {
           this.close()
         } else {
@@ -49,11 +48,11 @@ export default class Building {
   }
 
   update() {
-    this.roof.setAttribute('aria-hidden', intersect(this.player, { x: this.x, y: this.y, collider: this.roofCollider }))
+    this.roof.setAttribute('aria-hidden', intersect(this.game.player, { x: this.x, y: this.y, collider: this.roofCollider }))
   }
 
   draw() {
-    this.element.style.transform = `translate(${this.x}px, ${this.y}px)`
+    this.element.style.transform =`translate(${this.x - this.game.camera.x}px, ${this.y - this.game.camera.y}px)`
     this.door.style.transform = `translate(0, -75px)${this.isOpen ? 'rotate(-90deg)' : ''}`
   }
 
