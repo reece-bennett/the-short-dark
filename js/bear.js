@@ -1,6 +1,11 @@
 import Creature from './creature.js'
 
 export default class Bear extends Creature {
+  collider = {
+    type: 'circle',
+    radius: 18
+  }
+
   constructor({x, y}) {
     super({
       name: 'bear',

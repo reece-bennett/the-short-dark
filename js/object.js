@@ -31,4 +31,8 @@ export default class Object {
     this.objectElement.style.transform = `translate(${this.x}px, ${this.y}px)`
     $('.game').append(this.objectElement)
   }
+
+  update() {}
+
+  draw() {}
 }

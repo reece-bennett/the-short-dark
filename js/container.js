@@ -8,6 +8,11 @@ export default class Container {
   inventory
   element
   sprite
+  collider = {
+    type: 'box',
+    halfWidth: 12.5,
+    halfHeight: 7.5
+  }
 
   constructor(x, y, player, inventory) {
     this.x = x
@@ -17,10 +22,7 @@ export default class Container {
 
     this.element = createDiv($('.game'), 'object', 'container')
     this.element.addEventListener('click', () => {
-      console.log('Clicked')
-      const dx = this.x - player.x
-      const dy = this.y - player.y
-      if (Math.sqrt(dx * dx + dy * dy) < 50) {
+      if (player.distanceTo(this.x, this.y) < 50) {
         if (this.opened) {
           this.close()
         } else {
