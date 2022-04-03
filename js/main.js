@@ -21,7 +21,7 @@ game.camera = {
   y: 0
 }
 game.objects = []
-game.player = new Player(game, 400, 300)
+game.player = new Player(game, 0, 0)
 
 // Create a scary bear, as specific x/y coords
 const bear = new Bear({x:200, y:300, game})

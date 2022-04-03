@@ -73,8 +73,8 @@ export default class Player {
     }
 
     // Update camera
-    this.game.camera.x = Math.max(Math.min(this.x - window.innerWidth / 2, window.innerWidth), 0)
-    this.game.camera.y = Math.max(Math.min(this.y - window.innerHeight / 2, window.innerHeight), 0)
+    this.game.camera.x = this.x - window.innerWidth / 2
+    this.game.camera.y = this.y - window.innerHeight / 2
 
     if (this.game.keyPressed.has('Tab')) {
       if (this.inventoryOpen) {
