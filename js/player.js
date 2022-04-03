@@ -12,6 +12,7 @@ export default class Player extends Creature {
     type: 'circle',
     radius: 7
   }
+  spawnCollider = this.collider
 
   // Stats in percentages
   health = 1

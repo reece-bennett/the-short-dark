@@ -37,5 +37,6 @@ export default class Object {
 
   draw() {
     this.objectElement.style.transform = `translate(${this.x}px, ${this.y}px)`
+    this.spriteElement.style.transform = `rotate(${this.rotation}rad)`
   }
 }

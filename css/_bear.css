@@ -3,6 +3,10 @@
   --color-bear-light: #a63;
 }
 
+.bear .sprite {
+  transition: transform 1s;
+}
+
 .bear .body {
   width: 24px;
   height: 30px;

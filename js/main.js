@@ -7,7 +7,7 @@ import Tree from './tree.js'
 import Bear from './bear.js'
 import Building from './building.js'
 import { intersect } from './collision.js'
-import { $ } from './util.js'
+import { $, randomXY } from './util.js'
 
 let previousTimestamp = 0
 let fps = 0
@@ -31,23 +31,19 @@ game.player = new Player(game, 0, 0)
 game.player.spawn()
 
 // Create a scary bear, as specific x/y coords
-const bear = new Bear({ x: 200, y: 300, game })
+const bear = new Bear({ x: 100, y: 0, game })
+const bear2 = new Bear({ x: 0, y: -100, game })
 // Spawn the bear - currently only adds it to the scene, but should start AI(?)
 bear.spawn()
+bear2.spawn()
 
 game.objects.push(
   game.player,
   bear,
+  bear2
   // The idea here is that you can spawn a cluster of rocks or mixed whatevers
   // new Cluster({objects: [Rock], x: 200, y: 300, width: 20, height: 40, density: 20})
 )
-
-function randomXY() {
-  return {
-    x: (Math.random() * 2 - 1) * maxDistance,
-    y: (Math.random() * 2 - 1) * maxDistance
-  }
-}
 
 function init() {
   // Input events
@@ -68,7 +64,7 @@ function init() {
 
   // World generation
   for (let i = 0; i < 20; i++) {
-    let { x, y } = randomXY()
+    let { x, y } = randomXY(maxDistance)
     x = Math.round(x / 300) * 300
     y = Math.round(y / 300) * 300
     const building = new Building(game, x, y)
@@ -76,7 +72,7 @@ function init() {
       { x: building.x, y: building.y, collider: building.spawnCollider },
       { x: other.x, y: other.y, collider: other.spawnCollider }
     ))) {
-      ({ x, y } = randomXY())
+      ({ x, y } = randomXY(maxDistance))
       x = Math.round(x / 300) * 300
       y = Math.round(y / 300) * 300
       building.x = x
@@ -89,14 +85,14 @@ function init() {
   }
 
   for (let i = 0; i < 200; i++) {
-    let { x, y } = randomXY()
+    let { x, y } = randomXY(maxDistance)
     const rock = new Rock({ game, x, y })
     rock.spawn()
     while (game.objects.some(other => intersect(
       { x: rock.x, y: rock.y, collider: rock.spawnCollider },
       { x: other.x, y: other.y, collider: other.spawnCollider }
     ))) {
-      ({ x, y } = randomXY())
+      ({ x, y } = randomXY(maxDistance))
       rock.x = x
       rock.y = y
     }
@@ -104,14 +100,14 @@ function init() {
   }
 
   for (let i = 0; i < 100; i++) {
-    let { x, y } = randomXY()
+    let { x, y } = randomXY(maxDistance)
     const tree = new Tree({ game, x, y, size: Math.round(Math.random() * 3), snowy: Math.random() > 0.6 })
     tree.spawn()
     while (game.objects.some(other => intersect(
       { x: tree.x, y: tree.y, collider: tree.collider },
       { x: other.x, y: other.y, collider: other.spawnCollider }
     ))) {
-      ({ x, y } = randomXY())
+      ({ x, y } = randomXY(maxDistance))
       tree.x = x
       tree.y = y
     }

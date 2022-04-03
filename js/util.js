@@ -41,3 +41,10 @@ export function angleBetween(x1, y1, x2, y2) {
   const dy = y1 - y2
   return Math.atan2(dy, dx) - Math.PI / 2
 }
+
+export function randomXY(maxDistance) {
+  return {
+    x: (Math.random() * 2 - 1) * maxDistance,
+    y: (Math.random() * 2 - 1) * maxDistance
+  }
+}
