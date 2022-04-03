@@ -1,7 +1,7 @@
 import Object from './object.js'
 
 export default class Tree extends Object {
-  constructor({game, x, y, width, height, rotation, size, snowy}) {
+  constructor({game, x, y, size, snowy}) {
     super({
       game,
       name: 'tree',
@@ -40,7 +40,7 @@ export default class Tree extends Object {
 
     // if (Math.random() > 0.5) {
     if (snowy) {
-      this.objectElement.classList.add('snowy');
+      this.objectElement.classList.add('snowy')
     }
 
     this.collider = {
