@@ -1,16 +1,13 @@
 import { $, angleBetween, createDiv, distanceBetween } from './util.js'
+import Creature from './creature.js'
 import Item from './item.js'
 import { intersect } from './collision.js'
 
-export default class Player {
-  x
-  y
-  isSprinting = false
+export default class Player extends Creature {
   inventory = [Item.waterBottle()]
   inventoryOpen = false
   lookingIn
-  element
-  sprite
+
   collider = {
     type: 'circle',
     radius: 7
@@ -18,20 +15,30 @@ export default class Player {
 
   // Stats in percentages
   health = 1
-  temperature = 1
+  // temperature = 1
   energy = 1
   food = 1
   water = 1
 
   constructor(game, x, y) {
-    this.game = game
-    this.x = x
-    this.y = y
+    super({
+      game,
+      name: 'player',
+      x,
+      y,
+      spriteXml: `
+        <sprite>
+          <body/>
+          <head/>
+        </sprite>
+      `,
+    })
 
-    this.element = createDiv($('.game'), 'object', 'player')
-    this.sprite = createDiv(this.element, 'sprite')
-    createDiv(this.sprite, 'body')
-    createDiv(this.sprite, 'head')
+    this.temperature.tooCold = 10
+    this.temperature.tooHot = 35
+    this.temperature.coolRate = 0.002
+    this.temperature.heatRate = 0.004
+    this.temperature.buffer = 6
   }
 
   update(dt) {
@@ -84,7 +91,7 @@ export default class Player {
       }
     }
 
-    this.temperature -= 0.005 * dt
+    this.updateTemperature(dt, 15); // TODO: Fetch ambient temperature from somewhere
     this.energy -= 0.004 * dt
     this.food -= 0.004 * dt
     this.water -= 0.006 * dt
@@ -93,8 +100,8 @@ export default class Player {
   draw() {
     const screenX = this.x - this.game.camera.x
     const screenY = this.y - this.game.camera.y
-    this.element.style.transform = `translate(${screenX}px, ${screenY}px)`
-    this.sprite.style.transform = `rotate(${angleBetween(screenX, screenY, this.game.mouse.x, this.game.mouse.y)}rad)`
+    this.objectElement.style.transform = `translate(${screenX}px, ${screenY}px)`
+    this.spriteElement.style.transform = `rotate(${angleBetween(screenX, screenY, this.game.mouse.x, this.game.mouse.y)}rad)`
     $('.inventory').setAttribute('aria-hidden', !this.inventoryOpen)
     this.updateStatsUi()
   }
@@ -137,7 +144,7 @@ export default class Player {
 
   updateStatsUi() {
     $('.progress.health').style.setProperty('--p', `${this.health * 100}%`)
-    $('.progress.temperature').style.setProperty('--p', `${this.temperature * 100}%`)
+    $('.progress.temperature').style.setProperty('--p', `${this.temperature.current}%`)
     $('.progress.energy').style.setProperty('--p', `${this.energy * 100}%`)
     $('.progress.food').style.setProperty('--p', `${this.food * 100}%`)
     $('.progress.water').style.setProperty('--p', `${this.water * 100}%`)
