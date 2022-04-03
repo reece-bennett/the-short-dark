@@ -15,55 +15,30 @@ let lastUiDraw = 0
 
 const maxDistance = 1500
 
-const game = {}
-game.running = true
-game.keyDown = new Set()
-game.keyPressed = new Set()
-game.mouse = {
-  x: 0,
-  y: 0
+const game = {
+  running: true,
+  keyDown: new Set(),
+  keyPressed: new Set(),
+  mouse: {
+    x: 0,
+    y: 0
+  },
+  camera: {
+    x: 0,
+    y: 0
+  },
+  objects: []
 }
-game.camera = {
-  x: 0,
-  y: 0
-}
-game.objects = []
-game.player = new Player(game, 0, 0)
-game.player.spawn()
 
-// Create a scary bear, as specific x/y coords
-const bear = new Bear({ x: 500, y: 0, game })
-const bear2 = new Bear({ x: -20, y: -400, game })
-// Spawn the bear - currently only adds it to the scene, but should start AI(?)
-bear.spawn()
-bear2.spawn()
 
-game.objects.push(
-  game.player,
-  bear,
-  bear2
-  // The idea here is that you can spawn a cluster of rocks or mixed whatevers
-  // new Cluster({objects: [Rock], x: 200, y: 300, width: 20, height: 40, density: 20})
-)
+function generateWorld() {
+  $('.game').innerHTML = ''
+  game.objects = []
 
-function init() {
-  // Input events
-  document.addEventListener('keydown', event => {
-    game.keyDown.add(event.code)
-    game.keyPressed.add(event.code)
-    event.preventDefault()
-  })
+  game.player = new Player(game, 0, 0)
+  game.objects.push(game.player)
+  game.player.spawn()
 
-  document.addEventListener('keyup', event => {
-    game.keyDown.delete(event.code)
-  })
-
-  document.addEventListener('mousemove', event => {
-    game.mouse.x = event.clientX
-    game.mouse.y = event.clientY
-  })
-
-  // World generation
   for (let i = 0; i < 20; i++) {
     let { x, y } = randomXY(maxDistance)
     x = Math.round(x / 300) * 300
@@ -114,6 +89,43 @@ function init() {
     }
     game.objects.push(tree)
   }
+
+  const bear = new Bear({ x: 500, y: 0, game })
+  const bear2 = new Bear({ x: -20, y: -400, game })
+  bear.spawn()
+  bear2.spawn()
+  game.objects.push(bear, bear2)
+}
+
+function restart() {
+  generateWorld()
+  game.running = true
+  $('.gameover').setAttribute('aria-hidden', true)
+  window.requestAnimationFrame(step)
+}
+
+function init() {
+  // Input events
+  document.addEventListener('keydown', event => {
+    game.keyDown.add(event.code)
+    game.keyPressed.add(event.code)
+    event.preventDefault()
+  })
+
+  document.addEventListener('keyup', event => {
+    game.keyDown.delete(event.code)
+  })
+
+  document.addEventListener('mousemove', event => {
+    game.mouse.x = event.clientX
+    game.mouse.y = event.clientY
+  })
+
+  $('.restart-button').addEventListener('click', () => {
+    restart()
+  })
+
+  generateWorld()
 
   // Start the main loop
   window.requestAnimationFrame(step)

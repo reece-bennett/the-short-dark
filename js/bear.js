@@ -1,6 +1,6 @@
 import { intersect } from './collision.js'
 import Creature from './creature.js'
-import { angleBetween, distanceBetween, randomXY } from './util.js'
+import { $, angleBetween, distanceBetween, randomXY } from './util.js'
 
 export default class Bear extends Creature {
   collider = {
@@ -69,8 +69,9 @@ export default class Bear extends Creature {
       this.goal.y = this.game.player.y
 
       if (this.game.timestamp - this.lastAttacked > 1000 && intersect(this, this.game.player)) {
-        this.game.player.health -= 0.2
+        this.game.player.hitPoints -= 5
         this.lastAttacked = this.game.timestamp
+        $('.death-message').innerText = 'You were eaten by a bear, oh no :('
       }
 
       for (const other of this.game.objects) {

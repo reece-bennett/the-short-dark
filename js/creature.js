@@ -1,4 +1,5 @@
 import Object from './object.js'
+import { $ } from './util.js'
 
 export default class Creature extends Object {
   isSprinting = false
@@ -62,6 +63,9 @@ export default class Creature extends Object {
       this.hitPoints -= 1
       console.log(this.hitPoints)
       this.freezingDamageCooldown = 1
+      if (this === this.game.player) {
+        $('.death-message').innerText = 'You froze to death'
+      }
     }
 
     this.freezingDamageCooldown = Math.max(0, this.freezingDamageCooldown - dt)

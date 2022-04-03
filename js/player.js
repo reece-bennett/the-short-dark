@@ -99,7 +99,7 @@ export default class Player extends Creature {
     this.food -= 0.004 * dt
     this.water -= 0.006 * dt
 
-    if (this.health <= 0) {
+    if (this.hitPoints <= 0) {
       this.game.running = false
       $('.gameover').setAttribute('aria-hidden', false)
       const secondsLived = this.game.timestamp / 1000
