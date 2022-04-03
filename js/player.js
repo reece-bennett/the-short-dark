@@ -1,4 +1,4 @@
-import { $, angleBetween, createDiv, distanceBetween } from './util.js'
+import { $, angleBetween, distanceBetween } from './util.js'
 import Creature from './creature.js'
 import Item from './item.js'
 import { intersect } from './collision.js'
@@ -15,8 +15,6 @@ export default class Player extends Creature {
   spawnCollider = this.collider
 
   // Stats in percentages
-  health = 1
-  // temperature = 1
   energy = 1
   food = 1
   water = 1
@@ -27,6 +25,7 @@ export default class Player extends Creature {
       name: 'player',
       x,
       y,
+      hitPoints: 20,
       spriteXml: `
         <sprite>
           <body/>
@@ -35,14 +34,16 @@ export default class Player extends Creature {
       `,
     })
 
-    this.temperature.tooCold = 10
+    this.temperature.tooCold = 15
     this.temperature.tooHot = 35
-    this.temperature.coolRate = 0.002
-    this.temperature.heatRate = 0.004
+    this.temperature.coolRate = 0.01
+    this.temperature.heatRate = 0.02
     this.temperature.buffer = 6
   }
 
   update(dt) {
+    super.update(dt)
+
     let vx = 0
     let vy = 0
 
@@ -93,7 +94,7 @@ export default class Player extends Creature {
       }
     }
 
-    this.updateTemperature(dt, 15); // TODO: Fetch ambient temperature from somewhere
+    this.updateTemperature(dt, -13) // TODO: Fetch ambient temperature from somewhere
     this.energy -= 0.004 * dt
     this.food -= 0.004 * dt
     this.water -= 0.006 * dt
@@ -149,8 +150,9 @@ export default class Player extends Creature {
   }
 
   updateStatsUi() {
-    $('.progress.health').style.setProperty('--p', `${this.health * 100}%`)
+    $('.progress.health').style.setProperty('--p', `${this.hitPoints * 5}%`)
     $('.progress.temperature').style.setProperty('--p', `${this.temperature.current}%`)
+    $('.progress.temperature').style.outline = this.freezing ? '2px solid lightblue' : ''
     $('.progress.energy').style.setProperty('--p', `${this.energy * 100}%`)
     $('.progress.food').style.setProperty('--p', `${this.food * 100}%`)
     $('.progress.water').style.setProperty('--p', `${this.water * 100}%`)
