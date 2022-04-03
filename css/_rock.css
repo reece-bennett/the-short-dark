@@ -1,6 +1,4 @@
-.rock {
-  width: 24px;
-  height: 24px;
+.rock .sprite {
   border-radius: 4px;
   background: linear-gradient(var(--surface-rotation, -45deg), #999 50%, #aaa 0);
   box-shadow:
@@ -10,7 +8,7 @@
     -4px -4px 12px #fff;
 }
 
-.rock.snowy {
+.rock.snowy .sprite {
   background: linear-gradient(var(--surface-rotation, -45deg), #ddd 50%, #bbb 0);
   box-shadow:
     inset 2px 2px 0 #ccc,
