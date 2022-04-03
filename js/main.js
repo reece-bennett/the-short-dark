@@ -6,8 +6,12 @@ import Rock from './rock.js'
 import Tree from './tree.js'
 import Bear from './bear.js';
 import Building from './building.js'
+import { $ } from './util.js'
 
-let previousTimestamp
+let previousTimestamp = 0
+let fps = 0
+let lastUiDraw = 0
+
 
 const game = {}
 game.keyDown = new Set()
@@ -106,7 +110,12 @@ function step(timestamp) {
   if (previousTimestamp === undefined) previousTimestamp = timestamp
   const dt = (timestamp - previousTimestamp) * 0.001
 
-  // console.log(timestamp, dt)
+  // Debug
+  fps = (fps * 0.9) + ((1 / dt) * 0.1)
+  if (timestamp - lastUiDraw > 500) {
+    $('.fps').innerText = Math.round(fps)
+    lastUiDraw = timestamp
+  }
 
   update(dt)
 
