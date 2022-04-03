@@ -5,7 +5,10 @@ import { intersect } from './collision.js'
 export default class Player {
   x
   y
-  speed = 100
+  speed = {
+    walk: 60,
+    run: 120
+  }
   keyDown
   keyPressed
   inventory = [Item.waterBottle()]
@@ -55,9 +58,11 @@ export default class Player {
       vx /= length
       vy /= length
 
+      this.speed.current = this.keyDown.has('ShiftLeft') ? this.speed.run : this.speed.walk
+
       // Adjust for player speed and delta
-      vx *= 100 * dt
-      vy *= 100 * dt
+      vx *= this.speed.current * dt
+      vy *= this.speed.current * dt
 
       const prevX = this.x
       const prevY = this.y
