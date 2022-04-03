@@ -3,6 +3,7 @@ import Container from './container.js'
 import Item from './item.js'
 // import Cluster from './cluster.js'
 import Rock from './rock.js'
+import Tree from './tree.js'
 import Bear from './bear.js';
 import Building from './building.js'
 
@@ -18,6 +19,9 @@ const player = new Player(400, 300, keyDown, keyPressed, gameObjects)
 const bear = new Bear({x:200, y:300})
 // Spawn the bear - currently only adds it to the scene, but should start AI(?)
 bear.spawn()
+
+const tree = new Tree({x: 150, y: 150})
+tree.spawn()
 
 const rock = new Rock({x: 200, y: 200})
 rock.spawn()
