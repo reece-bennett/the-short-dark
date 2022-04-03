@@ -1,0 +1,67 @@
+.tree .sprite {
+  --polymorph-size: 16px;
+  --polymorph-size-minus: calc(-1 * var(--polymorph-size));
+}
+
+.tree .sprite * {
+  border-radius: 50%;
+}
+
+.tree .stump {
+  width: 10px;
+  height: 10px;
+  background: #da6;
+  border: 2px solid #643;
+  box-shadow:
+    3px 3px 9px #0004,
+    -3px -3px 9px #fff;
+}
+
+.tree .leaves {
+  display: grid;
+  box-shadow:
+    var(--polymorph-size) var(--polymorph-size) calc(var(--polymorph-size) * 3) #0134,
+    var(--polymorph-size-minus) var(--polymorph-size-minus) calc(var(--polymorph-size) * 3) #fff;
+}
+
+.tree .leaves > * {
+  --leaf-stack-shadow-color: #1316;
+  grid-row: 1;
+  grid-column: 1;
+  align-self: center;
+  justify-self: center;
+  position: relative;
+  box-shadow: 1px 1px 8px var(--leaf-stack-shadow-color);
+}
+
+.tree .leaves > *:first-child {
+  box-shadow: 1px 1px 8px #0123;
+}
+
+.tree .leaves *:nth-child(1) {
+  background: #270;
+}
+
+.tree .leaves *:nth-child(2) {
+  background: #381;
+}
+
+.tree .leaves *:nth-child(3) {
+  background: #592;
+}
+
+.tree.snowy .leaves > * {
+  --leaf-stack-shadow-color: #0484;
+}
+
+.tree.snowy .leaves *:nth-child(1) {
+  background: #f2f3f5;
+}
+
+.tree.snowy .leaves *:nth-child(2) {
+  background: #f5f7f9;
+}
+
+.tree.snowy .leaves *:nth-child(3) {
+  background: #f7fafd;
+}

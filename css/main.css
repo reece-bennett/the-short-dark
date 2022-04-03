@@ -3,6 +3,7 @@
 @import '_bear.css';
 @import '_player.css';
 @import '_rock.css';
+@import '_tree.css';
 @import '_building.css';
 @import '_container.css';
 @import '_ui.css';
@@ -19,6 +20,6 @@
 
 body {
   margin: 0;
-  background: #eee;
+  background: #efeff0;
   font-family: sans-serif;
 }
