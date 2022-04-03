@@ -3,7 +3,6 @@ import { $, createDiv } from './util.js'
 export default class Container {
   x
   y
-  player
   opened = false
   inventory
   element
@@ -14,15 +13,15 @@ export default class Container {
     halfHeight: 7.5
   }
 
-  constructor(x, y, player, inventory) {
+  constructor(game, x, y, inventory) {
+    this.game = game
     this.x = x
     this.y = y
-    this.player = player
     this.inventory = inventory
 
     this.element = createDiv($('.game'), 'object', 'container')
     this.element.addEventListener('click', () => {
-      if (player.distanceTo(this.x, this.y) < 50) {
+      if (this.game.player.distanceTo(this.x, this.y) < 50) {
         if (this.opened) {
           this.close()
         } else {

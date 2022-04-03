@@ -9,14 +9,11 @@ export default class Player {
     walk: 60,
     run: 120
   }
-  keyDown
-  keyPressed
   inventory = [Item.waterBottle()]
   inventoryOpen = false
   lookingIn
   element
   sprite
-  gameObjects
   collider = {
     type: 'circle',
     radius: 7
@@ -29,13 +26,10 @@ export default class Player {
   food = 1
   water = 1
 
-  constructor(x, y, keyDown, keyPressed, mouse, gameObjects) {
+  constructor(game, x, y) {
+    this.game = game
     this.x = x
     this.y = y
-    this.keyDown = keyDown
-    this.keyPressed = keyPressed
-    this.mouse = mouse
-    this.gameObjects = gameObjects
 
     this.element = createDiv($('.game'), 'object', 'player')
     this.sprite = createDiv(this.element, 'sprite')
@@ -47,10 +41,10 @@ export default class Player {
     let vx = 0
     let vy = 0
 
-    if (this.keyDown.has('KeyW')) vy--
-    if (this.keyDown.has('KeyD')) vx++
-    if (this.keyDown.has('KeyS')) vy++
-    if (this.keyDown.has('KeyA')) vx--
+    if (this.game.keyDown.has('KeyW')) vy--
+    if (this.game.keyDown.has('KeyD')) vx++
+    if (this.game.keyDown.has('KeyS')) vy++
+    if (this.game.keyDown.has('KeyA')) vx--
 
     // Normalise
     const length = Math.sqrt(vx * vx + vy * vy)
@@ -58,7 +52,7 @@ export default class Player {
       vx /= length
       vy /= length
 
-      this.speed.current = this.keyDown.has('ShiftLeft') ? this.speed.run : this.speed.walk
+      this.speed.current = this.game.keyDown.has('ShiftLeft') ? this.speed.run : this.speed.walk
 
       // Adjust for player speed and delta
       vx *= this.speed.current * dt
@@ -70,7 +64,7 @@ export default class Player {
       this.x += vx
       this.y += vy
 
-      for (const other of this.gameObjects) {
+      for (const other of this.game.objects) {
         if (other !== this && intersect(this, other)) {
           this.x = prevX
           this.y = prevY
@@ -80,7 +74,7 @@ export default class Player {
       this.energy -= 0.02 * dt
     }
 
-    if (this.keyPressed.has('Tab')) {
+    if (this.game.keyPressed.has('Tab')) {
       if (this.inventoryOpen) {
         this.closeInventory()
       } else {
@@ -96,7 +90,7 @@ export default class Player {
 
   draw() {
     this.element.style.transform = `translate(${this.x}px, ${this.y}px)`
-    this.sprite.style.transform = `rotate(${angleBetween(this.x, this.y, this.mouse.x, this.mouse.y)}rad)`
+    this.sprite.style.transform = `rotate(${angleBetween(this.x, this.y, this.game.mouse.x, this.game.mouse.y)}rad)`
     $('.inventory').setAttribute('aria-hidden', !this.inventoryOpen)
     this.updateStatsUi()
   }
