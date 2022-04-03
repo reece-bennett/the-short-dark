@@ -5,10 +5,7 @@ import { intersect } from './collision.js'
 export default class Player {
   x
   y
-  speed = {
-    walk: 60,
-    run: 120
-  }
+  isSprinting = false
   inventory = [Item.waterBottle()]
   inventoryOpen = false
   lookingIn
@@ -52,11 +49,12 @@ export default class Player {
       vx /= length
       vy /= length
 
-      this.speed.current = this.game.keyDown.has('ShiftLeft') ? this.speed.run : this.speed.walk
+      this.isSprinting = this.game.keyDown.has('ShiftLeft')
 
       // Adjust for player speed and delta
-      vx *= this.speed.current * dt
-      vy *= this.speed.current * dt
+      const speed = this.isSprinting ? '120' : '60'
+      vx *= speed * dt
+      vy *= speed * dt
 
       const prevX = this.x
       const prevY = this.y
@@ -71,7 +69,7 @@ export default class Player {
         }
       }
 
-      this.energy -= 0.02 * dt
+      this.energy -= (this.isSprinting ? 0.05 : 0.02) * dt
     }
 
     // Update camera
