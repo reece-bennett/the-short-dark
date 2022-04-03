@@ -10,6 +10,7 @@ export default class Rock extends Object {
       height: height ?? 24, // TODO: Random default rock size between sensible min/max
       // Rotation messes with shadows so not doing it for now
       // rotation: rotation ?? (Math.random() * 2 * Math.PI) - Math.PI
+      spriteXml: '<sprite></sprite>'
     })
 
     // TODO: Set CSS var or background value to make linear-gradient match "lighting"+rotation
@@ -17,7 +18,13 @@ export default class Rock extends Object {
     this.objectElement.style.setProperty('--surface-rotation', `-${surfaceRotation}rad`)
 
     if (Math.random() > 0.5) {
-      this.objectElement.classList.add('snowy');
+      this.objectElement.classList.add('snowy')
+    }
+
+    this.collider = {
+      type: 'box',
+      halfWidth: this.width / 2,
+      halfHeight: this.height / 2
     }
   }
 

@@ -9,7 +9,7 @@ export default class Building {
   sprite
   isOpen
   door
-  doorCollider = { offsetX: 0, offsetY: -71, halfWidth: 15, halfHeight: 4 }
+  doorCollider = { offsetX: 0, offsetY: -75, halfWidth: 15, halfHeight: 4 }
   collider = {
     type: 'multiBox',
     boxes: [
@@ -61,7 +61,7 @@ export default class Building {
     console.log('Door opened')
     this.isOpen = true
     this.doorCollider.offsetX = -15
-    this.doorCollider.offsetY = -86
+    this.doorCollider.offsetY = -90
     this.doorCollider.halfWidth = 4
     this.doorCollider.halfHeight = 15
   }
@@ -70,7 +70,7 @@ export default class Building {
     console.log('Door closed')
     this.isOpen = false
     this.doorCollider.offsetX = 0
-    this.doorCollider.offsetY = -71
+    this.doorCollider.offsetY = -75
     this.doorCollider.halfWidth = 15
     this.doorCollider.halfHeight = 4
   }
