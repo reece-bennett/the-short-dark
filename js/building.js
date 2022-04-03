@@ -1,3 +1,4 @@
+import { intersect } from './collision.js'
 import { $, createDiv } from './util.js'
 
 export default class Building {
@@ -8,6 +9,23 @@ export default class Building {
   sprite
   isOpen
   door
+  doorCollider = { offsetX: 0, offsetY: -71, halfWidth: 15, halfHeight: 4 }
+  collider = {
+    type: 'multiBox',
+    boxes: [
+      { offsetX: -45, offsetY: -71, halfWidth: 30, halfHeight: 4 },
+      { offsetX: 45, offsetY: -71, halfWidth: 30, halfHeight: 4 },
+      { offsetX: 71, offsetY: 0, halfWidth: 4, halfHeight: 75 },
+      { offsetX: 0, offsetY: 71, halfWidth: 75, halfHeight: 4 },
+      { offsetX: -71, offsetY: 0, halfWidth: 4, halfHeight: 75 },
+      this.doorCollider
+    ]
+  }
+  roofCollider = {
+    type: 'box',
+    halfWidth: 75,
+    halfHeight: 75
+  }
 
   constructor(x, y, player) {
     this.x = x
@@ -31,7 +49,7 @@ export default class Building {
   }
 
   update() {
-    this.roof.setAttribute('aria-hidden', this.player.distanceTo(this.x, this.y) < 75)
+    this.roof.setAttribute('aria-hidden', intersect(this.player, { x: this.x, y: this.y, collider: this.roofCollider }))
   }
 
   draw() {
@@ -42,11 +60,18 @@ export default class Building {
   open() {
     console.log('Door opened')
     this.isOpen = true
-
+    this.doorCollider.offsetX = -15
+    this.doorCollider.offsetY = -86
+    this.doorCollider.halfWidth = 4
+    this.doorCollider.halfHeight = 15
   }
 
   close() {
     console.log('Door closed')
     this.isOpen = false
+    this.doorCollider.offsetX = 0
+    this.doorCollider.offsetY = -71
+    this.doorCollider.halfWidth = 15
+    this.doorCollider.halfHeight = 4
   }
 }

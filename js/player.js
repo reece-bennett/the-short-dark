@@ -1,5 +1,6 @@
-import { $, createDiv } from './util.js'
+import { $, createDiv, distanceBetween } from './util.js'
 import Item from './item.js'
+import { intersect } from './collision.js'
 
 export default class Player {
   x
@@ -12,6 +13,11 @@ export default class Player {
   lookingIn
   element
   sprite
+  gameObjects
+  collider = {
+    type: 'circle',
+    radius: 7
+  }
 
   // Stats in percentages
   health = 1
@@ -20,11 +26,12 @@ export default class Player {
   food = 1
   water = 1
 
-  constructor(x, y, keyDown, keyPressed) {
+  constructor(x, y, keyDown, keyPressed, gameObjects) {
     this.x = x
     this.y = y
     this.keyDown = keyDown
     this.keyPressed = keyPressed
+    this.gameObjects = gameObjects
 
     this.element = createDiv($('.game'), 'object', 'player')
     this.sprite = createDiv(this.element, 'sprite')
@@ -51,8 +58,18 @@ export default class Player {
       vx *= 100 * dt
       vy *= 100 * dt
 
+      const prevX = this.x
+      const prevY = this.y
+
       this.x += vx
       this.y += vy
+
+      for (const other of this.gameObjects) {
+        if (other !== this && intersect(this, other)) {
+          this.x = prevX
+          this.y = prevY
+        }
+      }
 
       this.energy -= 0.02 * dt
     }
@@ -133,8 +150,6 @@ export default class Player {
   }
 
   distanceTo(x, y) {
-    const dx = x - this.x
-    const dy = y - this.y
-    return Math.sqrt(dx * dx + dy * dy)
+    return distanceBetween(x, y, this.x, this.y)
   }
 }

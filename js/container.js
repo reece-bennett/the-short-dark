@@ -8,6 +8,11 @@ export default class Container {
   inventory
   element
   sprite
+  collider = {
+    type: 'box',
+    halfWidth: 12.5,
+    halfHeight: 7.5
+  }
 
   constructor(x, y, player, inventory) {
     this.x = x
