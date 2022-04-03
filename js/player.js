@@ -109,7 +109,10 @@ export default class Player {
   closeInventory() {
     console.log('Inventory closed')
     this.inventoryOpen = false
-    if (this.lookingIn) this.lookingIn.close()
+    if (this.lookingIn) {
+      this.lookingIn.close()
+      this.lookingIn = undefined
+    }
   }
 
   updateInventoryUi() {
