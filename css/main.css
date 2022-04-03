@@ -18,6 +18,10 @@
   display: none !important;
 }
 
+:root {
+  --color-shadow: #0125;
+}
+
 body {
   margin: 0;
   background: #efeff0;

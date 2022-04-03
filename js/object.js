@@ -33,10 +33,14 @@ export default class Object {
     $('.game').append(this.objectElement)
   }
 
-  update() {}
+  update() {
+
+  }
 
   draw() {
     this.objectElement.style.transform = `translate(${this.x}px, ${this.y}px)`
     this.spriteElement.style.transform = `rotate(${this.rotation}rad)`
+    this.spriteElement.style.setProperty('--rvx', Math.sin(this.rotation + Math.PI / 4))
+    this.spriteElement.style.setProperty('--rvy', Math.cos(this.rotation + Math.PI / 4))
   }
 }

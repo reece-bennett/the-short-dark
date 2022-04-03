@@ -22,16 +22,16 @@ export default class Creature extends Object {
       spriteXml,
     })
 
-    this.stats = stats;
+    this.stats = stats
   }
 
   updateTemperature(dt, ambient) {
     if (ambient < this.temperature.current - this.temperature.buffer) {
-      this.temperature.current = this.temperature.current - ((this.temperature.current - ambient) * this.temperature.coolRate * dt);
+      this.temperature.current = this.temperature.current - ((this.temperature.current - ambient) * this.temperature.coolRate * dt)
     }
 
     if (ambient > this.temperature.current) {
-      this.temperature.current = this.temperature.current + ((ambient - this.temperature.current) * this.temperature.heatRate * dt);
+      this.temperature.current = this.temperature.current + ((ambient - this.temperature.current) * this.temperature.heatRate * dt)
     }
 
     if (this.temperature.current < this.temperature.tooCold) {
@@ -51,7 +51,8 @@ export default class Creature extends Object {
     // ...
   }
 
-  update() {
+  update(dt) {
+    super.update(dt)
     // Creature specific things like getting hungry at whatever rate the creature gets hungry
   }
 }

@@ -36,6 +36,8 @@ export default class Bear extends Creature {
   }
 
   update(dt) {
+    super.update(dt)
+
     // Turn and walk toward goal
     this.rotation = angleBetween(this.x, this.y, this.goal.x, this.goal.y)
     this.x += this.speed * Math.sin(this.rotation) * dt

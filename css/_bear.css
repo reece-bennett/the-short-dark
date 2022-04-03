@@ -1,10 +1,16 @@
 .bear {
   --color-bear: #952;
   --color-bear-light: #a63;
+  --rvx: 1;
+  --rvy: 1;
 }
 
 .bear .sprite {
   transition: transform 1s;
+  width: 24px;
+  height: 30px;
+  box-shadow: calc(var(--rvx) * 3px) calc(var(--rvy) * 3px) 6px var(--color-shadow);
+  border-radius: 6px;
 }
 
 .bear .body {
@@ -12,7 +18,6 @@
   height: 30px;
   background: var(--color-bear);
   border-radius: 6px;
-  box-shadow: 2px 2px 6px #0003, 0 0 2px #0003;
 }
 
 .bear .head {
@@ -29,7 +34,7 @@
   content: '';
   background: var(--color-bear-light);
   border-radius: 4px;
-  box-shadow: 1px 1px 4px #0003, 2px 0 2px -1px #0004;
+  box-shadow: calc(var(--rvx) * 2px) calc(var(--rvx) * 2px) 4px #0003, 2px 0 2px -1px #0004;
 }
 
 .bear .nose {
