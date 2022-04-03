@@ -17,6 +17,7 @@ export default class Object {
     this.height = height ?? 0
     this.rotation = rotation ?? 0
     this.objectElement = createObjectElement(name)
+    this.isDead = false
 
     if (spriteXml) {
       this.spriteElement = createSpriteElementFromXml(spriteXml)
@@ -42,5 +43,10 @@ export default class Object {
     this.spriteElement.style.transform = `rotate(${this.rotation}rad)`
     this.spriteElement.style.setProperty('--rvx', Math.sin(this.rotation + Math.PI / 4))
     this.spriteElement.style.setProperty('--rvy', Math.cos(this.rotation + Math.PI / 4))
+  }
+
+  kill() {
+    this.isDead = true
+    this.objectElement.remove()
   }
 }

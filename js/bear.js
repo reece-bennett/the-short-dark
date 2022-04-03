@@ -21,6 +21,7 @@ export default class Bear extends Creature {
       y,
       width: 20,
       height: 30,
+      hitPoints: 40,
       spriteXml: `
         <sprite>
           <tail></tail>

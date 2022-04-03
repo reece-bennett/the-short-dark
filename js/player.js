@@ -106,13 +106,16 @@ export default class Player extends Creature {
       $('.time-minutes').innerText = Math.floor(secondsLived / 60)
       $('.time-seconds').innerText = Math.round(secondsLived % 60)
     }
+
+    this.rotation = angleBetween(
+      this.x - this.game.camera.x,
+      this.y - this.game.camera.y,
+      this.game.mouse.x,
+      this.game.mouse.y)
   }
 
   draw() {
-    const screenX = this.x - this.game.camera.x
-    const screenY = this.y - this.game.camera.y
-    this.objectElement.style.transform = `translate(${this.x}px, ${this.y}px)`
-    this.spriteElement.style.transform = `rotate(${angleBetween(screenX, screenY, this.game.mouse.x, this.game.mouse.y)}rad)`
+    super.draw()
     $('.game').style.transform = `translate(${-this.game.camera.x}px, ${-this.game.camera.y}px)`
     $('.inventory').setAttribute('aria-hidden', !this.inventoryOpen)
     this.updateStatsUi()

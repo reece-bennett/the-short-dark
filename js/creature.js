@@ -60,8 +60,8 @@ export default class Creature extends Object {
     // Creature specific things like getting hungry at whatever rate the creature gets hungry
 
     if (this.freezing && this.freezingDamageCooldown === 0) {
-      this.hitPoints -= 1
-      console.log(this.hitPoints)
+      // this.hitPoints -= 1
+      // console.log(this.hitPoints)
       this.freezingDamageCooldown = 1
       if (this === this.game.player) {
         $('.death-message').innerText = 'You froze to death'
@@ -69,5 +69,9 @@ export default class Creature extends Object {
     }
 
     this.freezingDamageCooldown = Math.max(0, this.freezingDamageCooldown - dt)
+
+    if (this.hitPoints < 0) {
+      this.kill()
+    }
   }
 }

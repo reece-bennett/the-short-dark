@@ -8,6 +8,7 @@ import Bear from './bear.js'
 import Building from './building.js'
 import { intersect } from './collision.js'
 import { $, randomXY } from './util.js'
+import Bullet from './bullet.js'
 
 let previousTimestamp = 0
 let fps = 0
@@ -104,6 +105,8 @@ function generateWorld() {
     }
     game.objects.push(bear)
   }
+
+  game.objects.push(new Container(game, 30, 0, [Item.waterBottle()]))
 }
 
 function restart() {
@@ -130,6 +133,12 @@ function init() {
     game.mouse.y = event.clientY
   })
 
+  document.body.addEventListener('mousedown', () => {
+    const bullet = new Bullet({ game, x: game.player.x, y: game.player.y, rotation: game.player.rotation })
+    bullet.spawn()
+    game.objects.push(bullet)
+  })
+
   $('.restart-button').addEventListener('click', () => {
     restart()
   })
@@ -142,6 +151,7 @@ function init() {
 
 function update(dt) {
   game.objects.forEach(gameObject => gameObject.update(dt))
+  game.objects = game.objects.filter(gameObject => !gameObject.isDead)
 
   game.keyPressed.clear()
 }
