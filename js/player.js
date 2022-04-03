@@ -131,4 +131,10 @@ export default class Player {
     this.updateInventoryUi()
     return item
   }
+
+  distanceTo(x, y) {
+    const dx = x - this.x
+    const dy = y - this.y
+    return Math.sqrt(dx * dx + dy * dy)
+  }
 }

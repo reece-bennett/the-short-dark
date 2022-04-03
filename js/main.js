@@ -3,14 +3,15 @@ import Container from './container.js'
 import Item from './item.js'
 // import Cluster from './cluster.js'
 // import Rock from './rock.js'
-import Bear from './bear.js';
+import Bear from './bear.js'
+import Building from './building.js'
 
 let previousTimestamp
 
 const keyDown = new Set()
 const keyPressed = new Set()
 
-const player = new Player(100, 100, keyDown, keyPressed)
+const player = new Player(400, 300, keyDown, keyPressed)
 
 // Create a scary bear, as specific x/y coords
 const bear = new Bear({x:200, y:300})
@@ -19,8 +20,9 @@ bear.spawn()
 
 const gameObjects = [
   player,
-  new Container(200, 100, player, [Item.waterBottle(), Item.beefJerky(), Item.beefJerky(), Item.cola(), Item.energyBar()]),
+  new Container(440, 360, player, [Item.waterBottle(), Item.beefJerky(), Item.beefJerky(), Item.cola(), Item.energyBar()]),
   new Container(100, 300, player, [Item.waterBottle(), Item.waterBottle()]),
+  new Building(400, 300, player)
   // The idea here is that you can spawn a cluster of rocks or mixed whatevers
   // new Cluster({objects: [Rock], x: 200, y: 300, width: 20, height: 40, density: 20})
 ]
