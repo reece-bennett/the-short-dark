@@ -35,13 +35,13 @@ export default class Container {
   update() {}
 
   draw() {
-    this.element.style.transform = `translate(${this.x}px, ${this.y}px)`
+    this.element.style.transform = `translate(${this.x - this.game.camera.x}px, ${this.y - this.game.camera.y}px)`
   }
 
   open() {
     console.log('Container opened')
     this.opened = true
-    this.player.openInventory(this)
+    this.game.player.openInventory(this)
     this.updateInventoryUi()
     $('.tab-container').setAttribute('aria-hidden', false)
   }
@@ -49,7 +49,7 @@ export default class Container {
   close() {
     console.log('Container closed')
     this.opened = false
-    if (this.player.inventoryOpen) this.player.closeInventory()
+    if (this.game.player.inventoryOpen) this.game.player.closeInventory()
     $('.tab-container').setAttribute('aria-hidden', true)
   }
 
@@ -62,7 +62,7 @@ export default class Container {
       row.innerText = item.name
       row.addEventListener('click', () => {
         this.removeFromInventory(index)
-        this.player.addToInventory(item)
+        this.game.player.addToInventory(item)
       })
       containerTab.append(row)
     })

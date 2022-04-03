@@ -15,19 +15,23 @@ game.mouse = {
   x: 0,
   y: 0
 }
+game.camera = {
+  x: 0,
+  y: 0
+}
 game.objects = []
 game.player = new Player(game, 400, 300)
 
 // Create a scary bear, as specific x/y coords
-const bear = new Bear({x:200, y:300})
+const bear = new Bear({x:200, y:300, game})
 // Spawn the bear - currently only adds it to the scene, but should start AI(?)
 bear.spawn()
 
-const rock = new Rock({x: 200, y: 200})
+const rock = new Rock({x: 200, y: 200, game})
 rock.spawn()
-const rock2 = new Rock({x: 230, y: 220})
+const rock2 = new Rock({x: 230, y: 220, game})
 rock2.spawn()
-const rock3 = new Rock({x: 240, y: 185})
+const rock3 = new Rock({x: 240, y: 185, game})
 rock3.spawn()
 
 game.objects.push(

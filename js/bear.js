@@ -6,11 +6,12 @@ export default class Bear extends Creature {
     radius: 18
   }
 
-  constructor({x, y}) {
+  constructor({ game, x, y }) {
     super({
+      game,
       name: 'bear',
-      x: x,
-      y: y,
+      x,
+      y,
       width: 20,
       height: 30,
       spriteXml: `

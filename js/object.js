@@ -8,7 +8,8 @@ function createObjectElement(name) {
 }
 
 export default class Object {
-  constructor({name, x, y, width, height, rotation, spriteXml}) {
+  constructor({game, name, x, y, width, height, rotation, spriteXml}) {
+    this.game = game
     this.name = name ?? 'Mysterious Object'
     this.x = x ?? 0
     this.y = y ?? 0
@@ -34,5 +35,7 @@ export default class Object {
 
   update() {}
 
-  draw() {}
+  draw() {
+    this.objectElement.style.transform = `translate(${this.x - this.game.camera.x}px, ${this.y - this.game.camera.y}px)`
+  }
 }
