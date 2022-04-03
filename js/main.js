@@ -31,8 +31,8 @@ game.player = new Player(game, 0, 0)
 game.player.spawn()
 
 // Create a scary bear, as specific x/y coords
-const bear = new Bear({ x: 100, y: 0, game })
-const bear2 = new Bear({ x: 0, y: -100, game })
+const bear = new Bear({ x: 500, y: 0, game })
+const bear2 = new Bear({ x: -20, y: -400, game })
 // Spawn the bear - currently only adds it to the scene, but should start AI(?)
 bear.spawn()
 bear2.spawn()
@@ -131,6 +131,7 @@ function draw() {
 function step(timestamp) {
   if (previousTimestamp === undefined) previousTimestamp = timestamp
   const dt = (timestamp - previousTimestamp) * 0.001
+  game.timestamp = timestamp
 
   // Debug
   fps = (fps * 0.9) + ((1 / dt) * 0.1)
