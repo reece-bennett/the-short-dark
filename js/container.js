@@ -12,6 +12,7 @@ export default class Container {
     halfWidth: 12.5,
     halfHeight: 7.5
   }
+  spawnCollider = this.collider
 
   constructor(game, x, y, inventory) {
     this.game = game
@@ -35,7 +36,7 @@ export default class Container {
   update() {}
 
   draw() {
-    this.element.style.transform = `translate(${this.x - this.game.camera.x}px, ${this.y - this.game.camera.y}px)`
+    this.element.style.transform = `translate(${this.x}px, ${this.y}px)`
   }
 
   open() {

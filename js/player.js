@@ -73,6 +73,7 @@ export default class Player extends Creature {
         if (other !== this && intersect(this, other)) {
           this.x = prevX
           this.y = prevY
+          break
         }
       }
 
@@ -80,8 +81,8 @@ export default class Player extends Creature {
     }
 
     // Update camera
-    this.game.camera.x = Math.max(Math.min(this.x - window.innerWidth / 2, window.innerWidth), 0)
-    this.game.camera.y = Math.max(Math.min(this.y - window.innerHeight / 2, window.innerHeight), 0)
+    this.game.camera.x = this.x - window.innerWidth / 2
+    this.game.camera.y = this.y - window.innerHeight / 2
 
     if (this.game.keyPressed.has('Tab')) {
       if (this.inventoryOpen) {
@@ -100,8 +101,9 @@ export default class Player extends Creature {
   draw() {
     const screenX = this.x - this.game.camera.x
     const screenY = this.y - this.game.camera.y
-    this.objectElement.style.transform = `translate(${screenX}px, ${screenY}px)`
+    this.objectElement.style.transform = `translate(${this.x}px, ${this.y}px)`
     this.spriteElement.style.transform = `rotate(${angleBetween(screenX, screenY, this.game.mouse.x, this.game.mouse.y)}rad)`
+    $('.game').style.transform = `translate(${-this.game.camera.x}px, ${-this.game.camera.y}px)`
     $('.inventory').setAttribute('aria-hidden', !this.inventoryOpen)
     this.updateStatsUi()
   }
@@ -116,7 +118,10 @@ export default class Player extends Creature {
   closeInventory() {
     console.log('Inventory closed')
     this.inventoryOpen = false
-    if (this.lookingIn) this.lookingIn.close()
+    if (this.lookingIn) {
+      this.lookingIn.close()
+      this.lookingIn = undefined
+    }
   }
 
   updateInventoryUi() {

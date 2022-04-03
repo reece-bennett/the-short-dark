@@ -25,6 +25,7 @@ export default class Building {
     halfWidth: 75,
     halfHeight: 75
   }
+  spawnCollider = this.roofCollider
 
   constructor(game, x, y) {
     this.game = game
@@ -52,7 +53,7 @@ export default class Building {
   }
 
   draw() {
-    this.element.style.transform =`translate(${this.x - this.game.camera.x}px, ${this.y - this.game.camera.y}px)`
+    this.element.style.transform =`translate(${this.x}px, ${this.y}px)`
     this.door.style.transform = `translate(0, -75px)${this.isOpen ? 'rotate(-90deg)' : ''}`
   }
 

@@ -36,6 +36,6 @@ export default class Object {
   update() {}
 
   draw() {
-    this.objectElement.style.transform = `translate(${this.x - this.game.camera.x}px, ${this.y - this.game.camera.y}px)`
+    this.objectElement.style.transform = `translate(${this.x}px, ${this.y}px)`
   }
 }

@@ -46,6 +46,14 @@ function intersectMultiBoxCircle(multi, circle) {
   }))
 }
 
+function intersectMultiBoxMultiBox(a, b) {
+  return a.collider.boxes.some(multiBox => intersectMultiBoxBox(b, {
+    x: a.x + multiBox.offsetX,
+    y: a.y + multiBox.offsetY,
+    collider: multiBox
+  }))
+}
+
 export function intersect(a, b) {
   if (!a.collider || !b.collider) return false
 
@@ -79,6 +87,8 @@ export function intersect(a, b) {
       return intersectMultiBoxBox(a, b)
     case 'circle':
       return intersectMultiBoxCircle(a, b)
+    case 'multiBox':
+      return intersectMultiBoxMultiBox(a, b)
     }
     break
   }
