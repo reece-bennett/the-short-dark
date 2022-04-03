@@ -4,17 +4,17 @@
 }
 
 .bear .body {
-  width: 30px;
-  height: 24px;
+  width: 24px;
+  height: 30px;
   background: var(--color-bear);
   border-radius: 6px;
   box-shadow: 2px 2px 6px #0003, 0 0 2px #0003;
 }
 
 .bear .head {
-  width: 16px;
-  height: 28px;
-  transform: translate(16px, 0);
+  width: 28px;
+  height: 16px;
+  transform: translate(0, -16px);
 }
 
 .bear .head:before {
@@ -31,31 +31,31 @@
 .bear .nose {
   z-index: -1;
   background: #a63;
-  width: 8px;
-  height: 10px;
-  transform: translate(9px, 0);
-  border-right: 2px solid #000;
+  width: 10px;
+  height: 8px;
+  transform: translate(0, -9px);
+  border-top: 2px solid #000;
   border-radius: 6px;
 }
 
 .bear .ear {
   background: var(--color-bear);
-  width: 6px;
-  height: 10px;
-  transform: translate(0, -12px);
+  width: 10px;
+  height: 6px;
+  transform: translate(-12px, 0);
   border-radius: 2px;
   box-shadow: 0 0 1px #0005;
 }
 
 .bear .ear + .ear {
-  transform: translate(0, 12px);
+  transform: translate(12px);
 }
 
 .bear .tail {
   background: var(--color-bear-light);
   width: 8px;
   height: 8px;
-  transform: translate(-14px, 0);
+  transform: translate(0, 14px);
   border-radius: 50%;
   box-shadow: 0 0 2px #0004;
 }
