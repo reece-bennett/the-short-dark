@@ -2,7 +2,7 @@ import Player from './player.js'
 import Container from './container.js'
 import Item from './item.js'
 // import Cluster from './cluster.js'
-// import Rock from './rock.js'
+import Rock from './rock.js'
 import Bear from './bear.js';
 
 let previousTimestamp
@@ -16,6 +16,13 @@ const player = new Player(100, 100, keyDown, keyPressed)
 const bear = new Bear({x:200, y:300})
 // Spawn the bear - currently only adds it to the scene, but should start AI(?)
 bear.spawn()
+
+const rock = new Rock({x: 300, y: 300})
+rock.spawn()
+const rock2 = new Rock({x: 330, y: 320})
+rock2.spawn()
+const rock3 = new Rock({x: 340, y: 285})
+rock3.spawn()
 
 const gameObjects = [
   player,

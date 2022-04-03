@@ -1,0 +1,20 @@
+.rock {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  background: linear-gradient(var(--surface-rotation, -45deg), #999 50%, #aaa 0);
+  box-shadow:
+    inset 2px 2px 0 #ccc,
+    inset -2px -2px 0 #777,
+    4px 4px 12px #0003,
+    -4px -4px 12px #fff;
+}
+
+.rock.snowy {
+  background: linear-gradient(var(--surface-rotation, -45deg), #ddd 50%, #bbb 0);
+  box-shadow:
+    inset 2px 2px 0 #ccc,
+    inset -2px -2px 0 #999,
+    4px 4px 12px #0003,
+    -4px -4px 12px #fff;
+}
