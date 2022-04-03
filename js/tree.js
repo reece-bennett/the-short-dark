@@ -43,7 +43,7 @@ export default class Tree extends Object {
       this.objectElement.classList.add('snowy')
     }
 
-    this.collider = {
+    this.spawnCollider = this.collider = {
       type: 'circle',
       radius: 7
     }

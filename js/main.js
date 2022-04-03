@@ -80,7 +80,7 @@ function generateWorld() {
     const tree = new Tree({ game, x, y, size: Math.round(Math.random() * 3), snowy: Math.random() > 0.6 })
     tree.spawn()
     while (game.objects.some(other => intersect(
-      { x: tree.x, y: tree.y, collider: tree.collider },
+      { x: tree.x, y: tree.y, collider: tree.spawnCollider },
       { x: other.x, y: other.y, collider: other.spawnCollider }
     ))) {
       ({ x, y } = randomXY(maxDistance))
@@ -90,11 +90,20 @@ function generateWorld() {
     game.objects.push(tree)
   }
 
-  const bear = new Bear({ x: 500, y: 0, game })
-  const bear2 = new Bear({ x: -20, y: -400, game })
-  bear.spawn()
-  bear2.spawn()
-  game.objects.push(bear, bear2)
+  for (let i = 0; i < 10; i++) {
+    let { x, y } = randomXY(maxDistance)
+    const bear = new Bear({ game, x, y })
+    bear.spawn()
+    while (game.objects.some(other => intersect(
+      { x: bear.x, y: bear.y, collider: bear.spawnCollider },
+      { x: other.x, y: other.y, collider: other.spawnCollider }
+    ))) {
+      ({ x, y } = randomXY(maxDistance))
+      bear.x = x
+      bear.y = y
+    }
+    game.objects.push(bear)
+  }
 }
 
 function restart() {
