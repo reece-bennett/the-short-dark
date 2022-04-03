@@ -25,6 +25,7 @@ export default class Building {
     halfWidth: 75,
     halfHeight: 75
   }
+  spawnCollider = this.roofCollider
 
   constructor(game, x, y) {
     this.game = game

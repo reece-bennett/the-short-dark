@@ -12,6 +12,7 @@ export default class Container {
     halfWidth: 12.5,
     halfHeight: 7.5
   }
+  spawnCollider = this.collider
 
   constructor(game, x, y, inventory) {
     this.game = game

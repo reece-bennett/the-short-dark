@@ -22,7 +22,7 @@ export default class Rock extends Object {
       this.objectElement.classList.add('snowy')
     }
 
-    this.collider = {
+    this.spawnCollider = this.collider = {
       type: 'box',
       halfWidth: this.width / 2,
       halfHeight: this.height / 2

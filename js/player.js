@@ -66,6 +66,7 @@ export default class Player {
         if (other !== this && intersect(this, other)) {
           this.x = prevX
           this.y = prevY
+          break
         }
       }
 

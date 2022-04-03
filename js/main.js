@@ -4,14 +4,16 @@ import Item from './item.js'
 // import Cluster from './cluster.js'
 import Rock from './rock.js'
 import Tree from './tree.js'
-import Bear from './bear.js';
+import Bear from './bear.js'
 import Building from './building.js'
+import { intersect } from './collision.js'
 import { $ } from './util.js'
 
 let previousTimestamp = 0
 let fps = 0
 let lastUiDraw = 0
 
+const maxDistance = 1500
 
 const game = {}
 game.keyDown = new Set()
@@ -28,7 +30,7 @@ game.objects = []
 game.player = new Player(game, 0, 0)
 
 // Create a scary bear, as specific x/y coords
-const bear = new Bear({x:200, y:300, game})
+const bear = new Bear({ x: 200, y: 300, game })
 // Spawn the bear - currently only adds it to the scene, but should start AI(?)
 bear.spawn()
 
@@ -56,10 +58,6 @@ rock3.spawn()
 
 game.objects.push(
   game.player,
-  new Container(game, 440, 360, [Item.waterBottle(), Item.beefJerky(), Item.beefJerky(), Item.cola(), Item.energyBar()]),
-  new Container(game, 100, 300, [Item.waterBottle(), Item.waterBottle()]),
-  new Building(game, 400, 300),
-  new Building(game, 800, 300),
   bear,
   tree,
   tree2,
@@ -75,8 +73,15 @@ game.objects.push(
   // new Cluster({objects: [Rock], x: 200, y: 300, width: 20, height: 40, density: 20})
 )
 
+function randomXY() {
+  return {
+    x: (Math.random() * 2 - 1) * maxDistance,
+    y: (Math.random() * 2 - 1) * maxDistance
+  }
+}
+
 function init() {
-  // Initialise stuff
+  // Input events
   document.addEventListener('keydown', event => {
     game.keyDown.add(event.code)
     game.keyPressed.add(event.code)
@@ -91,6 +96,43 @@ function init() {
     game.mouse.x = event.clientX
     game.mouse.y = event.clientY
   })
+
+  // World generation
+  for (let i = 0; i < 20; i++) {
+    let { x, y } = randomXY()
+    x = Math.round(x / 300) * 300
+    y = Math.round(y / 300) * 300
+    const building = new Building(game, x, y)
+    while (game.objects.some(other => intersect(
+      { x: building.x, y: building.y, collider: building.spawnCollider },
+      { x: other.x, y: other.y, collider: other.spawnCollider }
+    ))) {
+      ({ x, y } = randomXY())
+      x = Math.round(x / 300) * 300
+      y = Math.round(y / 300) * 300
+      building.x = x
+      building.y = y
+    }
+    if (Math.random() > 0.5) {
+      game.objects.push(new Container(game, x, y, [Item.waterBottle(), Item.beefJerky(), Item.beefJerky(), Item.cola(), Item.energyBar()]))
+    }
+    game.objects.push(building)
+  }
+
+  for (let i = 0; i < 200; i++) {
+    let { x, y } = randomXY()
+    const rock = new Rock({ game, x, y })
+    rock.spawn()
+    while (game.objects.some(other => intersect(
+      { x: rock.x, y: rock.y, collider: rock.spawnCollider },
+      { x: other.x, y: other.y, collider: other.spawnCollider }
+    ))) {
+      ({ x, y } = randomXY())
+      rock.x = x
+      rock.y = y
+    }
+    game.objects.push(rock)
+  }
 
   // Start the main loop
   window.requestAnimationFrame(step)
