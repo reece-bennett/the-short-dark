@@ -36,7 +36,7 @@ export default class Container {
   update() {}
 
   draw() {
-    this.element.style.transform = `translate(${this.x - this.game.camera.x}px, ${this.y - this.game.camera.y}px)`
+    this.element.style.transform = `translate(${this.x}px, ${this.y}px)`
   }
 
   open() {

@@ -94,8 +94,9 @@ export default class Player {
   draw() {
     const screenX = this.x - this.game.camera.x
     const screenY = this.y - this.game.camera.y
-    this.element.style.transform = `translate(${screenX}px, ${screenY}px)`
+    this.element.style.transform = `translate(${this.x}px, ${this.y}px)`
     this.sprite.style.transform = `rotate(${angleBetween(screenX, screenY, this.game.mouse.x, this.game.mouse.y)}rad)`
+    $('.game').style.transform = `translate(${-this.game.camera.x}px, ${-this.game.camera.y}px)`
     $('.inventory').setAttribute('aria-hidden', !this.inventoryOpen)
     this.updateStatsUi()
   }
