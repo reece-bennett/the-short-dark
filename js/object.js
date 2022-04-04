@@ -13,8 +13,8 @@ export default class Object {
     this.name = name ?? 'Mysterious Object'
     this.x = x ?? 0
     this.y = y ?? 0
-    this.width = width ?? 0
-    this.height = height ?? 0
+    this.width = width // If default is 0 then sprite is set to 0px and is invisible
+    this.height = height
     this.rotation = rotation ?? 0
     this.objectElement = createObjectElement(name)
     this.spriteElement = createSpriteElementFromXml(spriteXml ?? '<sprite/>')

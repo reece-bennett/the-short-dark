@@ -25,14 +25,6 @@
   transition: box-shadow .4s;
 }
 
-.building .door {
-  width: 30px;
-  height: 8px;
-  background: rgb(63, 44, 19);
-  transform-origin: left;
-  transform: translate(0, -75px);
-}
-
 .building.player-inside .roof {
   background: unset;
   box-shadow:

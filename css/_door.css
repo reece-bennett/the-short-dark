@@ -1,0 +1,6 @@
+.door .sprite {
+  width: 30px;
+  height: 8px;
+  background: rgb(63, 44, 19);
+  transform-origin: left;
+}

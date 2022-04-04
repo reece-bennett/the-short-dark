@@ -59,7 +59,12 @@ function generateWorld() {
       building.y = y
     }
     if (Math.random() > 0.5) {
-      game.objects.push(new Container(game, x, y + 40, [Item.waterBottle(), Item.beefJerky(), Item.beefJerky(), Item.cola(), Item.energyBar()]))
+      game.objects.push(new Container({
+        game,
+        x,
+        y: y + 40,
+        inventory: [Item.waterBottle(), Item.beefJerky(), Item.beefJerky(), Item.cola(), Item.energyBar()]
+      }))
     }
     game.objects.push(building)
   }
@@ -143,7 +148,12 @@ function generateWorld() {
   //   game.objects.push(bear)
   // }
 
-  game.objects.push(new Container(game, 30, 0, [Item.waterBottle(), Item.rifle(), Item.revolver()]))
+  game.objects.push(new Container({
+    game,
+    x: 30,
+    y: 0,
+    inventory: [Item.waterBottle(), Item.rifle(), Item.revolver()]
+  }))
 }
 
 function restart() {

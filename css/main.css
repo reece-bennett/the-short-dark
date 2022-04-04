@@ -6,6 +6,7 @@
 @import '_tree.css';
 @import '_building.css';
 @import '_container.css';
+@import '_door.css';
 @import '_ui.css';
 @import '_bullet.css';
 
@@ -45,7 +46,8 @@ body {
 }
 
 .target .sprite {
-  outline: 3px solid #0ff9;
+  outline: 3px solid #0efa;
+  outline-offset: 2px;
 }
 
 .fps {

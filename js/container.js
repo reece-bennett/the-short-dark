@@ -1,66 +1,53 @@
-import { $, createDiv } from './util.js'
+import { $ } from './util.js'
+import Object from './object.js'
 
-export default class Container {
-  x
-  y
-  opened = false
-  inventory
-  element
-  sprite
-  collider = {
-    type: 'box',
-    halfWidth: 12.5,
-    halfHeight: 7.5
-  }
-  spawnCollider = this.collider
+export default class Container extends Object {
+  isOpen = false
+  interactive = true
 
-  constructor(game, x, y, inventory) {
-    this.game = game
-    this.x = x
-    this.y = y
-    this.inventory = inventory
-
-    this.objectElement = createDiv($('.game'), 'object', 'container')
-    this.objectElement.addEventListener('click', () => {
-      if (this.game.player.distanceTo(this.x, this.y) < 50) {
-        if (this.opened) {
-          this.close()
-        } else {
-          this.open()
-        }
-      }
+  constructor({game, x, y, inventory}) {
+    super({
+      game,
+      name: 'container',
+      x,
+      y,
+      width: 25,
+      height: 15,
     })
-    this.sprite = createDiv(this.objectElement, 'sprite')
-    this.interactive = true
-  }
 
-  update() {}
+    this.inventory = inventory
+    this.spawnColloider = this.collider = {
+      type: 'box',
+      halfWidth: this.width / 2,
+      halfHeight: this.height / 2
+    }
 
-  draw() {
-    this.objectElement.style.transform = `translate(${this.x}px, ${this.y}px)`
+    this.spawn()
   }
 
   open() {
-    console.log('Container opened')
-    this.opened = true
+    this.isOpen = true
     this.game.player.openInventory(this)
     this.updateInventoryUi()
     $('.tab-container').setAttribute('aria-hidden', false)
   }
 
   close() {
-    console.log('Container closed')
-    this.opened = false
+    this.isOpen = false
     if (this.game.player.inventoryOpen) this.game.player.closeInventory()
     $('.tab-container').setAttribute('aria-hidden', true)
   }
 
   use() {
-    if (this.opened) {
+    if (this.isOpen) {
       this.close()
     } else {
       this.open()
     }
+  }
+
+  untarget() {
+    this.close()
   }
 
   updateInventoryUi() {

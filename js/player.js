@@ -51,7 +51,7 @@ export default class Player extends Creature {
     if (nearbyInteractiveObjects.length === 0) {
       if (this.closestInteractiveObject) {
         this.closestInteractiveObject.objectElement.classList.remove('target')
-        this.closestInteractiveObject?.close()
+        this.closestInteractiveObject.untarget?.()
         this.closestInteractiveObject = undefined
       }
 
@@ -64,7 +64,7 @@ export default class Player extends Creature {
     if (closestInteractiveObject !== this.closestInteractiveObject) {
       if (this.closestInteractiveObject) {
         this.closestInteractiveObject.objectElement.classList.remove('target')
-        this.closestInteractiveObject?.close()
+        this.closestInteractiveObject.untarget?.()
       }
 
       this.closestInteractiveObject = closestInteractiveObject

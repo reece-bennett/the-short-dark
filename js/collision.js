@@ -55,7 +55,7 @@ function intersectMultiBoxMultiBox(a, b) {
 }
 
 export function intersect(a, b) {
-  if (!a.collider || !b.collider) return false
+  if (!a.collider || a.collider.disabled || !b.collider || b.collider.disabled) return false
 
   const typeA = a.collider.type
   const typeB = b.collider.type
