@@ -1,3 +1,7 @@
+.tree.object {
+  z-index: 2; /* On top of everything, including buildings */
+}
+
 .tree .sprite {
   --polymorph-size: 16px;
   --polymorph-size-minus: calc(-1 * var(--polymorph-size));
