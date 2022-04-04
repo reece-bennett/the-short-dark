@@ -64,69 +64,40 @@ function generateWorld() {
     game.objects.push(building)
   }
 
-  createCluster({
-    game,
-    objects: [Rock],
-    objectProps: [{
-      width: 20,
-      height: 20,
-    }],
-    x: 180,
-    y: -180,
-    radius: 80
-  })
+  for (let i = 0; i < 30; i++) {
+    let { x, y } = randomXY(maxDistance)
+    createCluster({
+      game,
+      objects: [Rock, Rock, Rock, Rock],
+      objectProps: [
+        { width: 20, height: 20 },
+        { width: 30, height: 20 },
+        { width: 50, height: 50 },
+        { width: 10, height: 10 },
+      ],
+      x,
+      y,
+      objectCount: Math.round(Math.random() * 10),
+      radius: Math.random() * 200
+    })
+  }
 
-  createCluster({
-    game,
-    objects: [Tree],
-    objectProps: [{
-      size: 3,
-    }],
-    x: -180,
-    y: -180,
-    radius: 60
-  })
-
-  createCluster({
-    game,
-    objects: [Tree],
-    objectProps: [{
-      size: 0,
-    }],
-    x: -130,
-    y: -150,
-    radius: 50
-  })
-
-  // for (let i = 0; i < 200; i++) {
-  //   let { x, y } = randomXY(maxDistance)
-  //   const rock = new Rock({ game, x, y })
-  //   rock.spawn()
-  //   while (game.objects.some(other => intersect(
-  //     { x: rock.x, y: rock.y, collider: rock.spawnCollider },
-  //     { x: other.x, y: other.y, collider: other.spawnCollider }
-  //   ))) {
-  //     ({ x, y } = randomXY(maxDistance))
-  //     rock.x = x
-  //     rock.y = y
-  //   }
-  //   game.objects.push(rock)
-  // }
-  //
-  // for (let i = 0; i < 100; i++) {
-  //   let { x, y } = randomXY(maxDistance)
-  //   const tree = new Tree({ game, x, y, size: Math.round(Math.random() * 3), snowy: Math.random() > 0.6 })
-  //   tree.spawn()
-  //   while (game.objects.some(other => intersect(
-  //     { x: tree.x, y: tree.y, collider: tree.spawnCollider },
-  //     { x: other.x, y: other.y, collider: other.spawnCollider }
-  //   ))) {
-  //     ({ x, y } = randomXY(maxDistance))
-  //     tree.x = x
-  //     tree.y = y
-  //   }
-  //   game.objects.push(tree)
-  // }
+  for (let i = 0; i < 30; i++) {
+    let { x, y } = randomXY(maxDistance)
+    createCluster({
+      game,
+      objects: [Tree, Tree, Tree],
+      objectProps: [
+        { size: Math.round(Math.random() * 3), snowy: Math.random() > 0.3 },
+        { size: Math.round(Math.random() * 3), snowy: Math.random() > 0.3 },
+        { size: Math.round(Math.random() * 3), snowy: Math.random() > 0.3 }
+      ],
+      x,
+      y,
+      objectCount: Math.round(Math.random() * 5),
+      radius: Math.random() * 200
+    })
+  }
 
   for (let i = 0; i < 10; i++) {
     let { x, y } = randomXY(maxDistance)

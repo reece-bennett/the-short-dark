@@ -6,14 +6,14 @@ function addDebugCircle(x, y, radius) {
   debugCircleElement.style.width = `${radius * 2}px`
   debugCircleElement.style.height = `${radius * 2}px`
   debugCircleElement.style.borderRadius = '50%'
-  const randomSaturation = Math.floor(Math.random() * 30) * 12;
+  const randomSaturation = Math.floor(Math.random() * 30) * 12
   debugCircleElement.style.background = `hsl(${randomSaturation}, 100%, 50%, .2)`
   debugCircleElement.style.position = 'absolute'
   debugCircleElement.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`
   $('.game').append(debugCircleElement)
 }
 
-const maxSpawnAttemptsPerObject = 100;
+const maxSpawnAttemptsPerObject = 100
 
 export default function createCluster({
   game,
@@ -26,13 +26,13 @@ export default function createCluster({
   circular = true,
   gap = 4,
 }) {
-  addDebugCircle(x, y, radius);
+  // addDebugCircle(x, y, radius)
 
   for (let i = 0; i < objectCount; i++) {
-    let spawnAttempts = 1;
+    let spawnAttempts = 1
     const randomObjectIndex = Math.floor(Math.random() * objects.length)
-    const RandomObject = objects[randomObjectIndex];
-    const randomObjectProps = objectProps[randomObjectIndex];
+    const RandomObject = objects[randomObjectIndex]
+    const randomObjectProps = objectProps[randomObjectIndex]
     const { x: objectX, y: objectY } = randomXY(radius)
     const object = new RandomObject({
       game,
