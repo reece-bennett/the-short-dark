@@ -2,6 +2,20 @@
   --body-colour: rgb(34, 86, 153);
 }
 
+.player .bar {
+  position: absolute;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.player .reload {
+  width: 0%;
+  height: 2px;
+  background: rgb(145, 145, 145);
+  transform: translate(0px, 25px);
+}
+
 .player .body {
   width: 20px;
   height: 12px;

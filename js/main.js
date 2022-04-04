@@ -180,11 +180,23 @@ function init() {
         bullet.spawn()
         game.objects.push(bullet)
         lastUsage = game.timestamp
+        $('.player .reload').style.transition = 'width 0s linear'
+        $('.player .reload').style.width = '100%'
+        setTimeout(() => {
+          $('.player .reload').style.transition = 'width 1200ms linear'
+          $('.player .reload').style.width = '0%'
+        }, 0)
       } else if (name === 'Revolver' && game.timestamp - lastUsage > 500) {
         const bullet = new Bullet({ game, x: game.player.x, y: game.player.y, rotation: game.player.rotation, damage: 5 })
         bullet.spawn()
         game.objects.push(bullet)
         lastUsage = game.timestamp
+        $('.player .reload').style.transition = 'width 0s linear'
+        $('.player .reload').style.width = '100%'
+        setTimeout(() => {
+          $('.player .reload').style.transition = 'width 500ms linear'
+          $('.player .reload').style.width = '0%'
+        }, 0)
       }
     }
   })

@@ -1,4 +1,4 @@
-import { $, angleBetween, distanceBetween, lerp, unlerp } from './util.js'
+import { $, angleBetween, createDiv, distanceBetween, lerp, unlerp } from './util.js'
 import Creature from './creature.js'
 import Item from './item.js'
 import { intersect } from './collision.js'
@@ -42,6 +42,9 @@ export default class Player extends Creature {
         </sprite>
       `,
     })
+
+    const bar = createDiv(this.objectElement, 'bar')
+    createDiv(bar, 'reload')
   }
 
   updateNearbyInteractiveObject() {
@@ -176,7 +179,7 @@ export default class Player extends Creature {
       this.lastHeal = this.game.timestamp
     }
 
-    console.log(this.food, this.water)
+    // console.log(this.food, this.water)
     if (this.food === 0 && this.game.timestamp - this.lastHungerDamage > 1000) {
       this.doDamage(1)
       this.lastHungerDamage = this.game.timestamp

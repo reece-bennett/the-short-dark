@@ -1,6 +1,6 @@
 import { intersect } from './collision.js'
 import Creature from './creature.js'
-import { $, angleBetween, distanceBetween, randomXY } from './util.js'
+import { $, angleBetween, createDiv, distanceBetween, randomXY } from './util.js'
 
 export default class Bear extends Creature {
   collider = {
@@ -34,6 +34,9 @@ export default class Bear extends Creature {
         </sprite>
       `
     })
+
+    const bar = createDiv(this.objectElement, 'bar')
+    createDiv(bar, 'health')
 
     this.pickNewGoal()
   }
@@ -108,5 +111,10 @@ export default class Bear extends Creature {
     this.goal = randomXY(500)
     this.goal.x += this.x
     this.goal.y += this.y
+  }
+
+  doDamage(amount) {
+    super.doDamage(amount)
+    this.objectElement.querySelector('.health').style.width = `${Math.min(this.hitPoints * 2.5 + 5, 100)}%`
   }
 }
