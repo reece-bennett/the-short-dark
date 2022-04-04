@@ -84,16 +84,18 @@ export default class Building {
     console.log('Door opened')
     this.isOpen = true
     this.doorCollider.offsetX = -15
-    this.doorCollider.offsetY = -90
-    this.doorCollider.halfWidth = 4
-    this.doorCollider.halfHeight = 15
+    // this.doorCollider.offsetY = -90
+    // this.doorCollider.halfWidth = 4
+    // this.doorCollider.halfHeight = 15
+    this.doorCollider.halfWidth = 0
+    this.doorCollider.halfHeight = 0
   }
 
   close() {
     console.log('Door closed')
     this.isOpen = false
     this.doorCollider.offsetX = 0
-    this.doorCollider.offsetY = -75
+    // this.doorCollider.offsetY = -75
     this.doorCollider.halfWidth = 15
     this.doorCollider.halfHeight = 4
   }
