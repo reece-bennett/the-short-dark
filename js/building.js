@@ -26,6 +26,7 @@ export default class Building {
     halfHeight: 75
   }
   spawnCollider = this.roofCollider
+  playerWasInsideCooldown = 0
 
   constructor(game, x, y) {
     this.game = game
@@ -48,24 +49,30 @@ export default class Building {
     this.roof = createDiv(this.sprite, 'roof')
   }
 
-  update() {
-    const playerIsInsideThisBuilding = intersect(this.game.player, { x: this.x, y: this.y, collider: this.roofCollider })
+  updatePlayerIsInside(dt) {
+    this.playerIsInside = intersect(this.game.player, { x: this.x, y: this.y, collider: this.roofCollider })
 
-    // Going outside -> inside
-    if (playerIsInsideThisBuilding && !this.element.classList.contains('player-inside')) {
+    // outside -> inside
+    if (this.playerIsInside && !this.element.classList.contains('player-inside')) {
       this.element.classList.add('player-inside')
       this.element.style.zIndex = '1000' // Can be set as a number, but is a string internally and when returned
-    // Going inside -> outside
-    } else if (!playerIsInsideThisBuilding && this.element.classList.contains('player-inside')) {
+      this.playerWasInsideCooldown = 1 // Must be > than the transition for fading out the you're-inside-this-building shadow
+    // inside -> outside
+    } else if (!this.playerIsInside && this.element.classList.contains('player-inside')) {
       this.element.classList.remove('player-inside')
-
-
-      if (this.element.style.zIndex === '1000') {
-        setTimeout(() => {
-          this.element.style.zIndex = '' // Don't override z-index set in object CSS
-        }, 1000) // Must be > ms than the transition for fading out the you're-inside-this-building shadow
-      }
     }
+
+    if (!this.playerIsInside) {
+      this.playerWasInsideCooldown = Math.max(0, this.playerWasInsideCooldown - dt)
+    }
+
+    if (this.playerWasInsideCooldown === 0 && this.element.style.zIndex === '1000') {
+      this.element.style.zIndex = '' // Don't override z-index set in object CSS
+    }
+  }
+
+  update(dt) {
+    this.updatePlayerIsInside(dt)
   }
 
   draw() {
