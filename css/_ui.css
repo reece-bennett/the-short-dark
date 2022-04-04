@@ -59,10 +59,17 @@
 .progress {
   transition: --p 0.2s;
   --p: 100%;
-  width: 20px;
-  height: 80px;
+  width: 25px;
+  height: 100px;
   background: linear-gradient(to top, white var(--p), rgba(200, 200, 200) 0);
   box-shadow: inset red 0px 0px 12px var(--spread);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.progress .text {
+  transform: rotate(90deg);
 }
 
 .gameover {
