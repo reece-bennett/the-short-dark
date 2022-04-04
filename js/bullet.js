@@ -5,7 +5,7 @@ import Creature from './creature.js'
 export default class Bullet extends Object {
   speed = 1500
 
-  constructor({ game, x, y, rotation }) {
+  constructor({ game, x, y, rotation, damage }) {
     super({
       name: 'bullet',
       game,
@@ -16,6 +16,8 @@ export default class Bullet extends Object {
       rotation,
       spriteXml: '<sprite></sprite>'
     })
+
+    this.damage = damage
 
     this.spawnCollider = this.collider = {
       type: 'circle',
@@ -32,7 +34,7 @@ export default class Bullet extends Object {
         console.log('Bang')
         this.kill()
         if (other instanceof Creature) {
-          other.hitPoints -= 10
+          other.hitPoints -= this.damage
         }
         break
       }

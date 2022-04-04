@@ -16,6 +16,8 @@ let lastUiDraw = 0
 
 const maxDistance = 1500
 
+let lastUsage = 0
+
 const game = {
   running: true,
   keyDown: new Set(),
@@ -170,10 +172,16 @@ function init() {
   document.body.addEventListener('mousedown', event => {
     if (event.button === 0 && game.player.equipped && !game.player.inventoryOpen) {
       const name = game.player.equipped.name
-      if (name === 'Rifle' || name === 'Revolver') {
-        const bullet = new Bullet({ game, x: game.player.x, y: game.player.y, rotation: game.player.rotation })
+      if (name === 'Rifle' && game.timestamp - lastUsage > 1200) {
+        const bullet = new Bullet({ game, x: game.player.x, y: game.player.y, rotation: game.player.rotation, damage: 10 })
         bullet.spawn()
         game.objects.push(bullet)
+        lastUsage = game.timestamp
+      } else if (name === 'Revolver' && game.timestamp - lastUsage > 500) {
+        const bullet = new Bullet({ game, x: game.player.x, y: game.player.y, rotation: game.player.rotation, damage: 5 })
+        bullet.spawn()
+        game.objects.push(bullet)
+        lastUsage = game.timestamp
       }
     }
   })
