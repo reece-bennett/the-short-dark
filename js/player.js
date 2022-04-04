@@ -158,8 +158,8 @@ export default class Player extends Creature {
 
     this.updateTemperature(dt, this.temperature.ambient)
     // this.energy -= 0.004 * dt
-    this.food = Math.max(this.food - 0.002 * dt, 0)
-    this.water = Math.max(this.water - 0.006 * dt, 0)
+    this.food = Math.max(this.food - (this.isSprinting ? 0.008 : 0.002) * dt, 0)
+    this.water = Math.max(this.water - (this.isSprinting ? 0.02 : 0.006) * dt, 0)
 
     if (this.hitPoints <= 0) {
       this.game.running = false

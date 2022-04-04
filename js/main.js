@@ -25,7 +25,8 @@ const game = {
   keyPressed: new Set(),
   mouse: {
     x: 0,
-    y: 0
+    y: 0,
+    isDown: false
   },
   camera: {
     x: 0,
@@ -61,12 +62,12 @@ function generateWorld() {
       building.door.y = y - 75
       building.door.draw()
     }
-    if (Math.random() > 0.5) {
+    if (Math.random() < 0.8) {
       game.objects.push(new Container({
         game,
         x,
         y: y + 40,
-        inventory: [Item.waterBottle(), Item.beefJerky(), Item.beefJerky(), Item.cola(), Item.energyBar()]
+        inventory: Item.createLoot()
       }))
     }
     game.objects.push(building)
@@ -121,13 +122,6 @@ function generateWorld() {
     }
     game.objects.push(bear)
   }
-
-  game.objects.push(new Container({
-    game,
-    x: 30,
-    y: 0,
-    inventory: [Item.waterBottle(), Item.rifle(), Item.revolver()]
-  }))
 }
 
 function restart() {
@@ -157,31 +151,14 @@ function init() {
   })
 
   document.body.addEventListener('mousedown', event => {
-    if (event.button === 0 && game.player.equipped && !game.player.inventoryOpen) {
-      const name = game.player.equipped.name
-      if (name === 'Rifle' && game.timestamp - lastUsage > 1200) {
-        const bullet = new Bullet({ game, x: game.player.x, y: game.player.y, rotation: game.player.rotation, damage: 10 })
-        bullet.spawn()
-        game.objects.push(bullet)
-        lastUsage = game.timestamp
-        $('.player .reload').style.transition = 'width 0s linear'
-        $('.player .reload').style.width = '100%'
-        setTimeout(() => {
-          $('.player .reload').style.transition = 'width 1200ms linear'
-          $('.player .reload').style.width = '0%'
-        }, 0)
-      } else if (name === 'Revolver' && game.timestamp - lastUsage > 500) {
-        const bullet = new Bullet({ game, x: game.player.x, y: game.player.y, rotation: game.player.rotation, damage: 5 })
-        bullet.spawn()
-        game.objects.push(bullet)
-        lastUsage = game.timestamp
-        $('.player .reload').style.transition = 'width 0s linear'
-        $('.player .reload').style.width = '100%'
-        setTimeout(() => {
-          $('.player .reload').style.transition = 'width 500ms linear'
-          $('.player .reload').style.width = '0%'
-        }, 0)
-      }
+    if (event.button === 0) {
+      game.mouse.isDown = true
+    }
+  })
+
+  document.body.addEventListener('mouseup', () => {
+    if (event.button === 0) {
+      game.mouse.isDown = false
     }
   })
 
@@ -198,6 +175,33 @@ function init() {
 }
 
 function update(dt) {
+  if (game.mouse.isDown && game.player.equipped && !game.player.inventoryOpen) {
+    const name = game.player.equipped.name
+    if (name === 'Rifle' && game.timestamp - lastUsage > 1200) {
+      const bullet = new Bullet({ game, x: game.player.x, y: game.player.y, rotation: game.player.rotation, damage: 10 })
+      bullet.spawn()
+      game.objects.push(bullet)
+      lastUsage = game.timestamp
+      $('.player .reload').style.transition = 'width 0s linear'
+      $('.player .reload').style.width = '100%'
+      setTimeout(() => {
+        $('.player .reload').style.transition = 'width 1200ms linear'
+        $('.player .reload').style.width = '0%'
+      }, 0)
+    } else if (name === 'Revolver' && game.timestamp - lastUsage > 500) {
+      const bullet = new Bullet({ game, x: game.player.x, y: game.player.y, rotation: game.player.rotation, damage: 5 })
+      bullet.spawn()
+      game.objects.push(bullet)
+      lastUsage = game.timestamp
+      $('.player .reload').style.transition = 'width 0s linear'
+      $('.player .reload').style.width = '100%'
+      setTimeout(() => {
+        $('.player .reload').style.transition = 'width 500ms linear'
+        $('.player .reload').style.width = '0%'
+      }, 0)
+    }
+  }
+
   game.objects.forEach(gameObject => gameObject.update(dt))
   game.objects = game.objects.filter(gameObject => !gameObject.isDead)
 
