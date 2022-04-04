@@ -65,4 +65,27 @@ export default class Item {
     }
     return revolver
   }
+
+  static waterItems = [this.waterBottle, this.cola, this.coffee]
+  static foodItems = [this.beefJerky, this.energyBar]
+
+  static createLoot() {
+    let items = []
+    while (Math.random() < 0.7 && items.length < 4) {
+      const r = Math.random()
+      if (r < 0.2) {
+        items.push(Math.random() < 0.5 ? this.revolver() : this.rifle())
+      } else {
+        items.push(Math.random() < 0.5
+          ? this.choose(this.foodItems)()
+          : this.choose(this.waterItems)()
+        )
+      }
+    }
+    return items
+  }
+
+  static choose(items) {
+    return items[Math.floor(Math.random() * items.length)]
+  }
 }

@@ -58,12 +58,12 @@ function generateWorld() {
       building.x = x
       building.y = y
     }
-    if (Math.random() > 0.5) {
+    if (Math.random() < 0.8) {
       game.objects.push(new Container({
         game,
         x,
         y: y + 40,
-        inventory: [Item.waterBottle(), Item.beefJerky(), Item.beefJerky(), Item.cola(), Item.energyBar()]
+        inventory: Item.createLoot()
       }))
     }
     game.objects.push(building)
@@ -118,13 +118,6 @@ function generateWorld() {
     }
     game.objects.push(bear)
   }
-
-  game.objects.push(new Container({
-    game,
-    x: 30,
-    y: 0,
-    inventory: [Item.waterBottle(), Item.rifle(), Item.revolver()]
-  }))
 }
 
 function restart() {
