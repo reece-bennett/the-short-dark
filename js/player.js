@@ -1,4 +1,4 @@
-import { $, angleBetween, distanceBetween, unlerp } from './util.js'
+import { $, angleBetween, createDiv, distanceBetween, lerp, unlerp } from './util.js'
 import Creature from './creature.js'
 import Item from './item.js'
 import { intersect } from './collision.js'
@@ -21,6 +21,9 @@ export default class Player extends Creature {
   water = 1
   lastTimeCheckedNearby = 0
   lastHeal = 0
+  lastEaten = 0
+  lastHungerDamage = 0
+  lastThirstDamage = 0
 
   constructor(game, x, y) {
     super({
@@ -39,6 +42,9 @@ export default class Player extends Creature {
         </sprite>
       `,
     })
+
+    const bar = createDiv(this.objectElement, 'bar')
+    createDiv(bar, 'reload')
   }
 
   updateNearbyInteractiveObject() {
@@ -143,9 +149,9 @@ export default class Player extends Creature {
     }
 
     this.updateTemperature(dt, this.temperature.ambient)
-    this.energy -= 0.004 * dt
-    this.food -= 0.004 * dt
-    this.water -= 0.006 * dt
+    // this.energy -= 0.004 * dt
+    this.food = Math.max(this.food - 0.002 * dt, 0)
+    this.water = Math.max(this.water - 0.006 * dt, 0)
 
     if (this.hitPoints <= 0) {
       this.game.running = false
@@ -166,10 +172,23 @@ export default class Player extends Creature {
     if (this.food > 0
       && this.hitPoints < 20
       && this.game.timestamp - this.lastDamage > 10000
+      && this.game.timestamp - this.lastEaten > 10000
       && this.game.timestamp - this.lastHeal > 1000) {
       this.hitPoints += 1
-      this.food -= 0.2
+      this.food = Math.max(this.food - 0.05, 0)
       this.lastHeal = this.game.timestamp
+    }
+
+    // console.log(this.food, this.water)
+    if (this.food === 0 && this.game.timestamp - this.lastHungerDamage > 1000) {
+      this.doDamage(1)
+      this.lastHungerDamage = this.game.timestamp
+      $('.death-message').innerText = 'You died of starvation'
+    }
+    if (this.water === 0 && this.game.timestamp - this.lastThirstDamage > 1000) {
+      this.doDamage(1)
+      this.lastThirstDamage = this.game.timestamp
+      $('.death-message').innerText = 'You were very, very thirsty'
     }
   }
 
@@ -219,6 +238,7 @@ export default class Player extends Creature {
         event.preventDefault()
         if (item.use(this)) {
           this.inventory.splice(this.inventory.indexOf(item), 1)
+          this.lastEaten = this.game.timestamp
         }
         this.updateInventoryUi()
       })
@@ -229,11 +249,15 @@ export default class Player extends Creature {
   updateStatsUi() {
     // console.log(this.temperature.current)
     $('.progress.health').style.setProperty('--p', `${this.hitPoints * 5}%`)
-    $('.progress.temperature').style.setProperty('--p', `${unlerp(this.temperature.tooCold, 20, this.temperature.current) * 100}%`)
+    $('.progress.health').style.setProperty('--spread', `${lerp(0, -12, Math.min(this.hitPoints * 0.1, 1))}px`)
+    const tempAsPercent = unlerp(this.temperature.tooCold, 20, this.temperature.current)
+    $('.progress.temperature').style.setProperty('--p', `${tempAsPercent * 100}%`)
     $('.progress.temperature').style.outline = this.freezing ? '2px solid lightblue' : ''
-    $('.progress.energy').style.setProperty('--p', `${this.energy * 100}%`)
+    // $('.progress.energy').style.setProperty('--p', `${this.energy * 100}%`)
     $('.progress.food').style.setProperty('--p', `${this.food * 100}%`)
+    $('.progress.food').style.setProperty('--spread', `${lerp(0, -12, Math.min(this.food * 2, 1))}px`)
     $('.progress.water').style.setProperty('--p', `${this.water * 100}%`)
+    $('.progress.water').style.setProperty('--spread', `${lerp(0, -12, Math.min(this.water * 2, 1))}px`)
   }
 
   addToInventory(item) {
