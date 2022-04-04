@@ -70,7 +70,7 @@ export default class Bear extends Creature {
       this.goal.y = this.game.player.y
 
       if (this.game.timestamp - this.lastAttacked > 1000 && intersect(this, this.game.player)) {
-        this.game.player.hitPoints -= 5
+        this.game.player.doDamage(5)
         this.lastAttacked = this.game.timestamp
         $('.death-message').innerText = 'You were eaten by a bear, oh no :('
       }

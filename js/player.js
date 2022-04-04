@@ -4,7 +4,7 @@ import Item from './item.js'
 import { intersect } from './collision.js'
 
 export default class Player extends Creature {
-  inventory = [Item.waterBottle()]
+  inventory = [Item.waterBottle(), Item.beefJerky()]
   inventoryOpen = false
   lookingIn
   equipped
@@ -20,6 +20,7 @@ export default class Player extends Creature {
   food = 1
   water = 1
   lastTimeCheckedNearby = 0
+  lastHeal = 0
 
   constructor(game, x, y) {
     super({
@@ -133,6 +134,14 @@ export default class Player extends Creature {
       this.lastTimeCheckedNearby = this.game.timestamp
     }
 
+    if (this.inventoryOpen && this.game.keyPressed.has('Escape')) {
+      this.closeInventory()
+    }
+
+    if (this.game.keyPressed.has('KeyP')) {
+      this.doDamage(1)
+    }
+
     this.updateTemperature(dt, this.temperature.ambient)
     this.energy -= 0.004 * dt
     this.food -= 0.004 * dt
@@ -146,11 +155,22 @@ export default class Player extends Creature {
       $('.time-seconds').innerText = Math.round(secondsLived % 60)
     }
 
+    // Rotate to face the cursor
     this.rotation = angleBetween(
       this.x - this.game.camera.x,
       this.y - this.game.camera.y,
       this.game.mouse.x,
       this.game.mouse.y)
+
+    // Heal using hunger
+    if (this.food > 0
+      && this.hitPoints < 20
+      && this.game.timestamp - this.lastDamage > 10000
+      && this.game.timestamp - this.lastHeal > 1000) {
+      this.hitPoints += 1
+      this.food -= 0.2
+      this.lastHeal = this.game.timestamp
+    }
   }
 
   draw() {

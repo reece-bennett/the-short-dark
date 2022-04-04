@@ -15,6 +15,7 @@ export default class Creature extends Object {
   freezingDamageCooldown = 1000 // How many ms between freezing damage
   freezing = false
   lastFreezingDamage = 0
+  lastDamage = 0
 
   constructor({game, name, x, y, width, height, spriteXml, hitPoints = 1}) {
     super({
@@ -70,7 +71,7 @@ export default class Creature extends Object {
     // Creature specific things like getting hungry at whatever rate the creature gets hungry
 
     if (this.freezing && this.game.timestamp - this.lastFreezingDamage > this.freezingDamageCooldown) {
-      this.hitPoints -= 1
+      this.doDamage(1)
       // console.log(this.hitPoints)
       this.lastFreezingDamage = this.game.timestamp
       if (this === this.game.player) {
@@ -83,5 +84,10 @@ export default class Creature extends Object {
     if (this.hitPoints < 0) {
       this.kill()
     }
+  }
+
+  doDamage(amount) {
+    this.hitPoints -= amount
+    this.lastDamage = this.game.timestamp
   }
 }

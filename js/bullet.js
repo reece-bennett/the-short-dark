@@ -34,7 +34,7 @@ export default class Bullet extends Object {
         console.log('Bang')
         this.kill()
         if (other instanceof Creature) {
-          other.hitPoints -= this.damage
+          other.doDamage(this.damage)
         }
         break
       }
