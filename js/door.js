@@ -34,6 +34,7 @@ export default class Door extends Object {
   }
 
   draw() {
+    super.draw()
     this.spriteElement.style.transform = `${this.isOpen ? 'rotate(-90deg)' : ''}`
   }
 }

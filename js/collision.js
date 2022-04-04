@@ -57,7 +57,7 @@ function intersectMultiBoxMultiBox(a, b) {
 export function intersect(a, b) {
   if (!a.collider || a.collider.disabled || !b.collider || b.collider.disabled) return false
 
-  if (distanceBetween(a.x, a.y, b.x, b.y) > 100) return false
+  if (distanceBetween(a.x, a.y, b.x, b.y) > 150) return false
 
   const typeA = a.collider.type
   const typeB = b.collider.type

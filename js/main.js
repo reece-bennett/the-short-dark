@@ -57,6 +57,9 @@ function generateWorld() {
       y = Math.round(y / 300) * 300
       building.x = x
       building.y = y
+      building.door.x = x
+      building.door.y = y - 75
+      building.door.draw()
     }
     if (Math.random() > 0.5) {
       game.objects.push(new Container({

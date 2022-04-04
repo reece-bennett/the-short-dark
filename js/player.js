@@ -10,8 +10,9 @@ export default class Player extends Creature {
   equipped
 
   collider = {
-    type: 'circle',
-    radius: 7
+    type: 'box',
+    halfWidth: 7,
+    halfHeight: 7,
   }
   spawnCollider = this.collider
 
@@ -108,13 +109,20 @@ export default class Player extends Creature {
       this.x += vx
       this.y += vy
 
-      for (const other of this.game.objects) {
-        if (other !== this && intersect(this, other)) {
-          this.x = prevX
-          this.y = prevY
-          break
+      this.game.objects.forEach(other => {
+        if (this === other) return
+
+        if (intersect(this, other)) {
+          if (!intersect({...this, y: prevY}, other)) {
+            this.y = prevY
+          } else if (!intersect({...this, x: prevX}, other)) {
+            this.x = prevX
+          } else {
+            this.x = prevX
+            this.y = prevY
+          }
         }
-      }
+      })
 
       this.energy -= (this.isSprinting ? 0.05 : 0.02) * dt
     }

@@ -5,7 +5,7 @@ import { $, angleBetween, createDiv, distanceBetween, randomXY } from './util.js
 export default class Bear extends Creature {
   collider = {
     type: 'circle',
-    radius: 18
+    radius: 19
   }
   spawnCollider = this.collider
   speed = 20
@@ -78,13 +78,28 @@ export default class Bear extends Creature {
         $('.death-message').innerText = 'You were eaten by a bear, oh no :('
       }
 
-      for (const other of this.game.objects) {
-        if (other !== this && intersect(this, other)) {
-          this.x = prevX
-          this.y = prevY
-          break
+      this.game.objects.forEach(other => {
+        if (this === other) return
+
+        if (intersect(this, other)) {
+          if (!intersect({...this, y: prevY}, other)) {
+            this.y = prevY
+          } else if (!intersect({...this, x: prevX}, other)) {
+            this.x = prevX
+          } else {
+            this.x = prevX
+            this.y = prevY
+          }
         }
-      }
+      })
+
+      // for (const other of this.game.objects) {
+      //   if (other !== this && intersect(this, other)) {
+      //     this.x = prevX
+      //     this.y = prevY
+      //     break
+      //   }
+      // }
     } else {
       if (this.anger === 1) {
         this.isAngry = true

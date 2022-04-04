@@ -1,5 +1,5 @@
 .building.object {
-  z-index: 1; /* Over the top of things like containers and the player */
+  z-index: 2; /* Over the top of things like containers and the player */
 }
 
 .building .wall {
