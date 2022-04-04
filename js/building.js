@@ -49,7 +49,23 @@ export default class Building {
   }
 
   update() {
-    this.roof.setAttribute('aria-hidden', intersect(this.game.player, { x: this.x, y: this.y, collider: this.roofCollider }))
+    const playerIsInsideThisBuilding = intersect(this.game.player, { x: this.x, y: this.y, collider: this.roofCollider })
+
+    // Going outside -> inside
+    if (playerIsInsideThisBuilding && !this.element.classList.contains('player-inside')) {
+      this.element.classList.add('player-inside')
+      this.element.style.zIndex = '1000' // Can be set as a number, but is a string internally and when returned
+    // Going inside -> outside
+    } else if (!playerIsInsideThisBuilding && this.element.classList.contains('player-inside')) {
+      this.element.classList.remove('player-inside')
+
+
+      if (this.element.style.zIndex === '1000') {
+        setTimeout(() => {
+          this.element.style.zIndex = '' // Don't override z-index set in object CSS
+        }, 1000) // Must be > ms than the transition for fading out the you're-inside-this-building shadow
+      }
+    }
   }
 
   draw() {

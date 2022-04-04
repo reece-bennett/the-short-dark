@@ -19,7 +19,10 @@
   border-radius: 12px;
   border: 8px solid #fff;
   background: #f9f9f9;
-  z-index: 10;
+  box-shadow:
+    0 0 0 70vmax #0000,
+    0 0 100px 100px #0000;
+  transition: box-shadow .4s;
 }
 
 .building .door {
@@ -28,4 +31,12 @@
   background: rgb(63, 44, 19);
   transform-origin: left;
   transform: translate(0, -75px);
+}
+
+.building.player-inside .roof {
+  background: unset;
+  box-shadow:
+    0 0 0 70vmax #0005,
+    0 0 100px 100px #0001;
+  transition: box-shadow .4s;
 }

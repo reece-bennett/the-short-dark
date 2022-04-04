@@ -71,7 +71,7 @@ function generateWorld() {
     x: 180,
     y: -180,
     radius: 80
-  });
+  })
 
   createCluster({
     game,
@@ -82,7 +82,7 @@ function generateWorld() {
     x: -180,
     y: -180,
     radius: 60
-  });
+  })
 
   createCluster({
     game,
@@ -93,7 +93,7 @@ function generateWorld() {
     x: -130,
     y: -150,
     radius: 50
-  });
+  })
 
   // for (let i = 0; i < 200; i++) {
   //   let { x, y } = randomXY(maxDistance)
