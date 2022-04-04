@@ -36,6 +36,10 @@
   padding: 10px 15px;
 }
 
+.row.highlight {
+  background: rgb(247, 255, 177)
+}
+
 .stats {
   position: absolute;
   bottom: 20px;
@@ -70,7 +74,6 @@
   align-items: center;
   justify-content: center;
   color: white;
-  user-select: none;
 }
 
 .gameover .title {

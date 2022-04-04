@@ -7,6 +7,7 @@ export default class Player extends Creature {
   inventory = [Item.waterBottle()]
   inventoryOpen = false
   lookingIn
+  equipped
 
   collider = {
     type: 'circle',
@@ -28,8 +29,11 @@ export default class Player extends Creature {
       hitPoints: 20,
       spriteXml: `
         <sprite>
+          <leftarm/>
+          <rightarm/>
           <body/>
           <head/>
+          <item/>
         </sprite>
       `,
     })
@@ -143,17 +147,24 @@ export default class Player extends Creature {
     this.inventory.forEach((item, index) => {
       const row = document.createElement('div')
       row.classList.add('row')
+      if (this.equipped === item) {
+        row.classList.add('highlight')
+      }
       row.innerText = item.name
       row.addEventListener('click', () => {
         if (this.lookingIn) {
+          if (this.equipped === item) {
+            this.unequip()
+          }
           this.removeFromInventory(index)
           this.lookingIn.addToInventory(item)
         }
       })
       row.addEventListener('contextmenu', event => {
         event.preventDefault()
-        item.use(this)
-        this.inventory.splice(this.inventory.indexOf(item), 1)
+        if (item.use(this)) {
+          this.inventory.splice(this.inventory.indexOf(item), 1)
+        }
         this.updateInventoryUi()
       })
       playerTab.append(row)
@@ -182,5 +193,26 @@ export default class Player extends Creature {
 
   distanceTo(x, y) {
     return distanceBetween(x, y, this.x, this.y)
+  }
+
+  toggleEquipped(item) {
+    if (this.equipped === item) {
+      this.unequip()
+    } else {
+      this.equip(item)
+    }
+  }
+
+  equip(item) {
+    if (this.equipped) {
+      this.objectElement.classList.remove(this.equipped.name.toLowerCase().replace(' ', '-'))
+    }
+    this.objectElement.classList.add(item.name.toLowerCase().replace(' ', '-'))
+    this.equipped = item
+  }
+
+  unequip() {
+    this.objectElement.classList.remove(this.equipped.name.toLowerCase().replace(' ', '-'))
+    this.equipped = undefined
   }
 }

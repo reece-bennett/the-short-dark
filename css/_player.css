@@ -1,7 +1,11 @@
+.player {
+  --body-colour: rgb(34, 86, 153);
+}
+
 .player .body {
   width: 20px;
   height: 12px;
-  background: rgb(34, 86, 153);
+  background: var(--body-colour);
   border-radius: 4px;
   box-shadow: 1px 1px 4px #0003;
 }
@@ -11,4 +15,48 @@
   height: 10px;
   background: rgb(202, 199, 189);
   border-radius: 4px;
+}
+
+.player.rifle .item {
+  width: 4px;
+  height: 20px;
+  background: rgb(136, 92, 41);
+  transform: translate(6px, -12px);
+}
+
+.player.rifle .leftarm {
+  width: 6px;
+  height: 16px;
+  background: var(--body-colour);
+  transform: translate(0px, -10px) rotate(45deg);
+}
+
+.player.rifle .rightarm {
+  width: 4px;
+  height: 6px;
+  background: var(--body-colour);
+  transform: translate(8px, -6px);
+}
+
+.player.revolver .item {
+  width: 4px;
+  height: 8px;
+  background: rgb(46, 46, 46);
+  transform: translate(0px, -16px);
+}
+
+.player.revolver .leftarm {
+  width: 6px;
+  height: 16px;
+  background: var(--body-colour);
+  transform-origin: bottom;
+  transform: translate(-7px, -10px) rotate(30deg);
+}
+
+.player.revolver .rightarm {
+  width: 6px;
+  height: 16px;
+  background: var(--body-colour);
+  transform-origin: bottom;
+  transform: translate(7px, -10px) rotate(-30deg);
 }
