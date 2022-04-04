@@ -1,4 +1,4 @@
-import { $, angleBetween, distanceBetween } from './util.js'
+import { $, angleBetween, distanceBetween, unlerp } from './util.js'
 import Creature from './creature.js'
 import Item from './item.js'
 import { intersect } from './collision.js'
@@ -38,12 +38,6 @@ export default class Player extends Creature {
         </sprite>
       `,
     })
-
-    this.temperature.tooCold = 15
-    this.temperature.tooHot = 35
-    this.temperature.coolRate = 0.01
-    this.temperature.heatRate = 0.02
-    this.temperature.buffer = 6
   }
 
   updateNearbyInteractiveObject() {
@@ -139,7 +133,7 @@ export default class Player extends Creature {
       this.lastTimeCheckedNearby = this.game.timestamp
     }
 
-    this.updateTemperature(dt, -13) // TODO: Fetch ambient temperature from somewhere
+    this.updateTemperature(dt, this.temperature.ambient)
     this.energy -= 0.004 * dt
     this.food -= 0.004 * dt
     this.water -= 0.006 * dt
@@ -213,8 +207,9 @@ export default class Player extends Creature {
   }
 
   updateStatsUi() {
+    // console.log(this.temperature.current)
     $('.progress.health').style.setProperty('--p', `${this.hitPoints * 5}%`)
-    $('.progress.temperature').style.setProperty('--p', `${this.temperature.current}%`)
+    $('.progress.temperature').style.setProperty('--p', `${unlerp(this.temperature.tooCold, 20, this.temperature.current) * 100}%`)
     $('.progress.temperature').style.outline = this.freezing ? '2px solid lightblue' : ''
     $('.progress.energy').style.setProperty('--p', `${this.energy * 100}%`)
     $('.progress.food').style.setProperty('--p', `${this.food * 100}%`)

@@ -48,3 +48,7 @@ export function randomXY(maxDistance) {
     y: (Math.random() * 2 - 1) * maxDistance
   }
 }
+
+export const lerp = (min, max, percentage) => min + (max - min) * percentage
+
+export const unlerp = (min, max, value) => (value - min) / (max - min)
