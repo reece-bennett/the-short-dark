@@ -1,5 +1,4 @@
 .rock .sprite {
-  border-radius: 4px;
   background: linear-gradient(var(--surface-rotation, -45deg), #999 50%, #aaa 0);
   box-shadow:
     inset 2px 2px 0 #ccc,

@@ -17,13 +17,10 @@ export default class Object {
     this.height = height ?? 0
     this.rotation = rotation ?? 0
     this.objectElement = createObjectElement(name)
-
-    if (spriteXml) {
-      this.spriteElement = createSpriteElementFromXml(spriteXml)
-      this.spriteElement.style.width = `${this.width}px`
-      this.spriteElement.style.height = `${this.height}px`
-      this.objectElement.append(this.spriteElement)
-    }
+    this.spriteElement = createSpriteElementFromXml(spriteXml ?? '<sprite/>')
+    this.spriteElement.style.width = `${this.width}px`
+    this.spriteElement.style.height = `${this.height}px`
+    this.objectElement.append(this.spriteElement)
   }
 
   spawn() {

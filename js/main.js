@@ -1,7 +1,7 @@
 import Player from './player.js'
 import Container from './container.js'
 import Item from './item.js'
-// import Cluster from './cluster.js'
+import createCluster from './cluster.js'
 import Rock from './rock.js'
 import Tree from './tree.js'
 import Bear from './bear.js'
@@ -84,35 +84,69 @@ function init() {
     game.objects.push(building)
   }
 
-  for (let i = 0; i < 200; i++) {
-    let { x, y } = randomXY(maxDistance)
-    const rock = new Rock({ game, x, y })
-    rock.spawn()
-    while (game.objects.some(other => intersect(
-      { x: rock.x, y: rock.y, collider: rock.spawnCollider },
-      { x: other.x, y: other.y, collider: other.spawnCollider }
-    ))) {
-      ({ x, y } = randomXY(maxDistance))
-      rock.x = x
-      rock.y = y
-    }
-    game.objects.push(rock)
-  }
+  createCluster({
+    game,
+    objects: [Rock],
+    objectProps: [{
+      width: 20,
+      height: 20,
+    }],
+    x: 180,
+    y: -180,
+    radius: 80
+  });
 
-  for (let i = 0; i < 100; i++) {
-    let { x, y } = randomXY(maxDistance)
-    const tree = new Tree({ game, x, y, size: Math.round(Math.random() * 3), snowy: Math.random() > 0.6 })
-    tree.spawn()
-    while (game.objects.some(other => intersect(
-      { x: tree.x, y: tree.y, collider: tree.collider },
-      { x: other.x, y: other.y, collider: other.spawnCollider }
-    ))) {
-      ({ x, y } = randomXY(maxDistance))
-      tree.x = x
-      tree.y = y
-    }
-    game.objects.push(tree)
-  }
+  createCluster({
+    game,
+    objects: [Tree],
+    objectProps: [{
+      size: 3,
+    }],
+    x: -180,
+    y: -180,
+    radius: 60
+  });
+
+  createCluster({
+    game,
+    objects: [Tree],
+    objectProps: [{
+      size: 0,
+    }],
+    x: -130,
+    y: -150,
+    radius: 50
+  });
+
+  // for (let i = 0; i < 200; i++) {
+  //   let { x, y } = randomXY(maxDistance)
+  //   const rock = new Rock({ game, x, y })
+  //   rock.spawn()
+  //   while (game.objects.some(other => intersect(
+  //     { x: rock.x, y: rock.y, collider: rock.spawnCollider },
+  //     { x: other.x, y: other.y, collider: other.spawnCollider }
+  //   ))) {
+  //     ({ x, y } = randomXY(maxDistance))
+  //     rock.x = x
+  //     rock.y = y
+  //   }
+  //   game.objects.push(rock)
+  // }
+  //
+  // for (let i = 0; i < 100; i++) {
+  //   let { x, y } = randomXY(maxDistance)
+  //   const tree = new Tree({ game, x, y, size: Math.round(Math.random() * 3), snowy: Math.random() > 0.6 })
+  //   tree.spawn()
+  //   while (game.objects.some(other => intersect(
+  //     { x: tree.x, y: tree.y, collider: tree.collider },
+  //     { x: other.x, y: other.y, collider: other.spawnCollider }
+  //   ))) {
+  //     ({ x, y } = randomXY(maxDistance))
+  //     tree.x = x
+  //     tree.y = y
+  //   }
+  //   game.objects.push(tree)
+  // }
 
   // Start the main loop
   window.requestAnimationFrame(step)

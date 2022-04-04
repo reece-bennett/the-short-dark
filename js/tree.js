@@ -7,11 +7,6 @@ export default class Tree extends Object {
       name: 'tree',
       x: x,
       y: y,
-      // width: width ?? 24, // TODO: Random default rock size between sensible min/max
-      // height: height ?? 24, // TODO: Random default rock size between sensible min/max
-      // Rotation messes with shadows so not doing it for now
-      // rotation: rotation ?? (Math.random() * 2 * Math.PI) - Math.PI
-      spriteXml: '<sprite></sprite>',
     })
 
     this.size = size ?? Math.floor(Math.random() * 4)
@@ -43,9 +38,14 @@ export default class Tree extends Object {
       this.objectElement.classList.add('snowy')
     }
 
+    this.spawnCollider =  {
+      type: 'circle',
+      radius: 20 + this.size * 2,
+    }
+
     this.collider = {
       type: 'circle',
-      radius: 7
+      radius: 7,
     }
   }
 

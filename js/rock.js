@@ -11,8 +11,9 @@ export default class Rock extends Object {
       height: height ?? 24, // TODO: Random default rock size between sensible min/max
       // Rotation messes with shadows so not doing it for now
       // rotation: rotation ?? (Math.random() * 2 * Math.PI) - Math.PI
-      spriteXml: '<sprite></sprite>'
     })
+
+    this.spriteElement.style.borderRadius = `${Math.round(Math.sqrt(Math.min(this.width, this.height)))}px`
 
     // TODO: Set CSS var or background value to make linear-gradient match "lighting"+rotation
     const surfaceRotation = Math.PI / 4 + (Math.random() * Math.PI / 6) - Math.PI / 12
