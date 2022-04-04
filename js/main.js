@@ -20,6 +20,7 @@ let lastUsage = 0
 
 const game = {
   running: true,
+  duration: 0,
   keyDown: new Set(),
   keyPressed: new Set(),
   mouse: {
@@ -148,6 +149,8 @@ function generateWorld() {
 function restart() {
   generateWorld()
   game.running = true
+  game.duration = 0
+  previousTimestamp = undefined
   $('.gameover').setAttribute('aria-hidden', true)
   window.requestAnimationFrame(step)
 }
@@ -213,6 +216,7 @@ function step(timestamp) {
   if (previousTimestamp === undefined) previousTimestamp = timestamp
   const dt = (timestamp - previousTimestamp) * 0.001
   game.timestamp = timestamp
+  game.duration += timestamp - previousTimestamp
 
   // Debug
   fps = (fps * 0.9) + ((1 / dt) * 0.1)

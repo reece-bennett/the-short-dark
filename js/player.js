@@ -141,7 +141,7 @@ export default class Player extends Creature {
     if (this.hitPoints <= 0) {
       this.game.running = false
       $('.gameover').setAttribute('aria-hidden', false)
-      const secondsLived = this.game.timestamp / 1000
+      const secondsLived = this.game.duration / 1000
       $('.time-minutes').innerText = Math.floor(secondsLived / 60)
       $('.time-seconds').innerText = Math.round(secondsLived % 60)
     }
