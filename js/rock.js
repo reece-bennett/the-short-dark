@@ -1,7 +1,7 @@
 import Object from './object.js'
 
 export default class Rock extends Object {
-  constructor({game, x, y, width, height, rotation}) {
+  constructor({game, x, y, width, height}) {
     super({
       game,
       name: 'rock',

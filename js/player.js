@@ -19,6 +19,7 @@ export default class Player extends Creature {
   energy = 1
   food = 1
   water = 1
+  lastTimeCheckedNearby = 0
 
   constructor(game, x, y) {
     super({
@@ -43,6 +44,37 @@ export default class Player extends Creature {
     this.temperature.coolRate = 0.01
     this.temperature.heatRate = 0.02
     this.temperature.buffer = 6
+  }
+
+  updateNearbyInteractiveObject() {
+    const nearbyRadius = 40
+
+    const nearbyInteractiveObjects = this.game.objects
+      .filter(object => object.interactive)
+      .filter(object => this.distanceTo(object.x, object.y) < nearbyRadius)
+
+    if (nearbyInteractiveObjects.length === 0) {
+      if (this.closestInteractiveObject) {
+        this.closestInteractiveObject.objectElement.classList.remove('target')
+        this.closestInteractiveObject?.close()
+        this.closestInteractiveObject = undefined
+      }
+
+      return
+    }
+
+    const closestInteractiveObject = nearbyInteractiveObjects
+      .reduce((curr, acc) => this.distanceTo(curr.x, curr.y) < this.distanceTo(acc.x, acc.y) ? curr : acc)
+
+    if (closestInteractiveObject !== this.closestInteractiveObject) {
+      if (this.closestInteractiveObject) {
+        this.closestInteractiveObject.objectElement.classList.remove('target')
+        this.closestInteractiveObject?.close()
+      }
+
+      this.closestInteractiveObject = closestInteractiveObject
+      this.closestInteractiveObject.objectElement.classList.add('target')
+    }
   }
 
   update(dt) {
@@ -96,6 +128,15 @@ export default class Player extends Creature {
       } else {
         this.openInventory()
       }
+    }
+
+    if (this.game.keyPressed.has('KeyE') && this.closestInteractiveObject) {
+      this.closestInteractiveObject.use()
+    }
+
+    if (this.game.timestamp - this.lastTimeCheckedNearby > 100) {
+      this.updateNearbyInteractiveObject()
+      this.lastTimeCheckedNearby = this.game.timestamp
     }
 
     this.updateTemperature(dt, -13) // TODO: Fetch ambient temperature from somewhere

@@ -44,6 +44,10 @@ body {
   height: 100%;
 }
 
+.target .sprite {
+  outline: 3px solid #0ff9;
+}
+
 .fps {
   position: relative;
   z-index: 100;

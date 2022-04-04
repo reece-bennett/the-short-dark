@@ -20,8 +20,8 @@ export default class Container {
     this.y = y
     this.inventory = inventory
 
-    this.element = createDiv($('.game'), 'object', 'container')
-    this.element.addEventListener('click', () => {
+    this.objectElement = createDiv($('.game'), 'object', 'container')
+    this.objectElement.addEventListener('click', () => {
       if (this.game.player.distanceTo(this.x, this.y) < 50) {
         if (this.opened) {
           this.close()
@@ -30,13 +30,14 @@ export default class Container {
         }
       }
     })
-    this.sprite = createDiv(this.element, 'sprite')
+    this.sprite = createDiv(this.objectElement, 'sprite')
+    this.interactive = true
   }
 
   update() {}
 
   draw() {
-    this.element.style.transform = `translate(${this.x}px, ${this.y}px)`
+    this.objectElement.style.transform = `translate(${this.x}px, ${this.y}px)`
   }
 
   open() {
@@ -52,6 +53,14 @@ export default class Container {
     this.opened = false
     if (this.game.player.inventoryOpen) this.game.player.closeInventory()
     $('.tab-container').setAttribute('aria-hidden', true)
+  }
+
+  use() {
+    if (this.opened) {
+      this.close()
+    } else {
+      this.open()
+    }
   }
 
   updateInventoryUi() {
