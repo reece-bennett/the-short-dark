@@ -8,6 +8,7 @@ import Bear from './bear.js'
 import Building from './building.js'
 import { intersect } from './collision.js'
 import { $, randomXY } from './util.js'
+import Bullet from './bullet.js'
 
 let previousTimestamp = 0
 let fps = 0
@@ -15,54 +16,30 @@ let lastUiDraw = 0
 
 const maxDistance = 1500
 
-const game = {}
-game.keyDown = new Set()
-game.keyPressed = new Set()
-game.mouse = {
-  x: 0,
-  y: 0
+const game = {
+  running: true,
+  keyDown: new Set(),
+  keyPressed: new Set(),
+  mouse: {
+    x: 0,
+    y: 0
+  },
+  camera: {
+    x: 0,
+    y: 0
+  },
+  objects: []
 }
-game.camera = {
-  x: 0,
-  y: 0
-}
-game.objects = []
-game.player = new Player(game, 0, 0)
-game.player.spawn()
 
-// Create a scary bear, as specific x/y coords
-const bear = new Bear({ x: 100, y: 0, game })
-const bear2 = new Bear({ x: 0, y: -100, game })
-// Spawn the bear - currently only adds it to the scene, but should start AI(?)
-bear.spawn()
-bear2.spawn()
 
-game.objects.push(
-  game.player,
-  bear,
-  bear2
-  // The idea here is that you can spawn a cluster of rocks or mixed whatevers
-  // new Cluster({objects: [Rock], x: 200, y: 300, width: 20, height: 40, density: 20})
-)
+function generateWorld() {
+  $('.game').innerHTML = ''
+  game.objects = []
 
-function init() {
-  // Input events
-  document.addEventListener('keydown', event => {
-    game.keyDown.add(event.code)
-    game.keyPressed.add(event.code)
-    event.preventDefault()
-  })
+  game.player = new Player(game, 0, 0)
+  game.objects.push(game.player)
+  game.player.spawn()
 
-  document.addEventListener('keyup', event => {
-    game.keyDown.delete(event.code)
-  })
-
-  document.addEventListener('mousemove', event => {
-    game.mouse.x = event.clientX
-    game.mouse.y = event.clientY
-  })
-
-  // World generation
   for (let i = 0; i < 20; i++) {
     let { x, y } = randomXY(maxDistance)
     x = Math.round(x / 300) * 300
@@ -138,7 +115,7 @@ function init() {
   //   const tree = new Tree({ game, x, y, size: Math.round(Math.random() * 3), snowy: Math.random() > 0.6 })
   //   tree.spawn()
   //   while (game.objects.some(other => intersect(
-  //     { x: tree.x, y: tree.y, collider: tree.collider },
+  //     { x: tree.x, y: tree.y, collider: tree.spawnCollider },
   //     { x: other.x, y: other.y, collider: other.spawnCollider }
   //   ))) {
   //     ({ x, y } = randomXY(maxDistance))
@@ -148,12 +125,67 @@ function init() {
   //   game.objects.push(tree)
   // }
 
+  for (let i = 0; i < 10; i++) {
+    let { x, y } = randomXY(maxDistance)
+    const bear = new Bear({ game, x, y })
+    bear.spawn()
+    while (game.objects.some(other => intersect(
+      { x: bear.x, y: bear.y, collider: bear.spawnCollider },
+      { x: other.x, y: other.y, collider: other.spawnCollider }
+    ))) {
+      ({ x, y } = randomXY(maxDistance))
+      bear.x = x
+      bear.y = y
+    }
+    game.objects.push(bear)
+  }
+
+  game.objects.push(new Container(game, 30, 0, [Item.waterBottle()]))
+}
+
+function restart() {
+  generateWorld()
+  game.running = true
+  $('.gameover').setAttribute('aria-hidden', true)
+  window.requestAnimationFrame(step)
+}
+
+function init() {
+  // Input events
+  document.addEventListener('keydown', event => {
+    game.keyDown.add(event.code)
+    game.keyPressed.add(event.code)
+    event.preventDefault()
+  })
+
+  document.addEventListener('keyup', event => {
+    game.keyDown.delete(event.code)
+  })
+
+  document.addEventListener('mousemove', event => {
+    game.mouse.x = event.clientX
+    game.mouse.y = event.clientY
+  })
+
+  document.body.addEventListener('mousedown', () => {
+    const bullet = new Bullet({ game, x: game.player.x, y: game.player.y, rotation: game.player.rotation })
+    bullet.spawn()
+    game.objects.push(bullet)
+  })
+
+  $('.restart-button').addEventListener('click', () => {
+    restart()
+  })
+
+  generateWorld()
+
   // Start the main loop
   window.requestAnimationFrame(step)
 }
 
 function update(dt) {
   game.objects.forEach(gameObject => gameObject.update(dt))
+  game.objects = game.objects.filter(gameObject => !gameObject.isDead)
 
   game.keyPressed.clear()
 }
@@ -165,6 +197,7 @@ function draw() {
 function step(timestamp) {
   if (previousTimestamp === undefined) previousTimestamp = timestamp
   const dt = (timestamp - previousTimestamp) * 0.001
+  game.timestamp = timestamp
 
   // Debug
   fps = (fps * 0.9) + ((1 / dt) * 0.1)
@@ -178,7 +211,7 @@ function step(timestamp) {
   draw()
 
   previousTimestamp = timestamp
-  window.requestAnimationFrame(step)
+  if (game.running) window.requestAnimationFrame(step)
 }
 
 init()

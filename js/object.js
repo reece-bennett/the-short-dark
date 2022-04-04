@@ -21,6 +21,7 @@ export default class Object {
     this.spriteElement.style.width = `${this.width}px`
     this.spriteElement.style.height = `${this.height}px`
     this.objectElement.append(this.spriteElement)
+    this.isDead = false
   }
 
   spawn() {
@@ -39,5 +40,10 @@ export default class Object {
     this.spriteElement.style.transform = `rotate(${this.rotation}rad)`
     this.spriteElement.style.setProperty('--rvx', Math.sin(this.rotation + Math.PI / 4))
     this.spriteElement.style.setProperty('--rvy', Math.cos(this.rotation + Math.PI / 4))
+  }
+
+  kill() {
+    this.isDead = true
+    this.objectElement.remove()
   }
 }

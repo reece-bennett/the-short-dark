@@ -6,7 +6,6 @@
 }
 
 .bear .sprite {
-  transition: transform 1s;
   width: 24px;
   height: 30px;
   box-shadow: calc(var(--rvx) * 3px) calc(var(--rvy) * 3px) 6px var(--color-shadow);
