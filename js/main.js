@@ -9,6 +9,7 @@ import Building from './building.js'
 import { intersect } from './collision.js'
 import { $, randomXY } from './util.js'
 import Bullet from './bullet.js'
+import { Tracks } from './tracks.js'
 
 let previousTimestamp = 0
 let fps = 0
@@ -40,7 +41,11 @@ function generateWorld() {
   $('.game').innerHTML = ''
   game.objects = []
 
-  game.player = new Player(game, 0, 0)
+  game.tracks = new Tracks({game})
+  game.tracks.spawn()
+  game.objects.push(game.tracks)
+
+  game.player = new Player(game, 0, 0, game.tracks)
   game.objects.push(game.player)
   game.player.spawn()
 

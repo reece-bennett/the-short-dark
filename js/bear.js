@@ -12,6 +12,8 @@ export default class Bear extends Creature {
   anger = 0
   isAngry = false
   lastAttacked = 0
+  lastTrackPlaced = 0
+  lastTrackLeft = false
 
   constructor({ game, x, y }) {
     super({
@@ -57,14 +59,15 @@ export default class Bear extends Creature {
 
     // Turn and walk toward goal
     this.rotation = angleBetween(this.x, this.y, this.goal.x, this.goal.y)
-    this.x += this.speed * Math.sin(this.rotation) * dt
-    this.y -= this.speed * Math.cos(this.rotation) * dt
+    const speed = this.isSprinting ? 65 : 20
+    this.x += speed * Math.sin(this.rotation) * dt
+    this.y -= speed * Math.cos(this.rotation) * dt
 
     if (this.isAngry) {
       if (this.anger === 0) {
         // Stop being angry and go back to roaming
         this.isAngry = false
-        this.speed = 20
+        this.isSprinting = false
         this.pickNewGoal()
       }
 
@@ -103,7 +106,7 @@ export default class Bear extends Creature {
     } else {
       if (this.anger === 1) {
         this.isAngry = true
-        this.speed = 65
+        this.isSprinting = true
       }
 
       // Pick a new goal when reached
@@ -118,6 +121,17 @@ export default class Bear extends Creature {
           break
         }
       }
+    }
+
+    // Tracks
+    if (this.game.timestamp - this.lastTrackPlaced > (this.isSprinting ? 400 : 900)) {
+      const len = this.lastTrackLeft ? 3 : -3
+      const a = Math.PI / 2 - this.rotation
+      const dx = len * Math.sin(a)
+      const dy = len * Math.cos(a)
+      this.game.tracks.add(this.x + dx, this.y + dy, 10)
+      this.lastTrackPlaced = this.game.timestamp
+      this.lastTrackLeft = !this.lastTrackLeft
     }
   }
 
