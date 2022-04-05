@@ -51,7 +51,7 @@ body {
   outline-offset: 2px;
 }
 
-.restart-button {
+.button {
   padding-inline: 2rem;
   height: 3rem;
   border-radius: 10px;
@@ -65,7 +65,7 @@ body {
   font-size: 18px;
 }
 
-.restart-button:hover {
+.button:hover {
   background: #d1d1d1;
   box-shadow:
     4px 4px 16px #4449,

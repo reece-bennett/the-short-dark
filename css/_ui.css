@@ -69,7 +69,7 @@
 }
 
 .progress .text {
-  transform: rotate(90deg);
+  transform: rotate(-90deg);
 }
 
 .gameover {
