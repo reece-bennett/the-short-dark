@@ -13,7 +13,7 @@
 <body>
   <div class="click-checker"></div>
   <div class="game"></div>
-  <div class="stats">
+  <div class="stats" aria-hidden="true">
     <div class="progress health">
       <div class='text'>HEALTH</div>
     </div>
@@ -28,7 +28,7 @@
       <div class='text'>WATER</div>
     </div>
   </div>
-  <div class="inventory">
+  <div class="inventory" aria-hidden="true">
     <div class="tab tab-player"></div>
     <div class="tab tab-container" aria-hidden="true"></div>
   </div>
@@ -40,7 +40,15 @@
     </div>
     <button class="restart-button">Restart</button>
   </div>
-  <div class="fps"></div>
+  <div class="title-screen">
+    <div class="title">The Short Dark</div>
+    <div class="message">
+      <p>A top-down demake of The Long Dark. Scavenge for resources, run from wild animals, eat snacks, and don't get too cold!</p>
+      <p>Press 'e' to interact with nearby objects like storage containers and doors.</p>
+      <p>Press 'tab' to open inventory.</p>
+    </div>
+    <button class="start-button">Start</button>
+  </div>
 </body>
 
 </html>
