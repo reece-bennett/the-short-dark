@@ -3,22 +3,23 @@ function addClamped(stat, amount) {
 }
 
 export default class Item {
-  constructor(name, use) {
+  constructor(name, useName, use,) {
     this.name = name
     // What to do when item is right clicked, return true if should be removed
     // from inventory on use
     this.use = use
+    this.useName = useName
   }
 
   static waterBottle() {
-    return new Item('Water bottle', player => {
+    return new Item('Water bottle', 'Drink', player => {
       player.water = addClamped(player.water, 0.25)
       return true
     })
   }
 
   static cola() {
-    return new Item('Can of cola', player => {
+    return new Item('Can of cola', 'Drink', player => {
       player.food = addClamped(player.food, 0.1)
       player.water = addClamped(player.water, 0.25)
       return true
@@ -26,7 +27,7 @@ export default class Item {
   }
 
   static beefJerky() {
-    return new Item('Beef jerkey', player => {
+    return new Item('Beef jerkey', 'Eat', player => {
       player.food = addClamped(player.food, 0.3)
       player.water = addClamped(player.water, -0.1)
       return true
@@ -34,14 +35,14 @@ export default class Item {
   }
 
   static energyBar() {
-    return new Item('Energy bar', player => {
+    return new Item('Energy bar', 'Eat', player => {
       player.food = addClamped(player.food, 0.5)
       return true
     })
   }
 
   static coffee() {
-    return new Item('Cup of coffee', player => {
+    return new Item('Cup of coffee', 'Drink', player => {
       player.energy = addClamped(player.energy, 0.1)
       player.water = addClamped(player.water, 0.2)
       return true
@@ -49,7 +50,7 @@ export default class Item {
   }
 
   static rifle() {
-    const rifle = new Item('Rifle')
+    const rifle = new Item('Rifle', 'Equip')
     rifle.use = player => {
       player.toggleEquipped(rifle)
       return false
@@ -58,7 +59,7 @@ export default class Item {
   }
 
   static revolver() {
-    const revolver = new Item('Revolver')
+    const revolver = new Item('Revolver', 'Equip')
     revolver.use = player => {
       player.toggleEquipped(revolver)
       return false

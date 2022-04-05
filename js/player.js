@@ -177,6 +177,7 @@ export default class Player extends Creature {
     if (this.hitPoints <= 0) {
       this.game.running = false
       $('.gameover').setAttribute('aria-hidden', false)
+      this.closeInventory()
       const secondsLived = this.game.duration / 1000
       $('.time-minutes').innerText = Math.floor(secondsLived / 60)
       $('.time-seconds').innerText = Math.round(secondsLived % 60)
@@ -255,14 +256,21 @@ export default class Player extends Creature {
           this.lookingIn.addToInventory(item)
         }
       })
-      row.addEventListener('contextmenu', event => {
-        event.preventDefault()
+      const button = document.createElement('button')
+      button.classList.add('button')
+      button.innerText = item.useName
+      if (this.equipped === item) {
+        button.innerText = 'Unequip'
+      }
+      button.addEventListener('click', event => {
+        event.stopPropagation()
         if (item.use(this)) {
           this.inventory.splice(this.inventory.indexOf(item), 1)
           this.lastEaten = this.game.timestamp
         }
         this.updateInventoryUi()
       })
+      row.append(button)
       playerTab.append(row)
     })
   }
