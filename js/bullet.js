@@ -31,7 +31,7 @@ export default class Bullet extends Object {
 
     for (const other of this.game.objects) {
       if (other !== this && other !== this.game.player && intersect(this, other)) {
-        console.log('Bang')
+        // console.log('Bang')
         this.kill()
         if (other instanceof Creature) {
           other.doDamage(this.damage)

@@ -221,14 +221,14 @@ export default class Player extends Creature {
   }
 
   openInventory(container) {
-    console.log(`Inventory opened${container ? ' with container' : ''}`)
+    // console.log(`Inventory opened${container ? ' with container' : ''}`)
     this.inventoryOpen = true
     if (container) this.lookingIn = container
     this.updateInventoryUi()
   }
 
   closeInventory() {
-    console.log('Inventory closed')
+    // console.log('Inventory closed')
     this.inventoryOpen = false
     if (this.lookingIn) {
       this.lookingIn.close()

@@ -169,11 +169,11 @@ function init() {
 
   document.addEventListener('contextmenu', event => event.preventDefault())
 
-  $('.restart-button').addEventListener('click', () => {
+  $('.restart.button').addEventListener('click', () => {
     restart()
   })
 
-  $('.start-button').addEventListener('click', () => {
+  $('.start.button').addEventListener('click', () => {
     restart()
     $('.title-screen').setAttribute('aria-hidden', true)
     $('.stats').setAttribute('aria-hidden', false)
