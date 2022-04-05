@@ -173,10 +173,14 @@ function init() {
     restart()
   })
 
-  generateWorld()
+  $('.start-button').addEventListener('click', () => {
+    restart()
+    $('.title-screen').setAttribute('aria-hidden', true)
+    $('.stats').setAttribute('aria-hidden', false)
+  })
 
-  // Start the main loop
-  window.requestAnimationFrame(step)
+  generateWorld()
+  draw()
 }
 
 function update(dt) {
@@ -224,11 +228,11 @@ function step(timestamp) {
   game.duration += timestamp - previousTimestamp
 
   // Debug
-  fps = (fps * 0.9) + ((1 / dt) * 0.1)
-  if (timestamp - lastUiDraw > 500) {
-    $('.fps').innerText = Math.round(fps)
-    lastUiDraw = timestamp
-  }
+  // fps = (fps * 0.9) + ((1 / dt) * 0.1)
+  // if (timestamp - lastUiDraw > 500) {
+  //   $('.fps').innerText = Math.round(fps)
+  //   lastUiDraw = timestamp
+  // }
 
   update(dt)
 
