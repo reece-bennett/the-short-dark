@@ -50,6 +50,28 @@ body {
   outline-offset: 2px;
 }
 
+.restart-button {
+  padding-inline: 2rem;
+  height: 3rem;
+  border-radius: 10px;
+  border: unset;
+  background: #ccc;
+  box-shadow:
+    4px 4px 16px #4440,
+    16px 16px 48px #444,
+    -16px -16px 48px #ddd;
+  transition: all .2s;
+  font-size: 18px;
+}
+
+.restart-button:hover {
+  background: #d1d1d1;
+  box-shadow:
+    4px 4px 16px #4449,
+    16px 16px 48px #444,
+    -16px -16px 48px #ddd;
+}
+
 .fps {
   position: relative;
   z-index: 100;
