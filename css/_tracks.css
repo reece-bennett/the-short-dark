@@ -1,0 +1,6 @@
+.tracks * {
+  border-radius: 50%;
+  background: #ddd;
+  box-shadow: inset 1px 1px 2px #bcbcbc,
+              inset -1px -1px 2px #ffffff;
+}

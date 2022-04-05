@@ -25,6 +25,8 @@ export default class Player extends Creature {
   lastEaten = 0
   lastHungerDamage = 0
   lastThirstDamage = 0
+  lastTrackPlaced = 0
+  lastTrackLeft = false
 
   constructor(game, x, y) {
     super({
@@ -99,7 +101,7 @@ export default class Player extends Creature {
       this.isSprinting = this.game.keyDown.has('ShiftLeft')
 
       // Adjust for player speed and delta
-      const speed = this.isSprinting ? '120' : '60'
+      const speed = this.isSprinting ? 120 : 60
       vx *= speed * dt
       vy *= speed * dt
 
@@ -124,7 +126,18 @@ export default class Player extends Creature {
         }
       })
 
-      this.energy -= (this.isSprinting ? 0.05 : 0.02) * dt
+      // this.energy -= (this.isSprinting ? 0.05 : 0.02) * dt
+
+      // Tracks
+      if (this.game.timestamp - this.lastTrackPlaced > (this.isSprinting ? 300 : 500)) {
+        const len = this.lastTrackLeft ? 3 : -3
+        const a = Math.PI / 2 - this.rotation
+        const dx = len * Math.sin(a)
+        const dy = len * Math.cos(a)
+        this.game.tracks.add(this.x + dx, this.y + dy, 6)
+        this.lastTrackPlaced = this.game.timestamp
+        this.lastTrackLeft = !this.lastTrackLeft
+      }
     }
 
     // Update camera
