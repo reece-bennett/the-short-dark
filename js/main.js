@@ -7,7 +7,7 @@ import Tree from './tree.js'
 import Bear from './bear.js'
 import Building from './building.js'
 import { intersect } from './collision.js'
-import { $, randomXY } from './util.js'
+import { $, randomXY, createDiv } from './util.js'
 import Bullet from './bullet.js'
 import { Tracks } from './tracks.js'
 
@@ -48,6 +48,12 @@ function generateWorld() {
   game.player = new Player(game, 0, 0, game.tracks)
   game.objects.push(game.player)
   game.player.spawn()
+
+  const pond = document.createElement('div')
+  pond.className = 'pond object'
+  game.objectElement.append(pond)
+  pond.style.transform = 'translate(100px, 200px)'
+  pond.style.setProperty('--size', '100px')
 
   for (let i = 0; i < 20; i++) {
     let { x, y } = randomXY(maxDistance)
@@ -113,20 +119,20 @@ function generateWorld() {
     })
   }
 
-  for (let i = 0; i < 10; i++) {
-    let { x, y } = randomXY(maxDistance)
-    const bear = new Bear({ game, x, y })
-    bear.spawn()
-    while (game.objects.some(other => intersect(
-      { x: bear.x, y: bear.y, collider: bear.spawnCollider },
-      { x: other.x, y: other.y, collider: other.spawnCollider }
-    ))) {
-      ({ x, y } = randomXY(maxDistance))
-      bear.x = x
-      bear.y = y
-    }
-    game.objects.push(bear)
-  }
+  // for (let i = 0; i < 10; i++) {
+  //   let { x, y } = randomXY(maxDistance)
+  //   const bear = new Bear({ game, x, y })
+  //   bear.spawn()
+  //   while (game.objects.some(other => intersect(
+  //     { x: bear.x, y: bear.y, collider: bear.spawnCollider },
+  //     { x: other.x, y: other.y, collider: other.spawnCollider }
+  //   ))) {
+  //     ({ x, y } = randomXY(maxDistance))
+  //     bear.x = x
+  //     bear.y = y
+  //   }
+  //   game.objects.push(bear)
+  // }
 }
 
 function restart() {
