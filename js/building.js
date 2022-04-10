@@ -50,10 +50,17 @@ export default class Building {
       this.element.classList.add('player-inside')
       this.element.style.zIndex = '1000' // Can be set as a number, but is a string internally and when returned
       this.playerWasInsideCooldown = 1 // Must be > than the transition for fading out the you're-inside-this-building shadow
+
+      // Actually move the player inside the building element
+      this.sprite.insertBefore(this.game.player.objectElement, this.roof)
+      this.game.player.container = this
+
     // inside -> outside
     } else if (!this.playerIsInside && this.element.classList.contains('player-inside')) {
       this.game.player.temperature.ambient = -13 // Outside temperature
       this.element.classList.remove('player-inside')
+      this.game.objectElement.appendChild(this.game.player.objectElement)
+      this.game.player.container = undefined
     }
 
     if (!this.playerIsInside) {

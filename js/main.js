@@ -38,7 +38,8 @@ const game = {
 
 
 function generateWorld() {
-  $('.game').innerHTML = ''
+  game.objectElement = $('.game')
+  game.objectElement.innerHTML = ''
   game.objects = []
 
   game.tracks = new Tracks({game})
