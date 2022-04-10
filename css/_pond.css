@@ -1,0 +1,13 @@
+.pond {
+  --neomorph-size: 2px;
+  --neomorph-size-minus: calc(-1 * var(--neomorph-size));
+
+  border-radius: 50%;
+  background: #bde;
+  width: var(--size);
+  height: var(--size);
+  box-shadow:
+    inset 0 0 calc(var(--size) / 2) #fff9,
+    inset var(--neomorph-size) var(--neomorph-size) calc(var(--neomorph-size) * 3) #0133,
+    inset var(--neomorph-size-minus) var(--neomorph-size-minus) calc(var(--neomorph-size) * 3) #fff;
+}
