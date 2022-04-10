@@ -62,6 +62,10 @@ export default class GameObject extends EventTarget {
     return current
   }
 
+  getComponent(name) {
+    return this.components.find(component => component.name === name)
+  }
+
   /*
     Lifecycle methods
   */
@@ -84,12 +88,12 @@ export default class GameObject extends EventTarget {
     }
   }
 
-  lastUpdate(dt) {
+  lateUpdate(dt) {
     for (const child of this.children) {
-      child.lastUpdate(dt)
+      child.lateUpdate(dt)
     }
     for (const component of this.components) {
-      component.lastUpdate(dt)
+      component.lateUpdate(dt)
     }
   }
 

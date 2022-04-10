@@ -30,6 +30,8 @@ export default class Input extends Component {
   update(dt) {
     super.update(dt)
 
+    this.keyPressed.clear()
+
     this.velocity.set(0, 0)
 
     if (this.keyDown.has('KeyW')) this.velocity.y--
@@ -43,10 +45,5 @@ export default class Input extends Component {
 
     // Update camera
     this.camera.position.set(this.gameObject.position.x - window.innerWidth / 2, this.gameObject.position.y - window.innerHeight / 2)
-  }
-
-  lastUpdate(dt) {
-    super.lastUpdate(dt)
-    this.keyPressed.clear()
   }
 }

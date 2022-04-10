@@ -43,4 +43,12 @@ export default class Vec2 {
     this.x = x
     this.y = y
   }
+
+  dot(other) {
+    return this.x * other.x + this.y * other.y
+  }
+
+  slide(normal) {
+    return this.subtract(normal.multiply(this.dot(normal)))
+  }
 }

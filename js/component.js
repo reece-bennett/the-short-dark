@@ -6,9 +6,9 @@ export default class Component {
 
   create() {}
 
-  update(dt) {}
+  update() {}
 
-  lastUpdate(dt) {}
+  lateUpdate() {}
 
   draw() {}
 

@@ -16,6 +16,8 @@ import Vec2 from './vec2.js'
 import Input from './input.js'
 import Camera from './camera.js'
 import FollowMouse from './followMouse.js'
+import BoxCollider from './BoxCollider.js'
+import CollisionResolver from './collisionResolver.js'
 
 let previousTimestamp = 0
 let fps = 0
@@ -46,7 +48,10 @@ let scene
 
 function generateWorld() {
   scene = new GameObject({
-    name: 'Scene'
+    name: 'Scene',
+    components: [
+      new CollisionResolver({})
+    ]
   })
 
   $('.game').innerHTML = '' // Should go inside scene.create()?
@@ -67,6 +72,11 @@ function generateWorld() {
     components: [
       new Input({}),
       new FollowMouse({}),
+      new BoxCollider({
+        type: 'kinematic',
+        width: 10,
+        height: 10
+      }),
       new Sprite({
         classname: 'player',
         xml: `
@@ -82,11 +92,35 @@ function generateWorld() {
   }))
 
   scene.addChild(new GameObject({
+    name: 'Building',
+    position: new Vec2(100, 200),
+    components: [
+      new Sprite({
+        classname: 'building',
+        xml: `
+          <sprite>
+            <wall/>
+            <door/>
+            <roof/>
+          </sprite>`
+      }),
+      new BoxCollider({
+        width: 150,
+        height: 150
+      })
+    ]
+  }))
+
+  scene.addChild(new GameObject({
     name: 'Rock',
     position: new Vec2(100, 0),
     components: [
       new Sprite({
         classname: 'rock',
+        width: 32,
+        height: 32
+      }),
+      new BoxCollider({
         width: 32,
         height: 32
       })
@@ -287,7 +321,7 @@ function step(timestamp) {
   // }
 
   scene.update(dt)
-
+  scene.lateUpdate(dt)
   scene.draw()
 
   previousTimestamp = timestamp
