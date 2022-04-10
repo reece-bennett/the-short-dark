@@ -36,7 +36,7 @@ export default class Object {
   }
 
   draw() {
-    this.objectElement.style.transform = `translate(${this.x}px, ${this.y}px)`
+    this.objectElement.style.transform = `translate(${this.x - (this.container?.x || 0) }px, ${this.y - (this.container?.y || 0)}px)`
     this.spriteElement.style.transform = `rotate(${this.rotation}rad)`
     this.spriteElement.style.setProperty('--rvx', Math.sin(this.rotation + Math.PI / 4))
     this.spriteElement.style.setProperty('--rvy', Math.cos(this.rotation + Math.PI / 4))
