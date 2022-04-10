@@ -1,10 +1,14 @@
 export const $ = selectors => document.querySelector(selectors)
 
-export function createDiv(parent, ...classNames) {
+export function createDiv(...classNames) {
   const element = document.createElement('div')
   element.classList.add(...classNames)
-  parent.append(element)
   return element
+}
+
+export function createChild(parent, ...classNames) {
+  const child = createDiv(classNames)
+  return parent.appendChild(child)
 }
 
 export function createSpriteElementFromXml(xmlData) {

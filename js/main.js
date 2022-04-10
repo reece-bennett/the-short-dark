@@ -10,6 +10,12 @@ import { intersect } from './collision.js'
 import { $, randomXY } from './util.js'
 import Bullet from './bullet.js'
 import { Tracks } from './tracks.js'
+import GameObject from './gameObject.js'
+import Sprite from './sprite.js'
+import Vec2 from './vec2.js'
+import Input from './input.js'
+import Camera from './camera.js'
+import FollowMouse from './followMouse.js'
 
 let previousTimestamp = 0
 let fps = 0
@@ -36,97 +42,139 @@ const game = {
   objects: []
 }
 
+let scene
 
 function generateWorld() {
-  $('.game').innerHTML = ''
-  game.objects = []
+  scene = new GameObject({
+    name: 'Scene'
+  })
 
-  game.tracks = new Tracks({game})
-  game.tracks.spawn()
-  game.objects.push(game.tracks)
+  $('.game').innerHTML = '' // Should go inside scene.create()?
 
-  game.player = new Player(game, 0, 0, game.tracks)
-  game.objects.push(game.player)
-  game.player.spawn()
+  // game.tracks = new Tracks({game})
+  // game.tracks.spawn()
+  // game.objects.push(game.tracks)
 
-  for (let i = 0; i < 20; i++) {
-    let { x, y } = randomXY(maxDistance)
-    x = Math.round(x / 300) * 300
-    y = Math.round(y / 300) * 300
-    const building = new Building(game, x, y)
-    while (game.objects.some(other => intersect(
-      { x: building.x, y: building.y, collider: building.spawnCollider },
-      { x: other.x, y: other.y, collider: other.spawnCollider }
-    ))) {
-      ({ x, y } = randomXY(maxDistance))
-      x = Math.round(x / 300) * 300
-      y = Math.round(y / 300) * 300
-      building.x = x
-      building.y = y
-      building.door.x = x
-      building.door.y = y - 75
-      building.door.draw()
-    }
-    if (Math.random() < 0.8) {
-      game.objects.push(new Container({
-        game,
-        x,
-        y: y + 40,
-        inventory: Item.createLoot()
-      }))
-    }
-    game.objects.push(building)
-  }
+  scene.addChild(new GameObject({
+    name: 'Camera',
+    components: [
+      new Camera()
+    ]
+  }))
 
-  for (let i = 0; i < 30; i++) {
-    let { x, y } = randomXY(maxDistance)
-    createCluster({
-      game,
-      objects: [Rock, Rock, Rock, Rock],
-      objectProps: [
-        { width: 20, height: 20 },
-        { width: 30, height: 20 },
-        { width: 50, height: 50 },
-        { width: 10, height: 10 },
-      ],
-      x,
-      y,
-      objectCount: Math.round(Math.random() * 10),
-      radius: Math.random() * 200
-    })
-  }
+  scene.addChild(new GameObject({
+    name: 'Player',
+    components: [
+      new Input({}),
+      new FollowMouse({}),
+      new Sprite({
+        classname: 'player',
+        xml: `
+          <sprite>
+            <leftarm/>
+            <rightarm/>
+            <body/>
+            <head/>
+            <item/>
+          </sprite>`
+      })
+    ]
+  }))
 
-  for (let i = 0; i < 30; i++) {
-    let { x, y } = randomXY(maxDistance)
-    createCluster({
-      game,
-      objects: [Tree, Tree, Tree],
-      objectProps: [
-        { size: Math.round(Math.random() * 3), snowy: Math.random() > 0.3 },
-        { size: Math.round(Math.random() * 3), snowy: Math.random() > 0.3 },
-        { size: Math.round(Math.random() * 3), snowy: Math.random() > 0.3 }
-      ],
-      x,
-      y,
-      objectCount: Math.round(Math.random() * 5),
-      radius: Math.random() * 200
-    })
-  }
+  scene.addChild(new GameObject({
+    name: 'Rock',
+    position: new Vec2(100, 0),
+    components: [
+      new Sprite({
+        classname: 'rock',
+        width: 32,
+        height: 32
+      })
+    ]
+  }))
 
-  for (let i = 0; i < 10; i++) {
-    let { x, y } = randomXY(maxDistance)
-    const bear = new Bear({ game, x, y })
-    bear.spawn()
-    while (game.objects.some(other => intersect(
-      { x: bear.x, y: bear.y, collider: bear.spawnCollider },
-      { x: other.x, y: other.y, collider: other.spawnCollider }
-    ))) {
-      ({ x, y } = randomXY(maxDistance))
-      bear.x = x
-      bear.y = y
-    }
-    game.objects.push(bear)
-  }
+  // game.player = new Player(game, 0, 0, game.tracks)
+  // game.objects.push(game.player)
+  // game.player.spawn()
+
+  // for (let i = 0; i < 20; i++) {
+  //   let { x, y } = randomXY(maxDistance)
+  //   x = Math.round(x / 300) * 300
+  //   y = Math.round(y / 300) * 300
+  //   const building = new Building(game, x, y)
+  //   while (game.objects.some(other => intersect(
+  //     { x: building.x, y: building.y, collider: building.spawnCollider },
+  //     { x: other.x, y: other.y, collider: other.spawnCollider }
+  //   ))) {
+  //     ({ x, y } = randomXY(maxDistance))
+  //     x = Math.round(x / 300) * 300
+  //     y = Math.round(y / 300) * 300
+  //     building.x = x
+  //     building.y = y
+  //     building.door.x = x
+  //     building.door.y = y - 75
+  //     building.door.draw()
+  //   }
+  //   if (Math.random() < 0.8) {
+  //     game.objects.push(new Container({
+  //       game,
+  //       x,
+  //       y: y + 40,
+  //       inventory: Item.createLoot()
+  //     }))
+  //   }
+  //   game.objects.push(building)
+  // }
+
+  // for (let i = 0; i < 30; i++) {
+  //   let { x, y } = randomXY(maxDistance)
+  //   createCluster({
+  //     game,
+  //     objects: [Rock, Rock, Rock, Rock],
+  //     objectProps: [
+  //       { width: 20, height: 20 },
+  //       { width: 30, height: 20 },
+  //       { width: 50, height: 50 },
+  //       { width: 10, height: 10 },
+  //     ],
+  //     x,
+  //     y,
+  //     objectCount: Math.round(Math.random() * 10),
+  //     radius: Math.random() * 200
+  //   })
+  // }
+
+  // for (let i = 0; i < 30; i++) {
+  //   let { x, y } = randomXY(maxDistance)
+  //   createCluster({
+  //     game,
+  //     objects: [Tree, Tree, Tree],
+  //     objectProps: [
+  //       { size: Math.round(Math.random() * 3), snowy: Math.random() > 0.3 },
+  //       { size: Math.round(Math.random() * 3), snowy: Math.random() > 0.3 },
+  //       { size: Math.round(Math.random() * 3), snowy: Math.random() > 0.3 }
+  //     ],
+  //     x,
+  //     y,
+  //     objectCount: Math.round(Math.random() * 5),
+  //     radius: Math.random() * 200
+  //   })
+  // }
+
+  // for (let i = 0; i < 10; i++) {
+  //   let { x, y } = randomXY(maxDistance)
+  //   const bear = new Bear({ game, x, y })
+  //   bear.spawn()
+  //   while (game.objects.some(other => intersect(
+  //     { x: bear.x, y: bear.y, collider: bear.spawnCollider },
+  //     { x: other.x, y: other.y, collider: other.spawnCollider }
+  //   ))) {
+  //     ({ x, y } = randomXY(maxDistance))
+  //     bear.x = x
+  //     bear.y = y
+  //   }
+  //   game.objects.push(bear)
+  // }
 }
 
 function restart() {
@@ -135,6 +183,7 @@ function restart() {
   game.duration = 0
   previousTimestamp = undefined
   $('.gameover').setAttribute('aria-hidden', true)
+  scene.create()
   window.requestAnimationFrame(step)
 }
 
@@ -181,38 +230,41 @@ function init() {
 
   generateWorld()
   draw()
+  restart()
+  $('.title-screen').setAttribute('aria-hidden', true)
+  $('.stats').setAttribute('aria-hidden', false)
 }
 
 function update(dt) {
-  if (game.mouse.isDown && game.player.equipped && !game.player.inventoryOpen) {
-    const name = game.player.equipped.name
-    if (name === 'Rifle' && game.timestamp - lastUsage > 1200) {
-      const bullet = new Bullet({ game, x: game.player.x, y: game.player.y, rotation: game.player.rotation, damage: 10 })
-      bullet.spawn()
-      game.objects.push(bullet)
-      lastUsage = game.timestamp
-      $('.player .reload').style.transition = 'width 0s linear'
-      $('.player .reload').style.width = '100%'
-      setTimeout(() => {
-        $('.player .reload').style.transition = 'width 1200ms linear'
-        $('.player .reload').style.width = '0%'
-      }, 0)
-    } else if (name === 'Revolver' && game.timestamp - lastUsage > 500) {
-      const bullet = new Bullet({ game, x: game.player.x, y: game.player.y, rotation: game.player.rotation, damage: 5 })
-      bullet.spawn()
-      game.objects.push(bullet)
-      lastUsage = game.timestamp
-      $('.player .reload').style.transition = 'width 0s linear'
-      $('.player .reload').style.width = '100%'
-      setTimeout(() => {
-        $('.player .reload').style.transition = 'width 500ms linear'
-        $('.player .reload').style.width = '0%'
-      }, 0)
-    }
-  }
+  // if (game.mouse.isDown && game.player.equipped && !game.player.inventoryOpen) {
+  //   const name = game.player.equipped.name
+  //   if (name === 'Rifle' && game.timestamp - lastUsage > 1200) {
+  //     const bullet = new Bullet({ game, x: game.player.x, y: game.player.y, rotation: game.player.rotation, damage: 10 })
+  //     bullet.spawn()
+  //     game.objects.push(bullet)
+  //     lastUsage = game.timestamp
+  //     $('.player .reload').style.transition = 'width 0s linear'
+  //     $('.player .reload').style.width = '100%'
+  //     setTimeout(() => {
+  //       $('.player .reload').style.transition = 'width 1200ms linear'
+  //       $('.player .reload').style.width = '0%'
+  //     }, 0)
+  //   } else if (name === 'Revolver' && game.timestamp - lastUsage > 500) {
+  //     const bullet = new Bullet({ game, x: game.player.x, y: game.player.y, rotation: game.player.rotation, damage: 5 })
+  //     bullet.spawn()
+  //     game.objects.push(bullet)
+  //     lastUsage = game.timestamp
+  //     $('.player .reload').style.transition = 'width 0s linear'
+  //     $('.player .reload').style.width = '100%'
+  //     setTimeout(() => {
+  //       $('.player .reload').style.transition = 'width 500ms linear'
+  //       $('.player .reload').style.width = '0%'
+  //     }, 0)
+  //   }
+  // }
 
-  game.objects.forEach(gameObject => gameObject.update(dt))
-  game.objects = game.objects.filter(gameObject => !gameObject.isDead)
+  // game.objects.forEach(gameObject => gameObject.update(dt))
+  // game.objects = game.objects.filter(gameObject => !gameObject.isDead)
 
   game.keyPressed.clear()
 }
@@ -234,9 +286,9 @@ function step(timestamp) {
   //   lastUiDraw = timestamp
   // }
 
-  update(dt)
+  scene.update(dt)
 
-  draw()
+  scene.draw()
 
   previousTimestamp = timestamp
   if (game.running) window.requestAnimationFrame(step)
