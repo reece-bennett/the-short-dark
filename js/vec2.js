@@ -29,6 +29,10 @@ export default class Vec2 {
     }
   }
 
+  resize(newLength) {
+    return this.multiply(newLength / this.length())
+  }
+
   rotateTo(angle) {
     const length = this.length()
     return new Vec2(length * Math.sin(angle), length * Math.cos(angle))
