@@ -16,7 +16,7 @@ import Vec2 from './vec2.js'
 import Input from './input.js'
 import Camera from './camera.js'
 import FollowMouse from './followMouse.js'
-import BoxCollider from './BoxCollider.js'
+import BoxCollider from './boxCollider.js'
 import CollisionResolver from './collisionResolver.js'
 import CircleCollider from './circleCollider.js'
 

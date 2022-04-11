@@ -1,4 +1,4 @@
-import BoxCollider from './BoxCollider.js'
+import BoxCollider from './boxCollider.js'
 import CircleCollider from './circleCollider.js'
 import Component from './component.js'
 import Vec2 from './vec2.js'
