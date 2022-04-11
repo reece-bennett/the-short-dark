@@ -2,8 +2,8 @@ import Component from './component.js'
 import { $ } from './util.js'
 
 export default class Camera extends Component {
-  constructor() {
-    super({ name: 'Camera' })
+  constructor(params) {
+    super(params)
   }
 
   draw() {

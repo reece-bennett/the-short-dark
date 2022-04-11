@@ -1,9 +1,9 @@
 import Component from './component.js'
-import { createDiv, createSpriteElementFromXml } from './util.js'
+import { $, createDiv, createSpriteElementFromXml } from './util.js'
 
 export default class Sprite extends Component {
-  constructor({ name, width, height, classname, xml }) {
-    super({ name: name ?? 'Sprite' })
+  constructor({ width, height, classname, xml, ...params }) {
+    super(params)
     this.width = width
     this.height = height
     this.objectElement = createDiv('object', classname)
@@ -14,8 +14,7 @@ export default class Sprite extends Component {
 
   create() {
     super.create()
-    this.camera = this.gameObject.getGameObject('/Camera')
-    document.querySelector('.game').appendChild(this.objectElement)
+    $('.game').appendChild(this.objectElement)
   }
 
   draw() {

@@ -1,8 +1,8 @@
 import Collider from './collider.js'
 
 export default class BoxCollider extends Collider {
-  constructor({ name, type, offsetX, offsetY, width, height }) {
-    super({ name: name ?? 'BoxCollider', type })
+  constructor({ offsetX, offsetY, width, height, ...params }) {
+    super(params)
     this.offsetX = offsetX ?? 0
     this.offsetY = offsetY ?? 0
     this.width = width ?? 0

@@ -111,8 +111,8 @@ function resolveCircleCircle(a, b) {
 
 
 export default class CollisionResolver extends Component {
-  constructor({ name }) {
-    super({ name: name ?? 'CollisionResolver' })
+  constructor(params) {
+    super(params)
     this.colliders = []
   }
 

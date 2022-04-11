@@ -30,7 +30,7 @@ export default class GameObject extends EventTarget {
   getGameObject(path) {
     const segments = (path.startsWith('/') ? path.substring(1) : path).split('/')
     let next = segments.shift()
-    let current = path.startsWith('/') ? this.getRootGameObject() : this
+    let current = path.startsWith('/') ? this.root() : this
     while (next) {
       if (next === '..') {
         current = current.parent
@@ -54,7 +54,7 @@ export default class GameObject extends EventTarget {
     return current
   }
 
-  getRootGameObject() {
+  root() {
     let current = this
     while (current.parent) {
       current = current.parent

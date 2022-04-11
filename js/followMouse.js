@@ -2,8 +2,8 @@ import Component from './component.js'
 import Vec2 from './vec2.js'
 
 export default class FollowMouse extends Component {
-  constructor({ name }) {
-    super({ name: name ?? 'FollowMouse' })
+  constructor(params) {
+    super(params)
     this.mouse = new Vec2()
   }
 

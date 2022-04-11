@@ -5,8 +5,8 @@ import Vec2 from './vec2.js'
 // this class becomes more of a player 'controller' that just says what inputs
 // do what to the player
 export default class Input extends Component {
-  constructor({ name }) {
-    super({ name: name ?? 'PlayerInput' })
+  constructor(params) {
+    super(params)
     this.keyDown = new Set()
     this.keyPressed = new Set()
     this.velocity = new Vec2()

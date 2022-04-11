@@ -64,7 +64,7 @@ function generateWorld() {
   scene.addChild(new GameObject({
     name: 'Camera',
     components: [
-      new Camera()
+      new Camera({})
     ]
   }))
 
@@ -73,14 +73,9 @@ function generateWorld() {
     components: [
       new Input({}),
       new FollowMouse({}),
-      // new BoxCollider({
-      //   type: 'kinematic',
-      //   width: 10,
-      //   height: 10
-      // }),
       new CircleCollider({
         type: 'kinematic',
-        radius: 10
+        radius: 8
       }),
       new Sprite({
         classname: 'player',
@@ -128,21 +123,6 @@ function generateWorld() {
       new BoxCollider({
         width: 32,
         height: 32
-      })
-    ]
-  }))
-
-  scene.addChild(new GameObject({
-    name: 'Rock',
-    position: new Vec2(-50, 0),
-    components: [
-      new Sprite({
-        classname: 'rock',
-        width: 32,
-        height: 32
-      }),
-      new CircleCollider({
-        radius: 32
       })
     ]
   }))
