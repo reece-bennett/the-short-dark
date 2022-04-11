@@ -4,10 +4,21 @@
 
   border-radius: 50%;
   background: #bde;
+  background-image:
+    linear-gradient(
+      -66deg,
+      #bde 40%,
+      #0000 41% 60%
+    ),
+    linear-gradient(
+      24deg,
+      #fff0 20%,
+      #fff3
+    );
   width: var(--size);
   height: var(--size);
   box-shadow:
-    inset 0 0 calc(var(--size) / 2) #fff9,
+    inset 0 0 calc(var(--size) / 2) #fffa,
     inset var(--neomorph-size) var(--neomorph-size) calc(var(--neomorph-size) * 3) #0133,
     inset var(--neomorph-size-minus) var(--neomorph-size-minus) calc(var(--neomorph-size) * 3) #fff;
 }
