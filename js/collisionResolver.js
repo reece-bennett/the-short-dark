@@ -78,6 +78,30 @@ function resolveCircleBox(circle, box) {
   }
 }
 
+function resolveBoxCircle(box, circle) {
+  const diff = circle.gameObject.position.subtract(box.gameObject.position)
+  const dx = diff.x / (box.width / 2)
+  const dy = diff.y / (box.height / 2)
+
+  if (Math.abs(dx) > Math.abs(dy)) {
+    if (diff.x > 0) {
+      // From left
+      box.gameObject.position.x = circle.gameObject.position.x - circle.radius - (box.width / 2)
+    } else {
+      // From right
+      box.gameObject.position.x = circle.gameObject.position.x + circle.radius + (box.width / 2)
+    }
+  } else {
+    if (diff.y > 0) {
+      // From top
+      box.gameObject.position.y = circle.gameObject.position.y - circle.radius - (box.height / 2)
+    } else {
+      // From bottom
+      box.gameObject.position.y = circle.gameObject.position.y + circle.radius + (box.height / 2)
+    }
+  }
+}
+
 function resolveCircleCircle(a, b) {
   const diff = a.gameObject.position.subtract(b.gameObject.position)
   const depth = (a.radius + b.radius) - diff.length()
@@ -113,9 +137,9 @@ export default class CollisionResolver extends Component {
         } else if (a instanceof CircleCollider && b instanceof CircleCollider) {
           if (!checkCircleCircle(b, a)) return
           resolveCircleCircle(a, b)
-        // } else if (a instanceof BoxCollider && b instanceof CircleCollider) {
-        //   if (!checkBoxCircle(a, b)) return
-        //   resolveBoxCircle(a, b)
+        } else if (a instanceof BoxCollider && b instanceof CircleCollider) {
+          if (!checkBoxCircle(a, b)) return
+          resolveBoxCircle(a, b)
         } else if (a instanceof CircleCollider && b instanceof BoxCollider) {
           if (!checkBoxCircle(b, a)) return
           resolveCircleBox(a, b)
