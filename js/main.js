@@ -1,24 +1,15 @@
-import Player from './player.js'
-import Container from './container.js'
-import Item from './item.js'
-import createCluster from './cluster.js'
-import Rock from './rock.js'
-import Tree from './tree.js'
-import Bear from './bear.js'
-import Building from './building.js'
-import { intersect } from './collision.js'
-import { $, randomXY } from './util.js'
-import Bullet from './bullet.js'
-import { Tracks } from './tracks.js'
+
+import { $ } from './util.js'
 import GameObject from './gameObject.js'
 import Sprite from './sprite.js'
 import Vec2 from './vec2.js'
-import Input from './input.js'
+import KeyboardMovement from './keyboardMovement.js'
 import Camera from './camera.js'
 import FollowMouse from './followMouse.js'
 import BoxCollider from './boxCollider.js'
 import CollisionResolver from './collisionResolver.js'
 import CircleCollider from './circleCollider.js'
+import Input from './input.js'
 
 let previousTimestamp = 0
 let fps = 0
@@ -71,7 +62,7 @@ function generateWorld() {
   scene.addChild(new GameObject({
     name: 'Player',
     components: [
-      new Input({}),
+      new KeyboardMovement({}),
       new FollowMouse({}),
       new CircleCollider({
         type: 'kinematic',
@@ -87,6 +78,22 @@ function generateWorld() {
             <head/>
             <item/>
           </sprite>`
+      })
+    ]
+  }))
+
+  scene.addChild(new GameObject({
+    name: 'Chest',
+    position: new Vec2(-100, 0),
+    components: [
+      new Sprite({
+        classname: 'container',
+        width: 25,
+        height: 15
+      }),
+      new BoxCollider({
+        width: 25,
+        height: 15
       })
     ]
   }))
@@ -222,35 +229,36 @@ function restart() {
 }
 
 function init() {
+  Input.createListeners()
   // Input events
-  document.addEventListener('keydown', event => {
-    game.keyDown.add(event.code)
-    game.keyPressed.add(event.code)
-    event.preventDefault()
-  })
+  // document.addEventListener('keydown', event => {
+  //   game.keyDown.add(event.code)
+  //   game.keyPressed.add(event.code)
+  //   event.preventDefault()
+  // })
 
-  document.addEventListener('keyup', event => {
-    game.keyDown.delete(event.code)
-  })
+  // document.addEventListener('keyup', event => {
+  //   game.keyDown.delete(event.code)
+  // })
 
-  document.addEventListener('mousemove', event => {
-    game.mouse.x = event.clientX
-    game.mouse.y = event.clientY
-  })
+  // document.addEventListener('mousemove', event => {
+  //   game.mouse.x = event.clientX
+  //   game.mouse.y = event.clientY
+  // })
 
-  document.body.addEventListener('mousedown', event => {
-    if (event.button === 0) {
-      game.mouse.isDown = true
-    }
-  })
+  // document.body.addEventListener('mousedown', event => {
+  //   if (event.button === 0) {
+  //     game.mouse.isDown = true
+  //   }
+  // })
 
-  document.body.addEventListener('mouseup', () => {
-    if (event.button === 0) {
-      game.mouse.isDown = false
-    }
-  })
+  // document.body.addEventListener('mouseup', () => {
+  //   if (event.button === 0) {
+  //     game.mouse.isDown = false
+  //   }
+  // })
 
-  document.addEventListener('contextmenu', event => event.preventDefault())
+  // document.addEventListener('contextmenu', event => event.preventDefault())
 
   $('.restart.button').addEventListener('click', () => {
     restart()
@@ -320,6 +328,7 @@ function step(timestamp) {
   //   lastUiDraw = timestamp
   // }
 
+  Input.update()
   scene.update(dt)
   scene.lateUpdate(dt)
   scene.draw()
