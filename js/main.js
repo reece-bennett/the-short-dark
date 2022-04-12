@@ -10,6 +10,7 @@ import BoxCollider from './boxCollider.js'
 import CollisionResolver from './collisionResolver.js'
 import CircleCollider from './circleCollider.js'
 import Input from './input.js'
+import PlayerBehaviour from './playerBehaviour.js'
 
 let previousTimestamp = 0
 let fps = 0
@@ -64,6 +65,7 @@ function generateWorld() {
     components: [
       new KeyboardMovement({}),
       new FollowMouse({}),
+      new PlayerBehaviour({}),
       new CircleCollider({
         type: 'kinematic',
         radius: 8
@@ -82,7 +84,7 @@ function generateWorld() {
     ]
   }))
 
-  scene.addChild(new GameObject({
+  const chest = scene.addChild(new GameObject({
     name: 'Chest',
     position: new Vec2(-100, 0),
     components: [
@@ -94,6 +96,21 @@ function generateWorld() {
       new BoxCollider({
         width: 25,
         height: 15
+      })
+    ]
+  }))
+
+  chest.addChild(new GameObject({
+    name: 'Interaction radius',
+    components: [
+      new CircleCollider({
+        type: 'area',
+        radius: 40
+      }),
+      new Sprite({
+        classname: 'circle-outline',
+        width: 80,
+        height: 80
       })
     ]
   }))

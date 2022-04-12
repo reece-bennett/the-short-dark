@@ -77,3 +77,8 @@ body {
   position: relative;
   z-index: 100;
 }
+
+.circle-outline .sprite {
+  outline: red 1px solid;
+  border-radius: 50%;
+}

@@ -1,20 +1,19 @@
 import Collider from './collider.js'
 
 export default class BoxCollider extends Collider {
-  constructor({ offsetX, offsetY, width, height, ...params }) {
+  constructor({ width, height, ...params }) {
     super(params)
-    this.offsetX = offsetX ?? 0
-    this.offsetY = offsetY ?? 0
     this.width = width ?? 0
     this.height = height ?? 0
   }
 
   getBoundingBox() {
+    const gPos = this.gameObject.getGlobalPosition()
     return {
-      top: this.gameObject.position.y - this.height / 2,
-      right: this.gameObject.position.x + this.width / 2,
-      bottom: this.gameObject.position.y + this.height / 2,
-      left: this.gameObject.position.x - this.width / 2
+      top: gPos.y - this.height / 2,
+      right: gPos.x + this.width / 2,
+      bottom: gPos.y + this.height / 2,
+      left: gPos.x - this.width / 2
     }
   }
 }

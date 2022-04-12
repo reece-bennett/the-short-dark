@@ -66,6 +66,20 @@ export default class GameObject extends EventTarget {
     return this.components.find(component => component.name === name)
   }
 
+  getGlobalPosition() {
+    return this.parent
+      ? this.parent.getGlobalPosition().add(this.position)
+      : this.position
+  }
+
+  setGlobalPosition(globalPosition) {
+    if (this.parent) {
+      this.position = globalPosition.subtract(this.parent.getGlobalPosition())
+    } else {
+      this.position = globalPosition
+    }
+  }
+
   /*
     Lifecycle methods
   */

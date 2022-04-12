@@ -19,7 +19,8 @@ export default class Sprite extends Component {
 
   draw() {
     super.draw()
-    this.objectElement.style.transform = `translate(${this.gameObject.position.x}px, ${this.gameObject.position.y}px)`
+    const gPos = this.gameObject.getGlobalPosition()
+    this.objectElement.style.transform = `translate(${gPos.x}px, ${gPos.y}px)`
     this.spriteElement.style.transform = `rotate(${this.gameObject.rotation}rad)`
   }
 

@@ -13,21 +13,23 @@ function checkBoxBox(a, b) {
 
 function checkBoxCircle(box, circle) {
   const bounding = box.getBoundingBox()
+  const circlePos = circle.gameObject.getGlobalPosition()
   // The point inside box closest to circle
   const point = new Vec2(
-    Math.max(Math.min(circle.gameObject.position.x, bounding.right), bounding.left),
-    Math.max(Math.min(circle.gameObject.position.y, bounding.bottom), bounding.top)
+    Math.max(Math.min(circlePos.x, bounding.right), bounding.left),
+    Math.max(Math.min(circlePos.y, bounding.bottom), bounding.top)
   )
-  return circle.gameObject.position.subtract(point).length() < circle.radius
+  return circlePos.subtract(point).length() < circle.radius
 }
 
 function checkCircleCircle(a, b) {
-  return a.gameObject.position.subtract(b.gameObject.position).length() < (a.radius + b.radius)
+  return a.gameObject.getGlobalPosition().subtract(b.gameObject.getGlobalPosition()).length() < (a.radius + b.radius)
 }
 
 // https://developer.ibm.com/tutorials/wa-build2dphysicsengine/
 function resolveBoxBox(a, b) {
-  const diff = b.gameObject.position.subtract(a.gameObject.position)
+  const aPos = a.gameObject.getGlobalPosition()
+  const diff = b.gameObject.getGlobalPosition().subtract(aPos)
   const dx = diff.x / (b.width / 2)
   const dy = diff.y / (b.height / 2)
 
@@ -36,24 +38,25 @@ function resolveBoxBox(a, b) {
   if (Math.abs(dx) > Math.abs(dy)) {
     if (diff.x > 0) {
       // From left
-      a.gameObject.position.x = bBounding.left - (a.width / 2)
+      a.gameObject.setGlobalPosition(new Vec2(bBounding.left - (a.width / 2), aPos.y))
     } else {
       // From right
-      a.gameObject.position.x = bBounding.right + (a.width / 2)
+      a.gameObject.setGlobalPosition(new Vec2(bBounding.right + (a.width / 2), aPos.y))
     }
   } else {
     if (diff.y > 0) {
       // From top
-      a.gameObject.position.y = bBounding.top - (a.height / 2)
+      a.gameObject.setGlobalPosition(new Vec2(aPos.x, bBounding.top - (a.height / 2)))
     } else {
       // From bottom
-      a.gameObject.position.y = bBounding.bottom + (a.height / 2)
+      a.gameObject.setGlobalPosition(new Vec2(aPos.x, bBounding.bottom + (a.height / 2)))
     }
   }
 }
 
 function resolveCircleBox(circle, box) {
-  const diff = box.gameObject.position.subtract(circle.gameObject.position)
+  const circlePos = circle.gameObject.getGlobalPosition()
+  const diff = box.gameObject.getGlobalPosition().subtract(circlePos)
   const dx = diff.x / (box.width / 2)
   const dy = diff.y / (box.height / 2)
 
@@ -62,51 +65,54 @@ function resolveCircleBox(circle, box) {
   if (Math.abs(dx) > Math.abs(dy)) {
     if (diff.x > 0) {
       // From left
-      circle.gameObject.position.x = bounding.left - circle.radius
+      circle.gameObject.setGlobalPosition(new Vec2(bounding.left - circle.radius, circlePos.y))
     } else {
       // From right
-      circle.gameObject.position.x = bounding.right + circle.radius
+      circle.gameObject.setGlobalPosition(new Vec2(bounding.right + circle.radius, circlePos.y))
     }
   } else {
     if (diff.y > 0) {
       // From top
-      circle.gameObject.position.y = bounding.top - circle.radius
+      circle.gameObject.setGlobalPosition(new Vec2(circlePos.x, bounding.top - circle.radius))
     } else {
       // From bottom
-      circle.gameObject.position.y = bounding.bottom + circle.radius
+      circle.gameObject.setGlobalPosition(new Vec2(circlePos.x, bounding.bottom + circle.radius))
     }
   }
 }
 
 function resolveBoxCircle(box, circle) {
-  const diff = circle.gameObject.position.subtract(box.gameObject.position)
+  const boxPos = box.getGlobalPosition()
+  const circlePos = circle.getGlobalPosition()
+  const diff = circlePos.subtract(boxPos)
   const dx = diff.x / (box.width / 2)
   const dy = diff.y / (box.height / 2)
 
   if (Math.abs(dx) > Math.abs(dy)) {
     if (diff.x > 0) {
       // From left
-      box.gameObject.position.x = circle.gameObject.position.x - circle.radius - (box.width / 2)
+      box.gameObject.setGlobalPosition(new Vec2(circlePos.x - circle.radius - (box.width / 2), boxPos.y))
     } else {
       // From right
-      box.gameObject.position.x = circle.gameObject.position.x + circle.radius + (box.width / 2)
+      box.gameObject.setGlobalPosition(new Vec2(circlePos.x + circle.radius + (box.width / 2), boxPos.y))
     }
   } else {
     if (diff.y > 0) {
       // From top
-      box.gameObject.position.y = circle.gameObject.position.y - circle.radius - (box.height / 2)
+      box.gameObject.setGlobalPosition(new Vec2(boxPos.x, circlePos.y - circle.radius - (box.height / 2)))
     } else {
       // From bottom
-      box.gameObject.position.y = circle.gameObject.position.y + circle.radius + (box.height / 2)
+      box.gameObject.setGlobalPosition(new Vec2(boxPos.x, circlePos.y + circle.radius + (box.height / 2)))
     }
   }
 }
 
 function resolveCircleCircle(a, b) {
-  const diff = a.gameObject.position.subtract(b.gameObject.position)
+  const aPos = a.gameObject.getGlobalPosition()
+  const diff = aPos.subtract(b.gameObject.getGlobalPosition())
   const depth = (a.radius + b.radius) - diff.length()
   const resized = diff.resize(depth)
-  a.gameObject.position = a.gameObject.position.add(resized)
+  a.gameObject.setGlobalPosition(aPos.add(resized))
 }
 
 
@@ -114,6 +120,7 @@ export default class CollisionResolver extends Component {
   constructor(params) {
     super(params)
     this.colliders = []
+    this.collisions = []
   }
 
   addCollider(collider) {
@@ -133,20 +140,52 @@ export default class CollisionResolver extends Component {
 
         if (a instanceof BoxCollider && b instanceof BoxCollider) {
           if (!checkBoxBox(a, b)) return
-          resolveBoxBox(a, b)
+          if (b.type !== 'area') resolveBoxBox(a, b)
         } else if (a instanceof CircleCollider && b instanceof CircleCollider) {
           if (!checkCircleCircle(b, a)) return
-          resolveCircleCircle(a, b)
+          if (b.type !== 'area') resolveCircleCircle(a, b)
         } else if (a instanceof BoxCollider && b instanceof CircleCollider) {
           if (!checkBoxCircle(a, b)) return
-          resolveBoxCircle(a, b)
+          if (b.type !== 'area') resolveBoxCircle(a, b)
         } else if (a instanceof CircleCollider && b instanceof BoxCollider) {
           if (!checkBoxCircle(b, a)) return
-          resolveCircleBox(a, b)
+          if (b.type !== 'area') resolveCircleBox(a, b)
         }
 
-        // TODO: Send message with collision information
+        if (!this.collisions.some(pair => pair[0] === a && pair[1] === b)) {
+          this.collisions.push([a, b])
+          a.gameObject.dispatchEvent(new CustomEvent('collisionStart', { detail: {
+            collider: a,
+            otherCollider: b
+          }}))
+          b.gameObject.dispatchEvent(new CustomEvent('collisionStart', { detail: {
+            collider: b,
+            otherCollider: a
+          }}))
+        }
       })
     })
+
+    for (let i = this.collisions.length - 1; i >= 0; i--) {
+      const [a, b] = this.collisions[i]
+      if (a instanceof BoxCollider && b instanceof BoxCollider) {
+        if (checkBoxBox(a, b)) return
+      } else if (a instanceof CircleCollider && b instanceof CircleCollider) {
+        if (checkCircleCircle(b, a)) return
+      } else if (a instanceof BoxCollider && b instanceof CircleCollider) {
+        if (checkBoxCircle(a, b)) return
+      } else if (a instanceof CircleCollider && b instanceof BoxCollider) {
+        if (checkBoxCircle(b, a)) return
+      }
+      this.collisions.splice(i, 1)
+      a.gameObject.dispatchEvent(new CustomEvent('collisionEnd', { detail: {
+        collider: a,
+        otherCollider: b
+      }}))
+      b.gameObject.dispatchEvent(new CustomEvent('collisionEnd', { detail: {
+        collider: b,
+        otherCollider: a
+      }}))
+    }
   }
 }
