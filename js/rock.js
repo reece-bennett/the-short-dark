@@ -28,6 +28,8 @@ export default class Rock extends Object {
       halfWidth: this.width / 2,
       halfHeight: this.height / 2
     }
+
+    this.rotation = (Math.random() - 0.5) / 8
   }
 
   // Text that is fetched if a player inspects the object?
