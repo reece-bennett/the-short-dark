@@ -5,6 +5,7 @@ export default class PlayerBehaviour extends Component {
     super(params)
     this.interactionRadius = null
     this.interactables = []
+    this.target = null
   }
 
   create() {
@@ -12,14 +13,39 @@ export default class PlayerBehaviour extends Component {
 
     this.interactionRadius.addEventListener('triggerEntered', event => {
       this.interactables.push(event.detail.otherCollider.gameObject)
-      console.log(this.interactables)
+      this.updateTarget()
     })
     this.interactionRadius.addEventListener('triggerExited', event => {
       this.interactables.splice(this.interactables.indexOf(event.detail.otherCollider.gameObject))
-      console.log(this.interactables)
+      this.updateTarget()
+    })
+
+    // Not happy with having a key listener here (would like to keep in input.js)
+    // but seems easiest way?
+    document.addEventListener('keydown', event => {
+      if (event.code === 'KeyE') {
+        console.log(this.target)
+        // Interact with the target
+      }
     })
   }
 
-  // Listen for collision events, add to 'interactables'
-  // Listen to interact event, if 'interactables' choose the closest one and open it
+  updateTarget() {
+    let closestDistance = Infinity
+    let closest = null
+
+    this.interactables.forEach(interactable => {
+      const distance = this.gameObject.getGlobalPosition().distanceTo(interactable.getGlobalPosition())
+      if (distance < closestDistance) {
+        closestDistance = distance
+        closest = interactable
+      }
+    })
+
+    if (this.target !== closest) {
+      this.target?.getComponent('Sprite').removeClass('target')
+      closest?.getComponent('Sprite').addClass('target')
+      this.target = closest
+    }
+  }
 }

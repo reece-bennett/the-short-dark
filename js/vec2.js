@@ -43,6 +43,10 @@ export default class Vec2 {
     return Math.atan2(diff.y, diff.x) - Math.PI / 2
   }
 
+  distanceTo(other) {
+    return other.subtract(this).length()
+  }
+
   set(x, y) {
     this.x = x
     this.y = y

@@ -28,4 +28,12 @@ export default class Sprite extends Component {
     super.destroy()
     this.objectElement.remove()
   }
+
+  addClass(cssClass) {
+    this.objectElement.classList.add(cssClass)
+  }
+
+  removeClass(cssClass) {
+    this.objectElement.classList.remove(cssClass)
+  }
 }
