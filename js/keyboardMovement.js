@@ -26,7 +26,10 @@ export default class KeyboardMovement extends Component {
     this.velocity = this.velocity.normalise().multiply(dt * 100)
     this.gameObject.position = this.gameObject.position.add(this.velocity)
 
-    // Update camera
+  }
+
+  lateUpdate(dt) {
+    super.lateUpdate(dt)
     this.camera.position.set(this.gameObject.position.x - window.innerWidth / 2, this.gameObject.position.y - window.innerHeight / 2)
   }
 }
