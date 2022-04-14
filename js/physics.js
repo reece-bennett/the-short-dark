@@ -191,22 +191,18 @@ export default {
 
     for (let i = this.collisions.length - 1; i >= 0; i--) {
       const [a, b] = this.collisions[i]
-      if (a instanceof BoxCollider && b instanceof BoxCollider) {
-        if (checkBoxBox(a, b)) return
-      } else if (a instanceof CircleCollider && b instanceof CircleCollider) {
-        if (checkCircleCircle(b, a)) return
-      } else if (a instanceof BoxCollider && b instanceof CircleCollider) {
-        if (checkBoxCircle(a, b)) return
-      } else if (a instanceof CircleCollider && b instanceof BoxCollider) {
-        if (checkBoxCircle(b, a)) return
+      if ((a instanceof BoxCollider && b instanceof BoxCollider && !checkBoxBox(a, b))
+        || (a instanceof CircleCollider && b instanceof CircleCollider && !checkCircleCircle(b, a))
+        || (a instanceof BoxCollider && b instanceof CircleCollider && !checkBoxCircle(a, b))
+        || (a instanceof CircleCollider && b instanceof BoxCollider && !checkBoxCircle(b, a))) {
+        this.collisions.splice(i, 1)
+        a.gameObject.dispatchEvent(new CustomEvent('triggerExited', {
+          detail: {
+            collider: a,
+            otherCollider: b
+          }
+        }))
       }
-      this.collisions.splice(i, 1)
-      a.gameObject.dispatchEvent(new CustomEvent('triggerExited', {
-        detail: {
-          collider: a,
-          otherCollider: b
-        }
-      }))
     }
   }
 }

@@ -13,11 +13,9 @@ export default class PlayerBehaviour extends Component {
 
     this.interactionRadius.addEventListener('triggerEntered', event => {
       this.interactables.push(event.detail.otherCollider.gameObject)
-      this.updateTarget()
     })
     this.interactionRadius.addEventListener('triggerExited', event => {
-      this.interactables.splice(this.interactables.indexOf(event.detail.otherCollider.gameObject))
-      this.updateTarget()
+      this.interactables.splice(this.interactables.indexOf(event.detail.otherCollider.gameObject), 1)
     })
 
     // Not happy with having a key listener here (would like to keep in input.js)
@@ -28,6 +26,11 @@ export default class PlayerBehaviour extends Component {
         // Interact with the target
       }
     })
+  }
+
+  update(dt) {
+    super.update(dt)
+    this.updateTarget()
   }
 
   updateTarget() {

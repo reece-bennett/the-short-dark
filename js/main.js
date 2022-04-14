@@ -102,6 +102,26 @@ function generateWorld() {
   }))
 
   scene.addChild(new GameObject({
+    name: 'Chest2',
+    position: new Vec2(-80, 50),
+    components: [
+      new Sprite({
+        classname: 'container',
+        width: 25,
+        height: 15
+      }),
+      new BoxCollider({
+        width: 25,
+        height: 15
+      }),
+      new Body({
+        type: BodyType.STATIC,
+        layer: 3
+      })
+    ]
+  }))
+
+  scene.addChild(new GameObject({
     name: 'Building',
     position: new Vec2(100, 200),
     components: [
