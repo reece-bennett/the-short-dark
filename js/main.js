@@ -7,10 +7,12 @@ import KeyboardMovement from './keyboardMovement.js'
 import Camera from './camera.js'
 import FollowMouse from './followMouse.js'
 import BoxCollider from './boxCollider.js'
-import CollisionResolver from './collisionResolver.js'
 import CircleCollider from './circleCollider.js'
 import Input from './input.js'
 import PlayerBehaviour from './playerBehaviour.js'
+import Body from './body.js'
+import BodyType from './bodyType.js'
+import Physics from './physics.js'
 
 let previousTimestamp = 0
 let fps = 0
@@ -41,10 +43,7 @@ let scene
 
 function generateWorld() {
   scene = new GameObject({
-    name: 'Scene',
-    components: [
-      new CollisionResolver({})
-    ]
+    name: 'Scene'
   })
 
   $('.game').innerHTML = '' // Should go inside scene.create()?
@@ -60,14 +59,14 @@ function generateWorld() {
     ]
   }))
 
-  scene.addChild(new GameObject({
+  const player = scene.addChild(new GameObject({
     name: 'Player',
     components: [
       new KeyboardMovement({}),
       new FollowMouse({}),
       new PlayerBehaviour({}),
+      new Body({ type: BodyType.KINEMATIC }),
       new CircleCollider({
-        type: 'kinematic',
         radius: 8
       }),
       new Sprite({
@@ -84,7 +83,25 @@ function generateWorld() {
     ]
   }))
 
-  const chest = scene.addChild(new GameObject({
+  player.addChild(new GameObject({
+    name: 'InteractionRadius',
+    components: [
+      new CircleCollider({
+        radius: 40
+      }),
+      new Sprite({
+        classname: 'circle-outline',
+        width: 80,
+        height: 80
+      }),
+      new Body({
+        type: BodyType.TRIGGER,
+        layer: 2
+      })
+    ]
+  }))
+
+  scene.addChild(new GameObject({
     name: 'Chest',
     position: new Vec2(-100, 0),
     components: [
@@ -96,21 +113,10 @@ function generateWorld() {
       new BoxCollider({
         width: 25,
         height: 15
-      })
-    ]
-  }))
-
-  chest.addChild(new GameObject({
-    name: 'Interaction radius',
-    components: [
-      new CircleCollider({
-        type: 'area',
-        radius: 40
       }),
-      new Sprite({
-        classname: 'circle-outline',
-        width: 80,
-        height: 80
+      new Body({
+        type: BodyType.STATIC,
+        layer: 3
       })
     ]
   }))
@@ -131,7 +137,8 @@ function generateWorld() {
       new BoxCollider({
         width: 150,
         height: 150
-      })
+      }),
+      new Body({ type: BodyType.STATIC })
     ]
   }))
 
@@ -147,7 +154,8 @@ function generateWorld() {
       new BoxCollider({
         width: 32,
         height: 32
-      })
+      }),
+      new Body({ type: BodyType.STATIC })
     ]
   }))
 
@@ -287,7 +295,7 @@ function init() {
     $('.stats').setAttribute('aria-hidden', false)
   })
 
-  generateWorld()
+  // generateWorld()
   draw()
   restart()
   $('.title-screen').setAttribute('aria-hidden', true)
@@ -347,6 +355,7 @@ function step(timestamp) {
 
   Input.update()
   scene.update(dt)
+  Physics.update()
   scene.lateUpdate(dt)
   scene.draw()
 

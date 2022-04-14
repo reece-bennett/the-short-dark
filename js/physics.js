@@ -1,6 +1,6 @@
+import BodyType from './bodyType.js'
 import BoxCollider from './boxCollider.js'
 import CircleCollider from './circleCollider.js'
-import Component from './component.js'
 import Vec2 from './vec2.js'
 
 function checkBoxBox(a, b) {
@@ -116,53 +116,76 @@ function resolveCircleCircle(a, b) {
 }
 
 
-export default class CollisionResolver extends Component {
-  constructor(params) {
-    super(params)
-    this.colliders = []
-    this.collisions = []
-  }
+export default {
+  kinematicBodies: [],
+  staticBodies: [],
+  triggerBodies: [],
+  collisions: [],
 
-  addCollider(collider) {
-    this.colliders.push(collider)
-  }
+  addBody(body) {
+    switch (body.type) {
+    case BodyType.KINEMATIC:
+      this.kinematicBodies.push(body)
+      break
+    case BodyType.STATIC:
+      this.staticBodies.push(body)
+      break
+    case BodyType.TRIGGER:
+      this.triggerBodies.push(body)
+      break
+    }
+  },
 
-  removeCollider(collider) {
-    this.colliders.splice(this.colliders.indexOf(collider), 1)
-  }
+  update() {
+    this.kinematicBodies.forEach(kinematicBody => {
+      this.staticBodies.forEach(staticBody => {
+        if ((kinematicBody.layer & staticBody.layer) === 0) return
+        kinematicBody.colliders.forEach(kinematicCollider => {
+          staticBody.colliders.forEach(staticCollider => {
+            if (kinematicCollider instanceof BoxCollider && staticCollider instanceof BoxCollider) {
+              if (!checkBoxBox(kinematicCollider, staticCollider)) return
+              resolveBoxBox(kinematicCollider, staticCollider)
+            } else if (kinematicCollider instanceof CircleCollider && staticCollider instanceof CircleCollider) {
+              if (!checkCircleCircle(kinematicCollider, staticCollider)) return
+              resolveCircleCircle(kinematicCollider, staticCollider)
+            } else if (kinematicCollider instanceof BoxCollider && staticCollider instanceof CircleCollider) {
+              if (!checkBoxCircle(kinematicCollider, staticCollider)) return
+              resolveBoxCircle(kinematicCollider, staticCollider)
+            } else if (kinematicCollider instanceof CircleCollider && staticCollider instanceof BoxCollider) {
+              if (!checkBoxCircle(staticCollider, kinematicCollider)) return
+              resolveCircleBox(kinematicCollider, staticCollider)
+            }
+          })
+        })
+      })
+    })
 
-  update(dt) {
-    super.update(dt)
+    this.triggerBodies.forEach(triggerBody => {
+      this.kinematicBodies.concat(this.staticBodies).forEach(otherBody => {
+        if ((triggerBody.layer & otherBody.layer) === 0) return
+        triggerBody.colliders.forEach(triggerCollider => {
+          otherBody.colliders.forEach(otherCollider => {
+            if (triggerCollider instanceof BoxCollider && otherCollider instanceof BoxCollider) {
+              if (!checkBoxBox(triggerCollider, otherCollider)) return
+            } else if (triggerCollider instanceof CircleCollider && otherCollider instanceof CircleCollider) {
+              if (!checkCircleCircle(triggerCollider, otherCollider)) return
+            } else if (triggerCollider instanceof BoxCollider && otherCollider instanceof CircleCollider) {
+              if (!checkBoxCircle(triggerCollider, otherCollider)) return
+            } else if (triggerCollider instanceof CircleCollider && otherCollider instanceof BoxCollider) {
+              if (!checkBoxCircle(otherCollider, triggerCollider)) return
+            }
 
-    this.colliders.filter(collider => collider.type === 'kinematic').forEach(a => {
-      this.colliders.forEach(b => {
-        if (a === b) return
-
-        if (a instanceof BoxCollider && b instanceof BoxCollider) {
-          if (!checkBoxBox(a, b)) return
-          if (b.type !== 'area') resolveBoxBox(a, b)
-        } else if (a instanceof CircleCollider && b instanceof CircleCollider) {
-          if (!checkCircleCircle(b, a)) return
-          if (b.type !== 'area') resolveCircleCircle(a, b)
-        } else if (a instanceof BoxCollider && b instanceof CircleCollider) {
-          if (!checkBoxCircle(a, b)) return
-          if (b.type !== 'area') resolveBoxCircle(a, b)
-        } else if (a instanceof CircleCollider && b instanceof BoxCollider) {
-          if (!checkBoxCircle(b, a)) return
-          if (b.type !== 'area') resolveCircleBox(a, b)
-        }
-
-        if (!this.collisions.some(pair => pair[0] === a && pair[1] === b)) {
-          this.collisions.push([a, b])
-          a.gameObject.dispatchEvent(new CustomEvent('collisionStart', { detail: {
-            collider: a,
-            otherCollider: b
-          }}))
-          b.gameObject.dispatchEvent(new CustomEvent('collisionStart', { detail: {
-            collider: b,
-            otherCollider: a
-          }}))
-        }
+            if (!this.collisions.some(pair => pair[0] === triggerCollider && pair[1] === otherCollider)) {
+              this.collisions.push([triggerCollider, otherCollider])
+              triggerBody.gameObject.dispatchEvent(new CustomEvent('triggerEntered', {
+                detail: {
+                  collider: triggerCollider,
+                  otherCollider: otherCollider
+                }
+              }))
+            }
+          })
+        })
       })
     })
 
@@ -178,14 +201,12 @@ export default class CollisionResolver extends Component {
         if (checkBoxCircle(b, a)) return
       }
       this.collisions.splice(i, 1)
-      a.gameObject.dispatchEvent(new CustomEvent('collisionEnd', { detail: {
-        collider: a,
-        otherCollider: b
-      }}))
-      b.gameObject.dispatchEvent(new CustomEvent('collisionEnd', { detail: {
-        collider: b,
-        otherCollider: a
-      }}))
+      a.gameObject.dispatchEvent(new CustomEvent('triggerExited', {
+        detail: {
+          collider: a,
+          otherCollider: b
+        }
+      }))
     }
   }
 }

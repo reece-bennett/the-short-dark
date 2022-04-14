@@ -3,18 +3,20 @@ import Component from './component.js'
 export default class PlayerBehaviour extends Component {
   constructor(params) {
     super(params)
+    this.interactionRadius = null
+    this.interactables = []
   }
 
   create() {
-    this.gameObject.addEventListener('collisionStart', event => {
-      if (event.detail.otherCollider.gameObject.name === 'Interaction radius') {
-        console.log('Entered')
-      }
+    this.interactionRadius = this.gameObject.getGameObject('InteractionRadius')
+
+    this.interactionRadius.addEventListener('triggerEntered', event => {
+      this.interactables.push(event.detail.otherCollider.gameObject)
+      console.log(this.interactables)
     })
-    this.gameObject.addEventListener('collisionEnd', event => {
-      if (event.detail.otherCollider.gameObject.name === 'Interaction radius') {
-        console.log('Exited')
-      }
+    this.interactionRadius.addEventListener('triggerExited', event => {
+      this.interactables.splice(this.interactables.indexOf(event.detail.otherCollider.gameObject))
+      console.log(this.interactables)
     })
   }
 

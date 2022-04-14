@@ -66,6 +66,10 @@ export default class GameObject extends EventTarget {
     return this.components.find(component => component.name === name)
   }
 
+  getComponentByClass(clazz) {
+    return this.components.filter(component => component instanceof clazz)
+  }
+
   getGlobalPosition() {
     return this.parent
       ? this.parent.getGlobalPosition().add(this.position)

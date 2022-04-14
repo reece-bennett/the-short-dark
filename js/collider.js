@@ -1,12 +1,8 @@
 import Component from './component.js'
 
 export default class Collider extends Component {
-  constructor({ type, ...params }) {
+  constructor(params) {
     super(params)
-    this.type = type ?? 'static'
-  }
-
-  create() {
-    this.gameObject.root().getComponent('CollisionResolver').addCollider(this)
+    this.body = null
   }
 }
