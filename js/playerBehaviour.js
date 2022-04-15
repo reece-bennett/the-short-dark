@@ -34,16 +34,12 @@ export default class PlayerBehaviour extends Component {
   }
 
   updateTarget() {
-    let closestDistance = Infinity
-    let closest = null
+    const closest = this.interactables
+      .reduce((prevClosest, curr) => {
+        if (!prevClosest) return curr
 
-    this.interactables.forEach(interactable => {
-      const distance = this.gameObject.getGlobalPosition().distanceTo(interactable.getGlobalPosition())
-      if (distance < closestDistance) {
-        closestDistance = distance
-        closest = interactable
-      }
-    })
+        return this.gameObject.distanceTo(curr) < this.gameObject.distanceTo(prevClosest) ? curr : prevClosest
+      }, null)
 
     if (this.target !== closest) {
       this.target?.getComponent('Sprite').removeClass('target')

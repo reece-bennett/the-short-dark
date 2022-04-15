@@ -84,6 +84,10 @@ export default class GameObject extends EventTarget {
     }
   }
 
+  distanceTo(otherGameObject) {
+    return this.getGlobalPosition().distanceTo(otherGameObject.getGlobalPosition())
+  }
+
   /*
     Lifecycle methods
   */
