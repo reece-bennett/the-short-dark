@@ -124,15 +124,15 @@ export default {
 
   addBody(body) {
     switch (body.type) {
-    case BodyType.KINEMATIC:
-      this.kinematicBodies.push(body)
-      break
-    case BodyType.STATIC:
-      this.staticBodies.push(body)
-      break
-    case BodyType.TRIGGER:
-      this.triggerBodies.push(body)
-      break
+      case BodyType.KINEMATIC:
+        this.kinematicBodies.push(body)
+        break
+      case BodyType.STATIC:
+        this.staticBodies.push(body)
+        break
+      case BodyType.TRIGGER:
+        this.triggerBodies.push(body)
+        break
     }
   },
 

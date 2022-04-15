@@ -63,36 +63,36 @@ export function intersect(a, b) {
   const typeB = b.collider.type
 
   switch (typeA) {
-  case 'box':
-    switch (typeB) {
     case 'box':
-      return intersectBoxBox(a, b)
+      switch (typeB) {
+        case 'box':
+          return intersectBoxBox(a, b)
+        case 'circle':
+          return intersectCircleBox(b, a)
+        case 'multiBox':
+          return intersectMultiBoxBox(b, a)
+      }
+      break
     case 'circle':
-      return intersectCircleBox(b, a)
+      switch (typeB) {
+        case 'box':
+          return intersectCircleBox(a, b)
+        case 'circle':
+          return intersectCircleCircle(a, b)
+        case 'multiBox':
+          return intersectMultiBoxCircle(b, a)
+      }
+      break
     case 'multiBox':
-      return intersectMultiBoxBox(b, a)
-    }
-    break
-  case 'circle':
-    switch (typeB) {
-    case 'box':
-      return intersectCircleBox(a, b)
-    case 'circle':
-      return intersectCircleCircle(a, b)
-    case 'multiBox':
-      return intersectMultiBoxCircle(b, a)
-    }
-    break
-  case 'multiBox':
-    switch (typeB) {
-    case 'box':
-      return intersectMultiBoxBox(a, b)
-    case 'circle':
-      return intersectMultiBoxCircle(a, b)
-    case 'multiBox':
-      return intersectMultiBoxMultiBox(a, b)
-    }
-    break
+      switch (typeB) {
+        case 'box':
+          return intersectMultiBoxBox(a, b)
+        case 'circle':
+          return intersectMultiBoxCircle(a, b)
+        case 'multiBox':
+          return intersectMultiBoxMultiBox(a, b)
+      }
+      break
   }
   console.error('Unknown collider combination', a, b)
 }
