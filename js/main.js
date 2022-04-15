@@ -13,6 +13,8 @@ import PlayerBehaviour from './playerBehaviour.js'
 import Body from './body.js'
 import BodyType from './bodyType.js'
 import Physics from './physics.js'
+import Container from './container.js'
+import Item from './item.js'
 
 const game = {
   running: true,
@@ -117,6 +119,9 @@ function generateWorld() {
       new Body({
         type: BodyType.STATIC,
         layer: 3
+      }),
+      new Container({
+        inventory: [Item.waterBottle(), Item.energyBar(), Item.rifle(), Item.revolver()]
       })
     ]
   }))

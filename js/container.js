@@ -1,53 +1,23 @@
+import Component from './component.js'
 import { $ } from './util.js'
-import Object from './object.js'
 
-export default class Container extends Object {
-  isOpen = false
-  interactive = true
+export default class Container extends Component {
+  constructor({ inventory, ...params }) {
+    super(params)
+    this.inventory = inventory ?? []
+    this.player = null
+  }
 
-  constructor({game, x, y, inventory}) {
-    super({
-      game,
-      name: 'container',
-      x,
-      y,
-      width: 25,
-      height: 15,
+  create() {
+    this.gameObject.addEventListener('interact', event => {
+      this.updateInventoryUi()
+      this.player = event.detail.player
+      event.detail.player.dispatchEvent(new CustomEvent('openContainer', { detail: { container: this.gameObject }}))
     })
 
-    this.inventory = inventory
-    this.spawnColloider = this.collider = {
-      type: 'box',
-      halfWidth: this.width / 2,
-      halfHeight: this.height / 2
-    }
-
-    this.spawn()
-  }
-
-  open() {
-    this.isOpen = true
-    this.game.player.openInventory(this)
-    this.updateInventoryUi()
-    $('.tab-container').setAttribute('aria-hidden', false)
-  }
-
-  close() {
-    this.isOpen = false
-    if (this.game.player.inventoryOpen) this.game.player.closeInventory()
-    $('.tab-container').setAttribute('aria-hidden', true)
-  }
-
-  use() {
-    if (this.isOpen) {
-      this.close()
-    } else {
-      this.open()
-    }
-  }
-
-  untarget() {
-    this.close()
+    this.gameObject.addEventListener('addItem', event => {
+      this.addToInventory(event.detail.item)
+    })
   }
 
   updateInventoryUi() {
@@ -59,7 +29,7 @@ export default class Container extends Object {
       row.innerText = item.name
       row.addEventListener('click', () => {
         this.removeFromInventory(index)
-        this.game.player.addToInventory(item)
+        this.player.dispatchEvent(new CustomEvent('addItem', { detail: { item }}))
       })
       containerTab.append(row)
     })
