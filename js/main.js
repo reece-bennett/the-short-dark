@@ -15,6 +15,7 @@ import BodyType from './bodyType.js'
 import Physics from './physics.js'
 import Container from './container.js'
 import Item from './item.js'
+import PlayerInventory from './playerInventory.js'
 
 const game = {
   running: true,
@@ -45,6 +46,7 @@ function generateWorld() {
       new KeyboardMovement({}),
       new FollowMouse({}),
       new PlayerBehaviour({}),
+      new PlayerInventory({}),
       new Body({
         type: BodyType.KINEMATIC
       }),
@@ -121,7 +123,7 @@ function generateWorld() {
         layer: 3
       }),
       new Container({
-        inventory: [Item.waterBottle(), Item.energyBar(), Item.rifle(), Item.revolver()]
+        items: [Item.waterBottle(), Item.energyBar(), Item.rifle(), Item.revolver()]
       })
     ]
   }))
