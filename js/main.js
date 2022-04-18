@@ -16,8 +16,7 @@ import Physics from './physics.js'
 import Container from './container.js'
 import Item from './item.js'
 import PlayerInventory from './playerInventory.js'
-import Door from './door.js'
-import BuildingBehaviour from './buildingBehaviour.js'
+import createBuilding from './building.js'
 
 const game = {
   running: true,
@@ -90,7 +89,7 @@ function generateWorld() {
 
   scene.addChild(new GameObject({
     name: 'Chest',
-    position: new Vec2(-100, 0),
+    position: new Vec2(200, 200),
     components: [
       new Sprite({
         classname: 'container',
@@ -104,6 +103,9 @@ function generateWorld() {
       new Body({
         type: BodyType.STATIC,
         layer: 3
+      }),
+      new Container({
+        items: [Item.waterBottle(), Item.energyBar(), Item.rifle(), Item.revolver()]
       })
     ]
   }))
@@ -131,61 +133,24 @@ function generateWorld() {
     ]
   }))
 
-  const building = scene.addChild(new GameObject({
-    name: 'Building',
-    rotation: Math.PI / 2, // TODO: This should rotate everything in the gameObject
-    position: new Vec2(100, 200),
-    components: [
-      new Sprite({
-        classname: 'building',
-        xml: `
-          <sprite>
-            <wall/>
-            <door/>
-            <roof/>
-          </sprite>`
-      }),
-      new BoxCollider({ position: new Vec2(-45, -71), width: 60, height: 8 }),
-      new BoxCollider({ position: new Vec2(45, -71), width: 60, height: 8 }),
-      new BoxCollider({ position: new Vec2(71, 0), width: 8, height: 150 }),
-      new BoxCollider({ position: new Vec2(0, 71), width: 150, height: 8 }),
-      new BoxCollider({ position: new Vec2(-71, 0), width: 8, height: 150 }),
-      new Body({
-        type: BodyType.STATIC
-      }),
-      new BuildingBehaviour({})
-    ]
+  scene.addChild(createBuilding({
+    position: new Vec2(200, 200),
+    doorSide: 'top'
   }))
-  building.addChild(new GameObject({
-    name: 'InteractionArea',
-    components: [
-      new BoxCollider({
-        width: 150,
-        height: 150
-      }),
-      new Body({
-        type: BodyType.TRIGGER,
-        layer: 4
-      })
-    ]
+
+  scene.addChild(createBuilding({
+    position: new Vec2(200, -200),
+    doorSide: 'left'
   }))
-  building.addChild(new GameObject({
-    name: 'Door',
-    position: new Vec2(0, -75),
-    components: [
-      new Sprite({
-        classname: 'door'
-      }),
-      new Body({
-        type: BodyType.STATIC,
-        layer: 3
-      }),
-      new BoxCollider({
-        width: 30,
-        height: 8
-      }),
-      new Door({})
-    ]
+
+  scene.addChild(createBuilding({
+    position: new Vec2(-200, -200),
+    doorSide: 'bottom'
+  }))
+
+  scene.addChild(createBuilding({
+    position: new Vec2(-200, 200),
+    doorSide: 'right'
   }))
 
   scene.addChild(new GameObject({
