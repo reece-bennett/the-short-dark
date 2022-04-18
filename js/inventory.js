@@ -3,17 +3,15 @@ import Component from './component.js'
 export default class Inventory extends Component {
   constructor({ items, columns, rows, ...params }) {
     super(params)
-    this.items = items ?? []
+    // TODO: Use the cols & rows variables to set CSS vars?
     this.columns = columns ?? 2
     this.rows = rows ?? 5
-    // TODO: Use the cols & rows variables to set CSS vars?
-
-    // Assign each item an initial column and row
-    this.items.forEach((item, i) => {
+    this.items = items?.map((item, i) => {
       item.column = i % this.columns
       item.row = Math.floor(i / this.columns)
-      console.log(item)
-    })
+      item.inventory = this
+      return item
+    }) ?? []
   }
 
   create() {
@@ -23,6 +21,7 @@ export default class Inventory extends Component {
   }
 
   add(item) {
+    // TODO: All the item init stuff in the constructor?
     this.items.push(item)
   }
 

@@ -3,13 +3,61 @@
 // }
 
 export default class Item {
-  constructor({ className, name, description, action, use }) {
-    this.className = className
+  constructor({
+    className,
+    name,
+    description,
+    action,
+    equippable,
+    consumable,
+    stats,
+  }) {
+    this.className = `item ${className}`
     this.name = name
     this.description = description
     this.action = action
-    this.use = use
+    this.equippable = equippable ?? false
+    this.consumable = consumable ?? false
+    this.stats = stats ?? {}
   }
+
+  /**
+   * Some items might want to override to display something weird
+   */
+  createUiElement() {
+    const itemElement = document.createElement('div')
+    itemElement.className = this.className
+
+    return itemElement
+  }
+
+  use() {
+    for (const [stat, value] of Object.entries(this.stats)) {
+      // WHERE IS THE WATER I NEED TO PUT WATER INTO THE PLAYER
+      // (and IMO there should be a .add which automatically does the clamping)
+      // this.user[stat].add(value)
+    }
+
+    console.log('Using a', this.name, 'from this inventory:')
+    console.log(this.inventory)
+
+    if (this.consumable) {
+      this.inventory?.remove(this)
+    }
+
+    // The equippable stuff is confusing and should be mostly in inventory JS?
+    // if (this.equippable) {
+    //   if (this.isEquipped()) {
+    //     this.user.equippedItems.filter(item => item === this)
+    //   } else {
+    //     this.user.equippedItems.push(this)
+    //   }
+    // }
+  }
+
+  // isEquipped() {
+  //   return this.user?.equippedItems?.includes(this)
+  // }
 
   // static waterBottle() {
   //   return new Item('Water bottle', 'Drink', player => {

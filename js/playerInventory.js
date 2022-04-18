@@ -123,16 +123,16 @@ export default class PlayerInventory extends Inventory {
           this.lookingIn.items.forEach(item => {
             if (item.column === colIndex && item.row === rowIndex) {
               cell.addEventListener('click', () => {
-                // Use item?
+                item.user = this.gameObject
+                item.use()
+                this.updateInventoryUi()
                 // Equip item?
               })
-              const itemElement = document.createElement('div')
-              itemElement.className = `item ${item.className}`
               const actionElement = document.createElement('div')
               actionElement.innerText = item.action
               actionElement.classList = 'action'
               cell.append(actionElement)
-              cell.append(itemElement)
+              cell.append(item.createUiElement())
 
               // Temp info stuff for last item
               $('.inventory .info .box').innerHTML = `
