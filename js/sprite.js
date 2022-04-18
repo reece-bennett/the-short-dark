@@ -14,7 +14,7 @@ export default class Sprite extends Component {
 
   create() {
     super.create()
-    $('.game').appendChild(this.objectElement)
+    $('.world').appendChild(this.objectElement)
   }
 
   draw() {

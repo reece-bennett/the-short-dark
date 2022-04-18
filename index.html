@@ -10,41 +10,48 @@
 </head>
 
 <body>
-  <div class="click-checker"></div>
-  <div class="game"></div>
-  <div class="stats" aria-hidden="true">
-    <div class="progress health">
-      <div class='text'>HEALTH</div>
-    </div>
-    <div class="progress temperature">
-      <div class='text'>TEMP</div>
-    </div>
-    <!-- <div class="progress energy">E</div> -->
-    <div class="progress food">
-      <div class='text'>FOOD</div>
-    </div>
-    <div class="progress water">
-      <div class='text'>WATER</div>
-    </div>
-  </div>
+  <div class="game">
+    <div class="world"></div>
 
-  <div class="overlay">
-    <div class="screen inventory" aria-hidden="true">
-      <div class="section player">
-        <h2 class="name">Inventory</h2>
-        <div class="grid">
+    <div class="ui">
+      <div class="inventory-container">
+        <div class="screen inventory" aria-hidden="true">
+          <div class="section player">
+            <h2 class="name">Inventory</h2>
+            <div class="grid">
+            </div>
+          </div>
+
+          <div class="section info">
+            <h2 class="name">Info/stats</h2>
+            <div class="box">
+            </div>
+          </div>
+
+          <div class="section container">
+            <h2 class="name"></h2>
+            <div class="grid">
+            </div>
+          </div>
         </div>
       </div>
-      <div class="section info">
-        <h2 class="name">Info/stats</h2>
-        <div class="box">
+
+      <div class="health-bar"></div>
+
+      <div class="stats" aria-hidden="true">
+        <div class="progress temperature">
+          <div class='text'>TEMP</div>
+        </div>
+        <!-- <div class="progress energy">E</div> -->
+        <div class="progress food">
+          <div class='text'>FOOD</div>
+        </div>
+        <div class="progress water">
+          <div class='text'>WATER</div>
         </div>
       </div>
-      <div class="section container">
-        <h2 class="name"></h2>
-        <div class="grid">
-        </div>
-      </div>
+
+      <div class="day-counter">Day 3 - 3pm or something</div>
     </div>
   </div>
 
@@ -56,6 +63,7 @@
     </div>
     <button class="restart button">Restart</button>
   </div>
+
   <div class="title-screen">
     <div class="title">The Short Dark</div>
     <div class="message">

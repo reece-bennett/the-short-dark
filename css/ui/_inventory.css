@@ -2,6 +2,11 @@
   color: #eee;
 }
 
+.inventory[aria-hidden='true'] {
+  opacity: 0;
+  pointer-events: none;
+}
+
 .inventory .section {
   display: flex;
   flex-direction: column;

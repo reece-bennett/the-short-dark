@@ -32,7 +32,7 @@ function generateWorld() {
     name: 'Scene'
   })
 
-  $('.game').innerHTML = '' // Should go inside scene.create()?
+  $('.world').innerHTML = '' // Should go inside scene.create()?
 
   scene.addChild(new GameObject({
     name: 'Camera',

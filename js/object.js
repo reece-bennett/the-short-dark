@@ -28,7 +28,7 @@ export default class Object {
     // Element transform perhaps shouldn't be done in spawn()?
     // Either way, it needs to take into account camera position?...
     this.objectElement.style.transform = `translate(${this.x}px, ${this.y}px)`
-    $('.game').append(this.objectElement)
+    $('.world').append(this.objectElement)
   }
 
   update() {

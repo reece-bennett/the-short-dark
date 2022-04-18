@@ -24,8 +24,9 @@
   user-select: none;
 }
 
-*[aria-hidden='true'] {
-  display: none !important;
+.gameover[aria-hidden='true'],
+.title-screen[aria-hidden='true'] {
+  display: none;
 }
 
 :root {

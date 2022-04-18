@@ -1,5 +1,5 @@
 .screen {
-  position: absolute;
+  /* position: absolute; */
   display: flex;
   gap: 20px;
   border-radius: 24px;
