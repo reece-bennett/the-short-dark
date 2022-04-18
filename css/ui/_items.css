@@ -1,0 +1,23 @@
+.item {
+
+}
+
+.item.water-bottle {
+  display: flex;
+  justify-content: center;
+  width: 25%;
+  height: 45%;
+  border-radius: 40% 40% 6px 6px;
+  transform: translateY(15%) rotate(-30deg);
+  border: 3px solid currentColor;
+  background: linear-gradient(30deg, currentColor, currentColor 0 80%, #0000 0);
+}
+
+.item.water-bottle::before {
+  margin-top: -10px;
+  content: '';
+  width: 60%;
+  height: 6px;
+  border-radius: 2px;
+  background: currentColor;
+}

@@ -1,15 +1,20 @@
-@import '_object.css';
-@import '_sprite.css';
 @import '_bear.css';
-@import '_player.css';
-@import '_rock.css';
-@import '_tree.css';
 @import '_building.css';
+@import '_bullet.css';
 @import '_container.css';
 @import '_door.css';
-@import '_ui.css';
-@import '_bullet.css';
+@import '_object.css';
+@import '_player.css';
+@import '_rock.css';
+@import '_sprite.css';
 @import '_tracks.css';
+@import '_tree.css';
+@import 'ui/_colors.css';
+@import 'ui/_inventory-grid.css';
+@import 'ui/_inventory.css';
+@import 'ui/_items.css';
+@import 'ui/_screen.css';
+@import 'ui/_ui.css';
 
 *,
 *::before,

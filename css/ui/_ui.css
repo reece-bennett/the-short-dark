@@ -1,68 +1,9 @@
-.inventory {
-  position: absolute;
-  width: 800px;
-  height: 600px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.4);
-  padding: 20px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-}
-
-.tab {
-  background: rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.tab-player {
-  width: 60%;
-}
-
-.tab-container {
-  width: 40%;
-}
-
-.row {
-  background: rgba(255, 255, 255, 1);
-  width: 100%;
-  color: black;
+.overlay {
+  position: relative;
   display: flex;
   align-items: center;
-  padding: 10px 15px;
-  display: flex;
-  justify-content: space-between;
-  height: 52px;
-}
-
-.row.highlight {
-  background: rgb(247, 255, 177)
-}
-
-.row .button {
-  padding-inline: 2rem;
-  height: 2rem;
-  border-radius: 10px;
-  border: unset;
-  background: rgb(255, 255, 255);
-  box-shadow:
-    4px 4px 16px #4440,
-    16px 16px 48px #444,
-    -16px -16px 48px #ddd;
-  transition: all .2s;
-  font-size: 18px;
-}
-
-.row .button:hover {
-  background: #d1d1d1;
-  box-shadow:
-    4px 4px 16px #4449,
-    16px 16px 48px #444,
-    -16px -16px 48px #ddd;
+  justify-content: center;
+  min-height: 100%;
 }
 
 .stats {

@@ -1,0 +1,54 @@
+.inventory .grid {
+  --cell-size: 80px;
+  --gap: 8px;
+
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), var(--cell-size));
+  grid-template-rows: repeat(var(--grid-rows), var(--cell-size));
+  grid-auto-flow: dense; /* Fill in gaps automagically */
+  height: calc(var(--grid-rows) * var(--cell-size) + (var(--grid-rows) - 1) * var(--gap));
+  width: calc(var(--grid-cols) * var(--cell-size) + (var(--grid-cols) - 1) * var(--gap));
+  gap: var(--gap);
+}
+
+.inventory .player .grid {
+  --grid-cols: 4;
+  --grid-rows: 5;
+}
+
+.inventory .container .grid {
+  --grid-cols: 2;
+  --grid-rows: 5;
+}
+
+.inventory .grid .cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: calc(var(--cell-size) / 8);
+}
+
+.inventory .grid .cell:empty {
+  box-shadow:
+    inset calc(var(--cell-size) / 40) calc(var(--cell-size) / 40) calc(var(--cell-size) / 20) var(--ui-neo-dark),
+    inset calc(var(--cell-size) / -40) calc(var(--cell-size) / -40) calc(var(--cell-size) / 20) var(--ui-neo-light);
+}
+
+.inventory .grid .cell:not(:empty) {
+  background: var(--ui-neo-bg-concave);
+  box-shadow:
+    calc(var(--cell-size) / 40) calc(var(--cell-size) / 40) calc(var(--cell-size) / 20) var(--ui-neo-dark),
+    calc(var(--cell-size) / -40) calc(var(--cell-size) / -40) calc(var(--cell-size) / 20) var(--ui-neo-light);
+}
+
+.inventory .grid .cell .action {
+  position: absolute;
+  font-size: 12px;
+  top: .25rem;
+  right: .25rem;
+}
+
+.inventory .grid .cell:not(:hover) .action {
+  opacity: 0;
+}

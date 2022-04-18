@@ -1,0 +1,14 @@
+.inventory {
+  color: #eee;
+}
+
+.inventory .section {
+  display: flex;
+  flex-direction: column;
+}
+
+.info {
+  flex-grow: 1;
+  width: 250px;
+  /* Should have box shadow to make indented/stand-out ? */
+}
