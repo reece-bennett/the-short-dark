@@ -14,8 +14,8 @@ import Body from './body.js'
 import BodyType from './bodyType.js'
 import Physics from './physics.js'
 import Container from './container.js'
-// import Item from './item.js'
-import WaterBottle from './items/waterBottle.js'
+import Item from './item.js'
+import waterBottle from './items/waterBottle.js'
 import PlayerInventory from './playerInventory.js'
 
 const game = {
@@ -124,7 +124,7 @@ function generateWorld() {
         layer: 3
       }),
       new Container({
-        items: [new WaterBottle()]
+        items: [new Item(waterBottle)]
       })
     ]
   }))
