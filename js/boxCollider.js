@@ -8,7 +8,7 @@ export default class BoxCollider extends Collider {
   }
 
   getBoundingBox() {
-    const gPos = this.gameObject.getGlobalPosition()
+    const gPos = this.gameObject.getGlobalPosition().add(this.position)
     return {
       top: gPos.y - this.height / 2,
       right: gPos.x + this.width / 2,

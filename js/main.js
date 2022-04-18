@@ -16,6 +16,8 @@ import Physics from './physics.js'
 import Container from './container.js'
 import Item from './item.js'
 import PlayerInventory from './playerInventory.js'
+import Door from './door.js'
+import BuildingBehaviour from './buildingBehaviour.js'
 
 const game = {
   running: true,
@@ -48,7 +50,8 @@ function generateWorld() {
       new PlayerBehaviour({}),
       new PlayerInventory({}),
       new Body({
-        type: BodyType.KINEMATIC
+        type: BodyType.KINEMATIC,
+        layer: 5
       }),
       new CircleCollider({
         radius: 8
@@ -128,8 +131,9 @@ function generateWorld() {
     ]
   }))
 
-  scene.addChild(new GameObject({
+  const building = scene.addChild(new GameObject({
     name: 'Building',
+    rotation: Math.PI / 2, // TODO: This should rotate everything in the gameObject
     position: new Vec2(100, 200),
     components: [
       new Sprite({
@@ -141,13 +145,46 @@ function generateWorld() {
             <roof/>
           </sprite>`
       }),
+      new BoxCollider({ position: new Vec2(-45, -71), width: 60, height: 8 }),
+      new BoxCollider({ position: new Vec2(45, -71), width: 60, height: 8 }),
+      new BoxCollider({ position: new Vec2(71, 0), width: 8, height: 150 }),
+      new BoxCollider({ position: new Vec2(0, 71), width: 150, height: 8 }),
+      new BoxCollider({ position: new Vec2(-71, 0), width: 8, height: 150 }),
+      new Body({
+        type: BodyType.STATIC
+      }),
+      new BuildingBehaviour({})
+    ]
+  }))
+  building.addChild(new GameObject({
+    name: 'InteractionArea',
+    components: [
       new BoxCollider({
         width: 150,
         height: 150
       }),
       new Body({
-        type: BodyType.STATIC
+        type: BodyType.TRIGGER,
+        layer: 4
       })
+    ]
+  }))
+  building.addChild(new GameObject({
+    name: 'Door',
+    position: new Vec2(0, -75),
+    components: [
+      new Sprite({
+        classname: 'door'
+      }),
+      new Body({
+        type: BodyType.STATIC,
+        layer: 3
+      }),
+      new BoxCollider({
+        width: 30,
+        height: 8
+      }),
+      new Door({})
     ]
   }))
 

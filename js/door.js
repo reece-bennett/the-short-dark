@@ -1,40 +1,32 @@
-import Object from './object.js'
+import Component from './component.js'
 
-export default class Door extends Object {
-  interactive = true
-  collider = {
-    type: 'box',
-    halfWidth: 15,
-    halfHeight: 4
+export default class Door extends Component {
+  constructor(params) {
+    super(params)
+    this.isOpen = false
+    this.body = null
   }
 
-  constructor({game, x, y}) {
-    super({
-      game,
-      name: 'door',
-      x,
-      y,
+  create() {
+    this.body = this.gameObject.getComponent('Body')
+    this.gameObject.addEventListener('interact', () => {
+      if (this.isOpen) {
+        this.close()
+      } else {
+        this.open()
+      }
     })
   }
 
   open() {
-    this.isOpen = this.collider.disabled = true
+    this.isOpen = true
+    this.gameObject.rotation = -Math.PI / 2
+    this.body.layer = 2
   }
 
   close() {
-    this.isOpen = this.collider.disabled = false
-  }
-
-  use() {
-    if (this.isOpen) {
-      this.close()
-    } else {
-      this.open()
-    }
-  }
-
-  draw() {
-    super.draw()
-    this.spriteElement.style.transform = `${this.isOpen ? 'rotate(-90deg)' : ''}`
+    this.isOpen = false
+    this.gameObject.rotation = 0
+    this.body.layer = 3
   }
 }
