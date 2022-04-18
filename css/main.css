@@ -14,15 +14,9 @@
 @import 'ui/_inventory.css';
 @import 'ui/_items.css';
 @import 'ui/_screen.css';
+@import 'ui/_title-screen.css';
+@import 'ui/_gameover.css';
 @import 'ui/_ui.css';
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  cursor: default;
-  user-select: none;
-}
 
 .gameover[aria-hidden='true'],
 .title-screen[aria-hidden='true'] {
@@ -41,15 +35,8 @@ body {
 }
 
 body {
-  margin: 0;
   background: #efeff0;
   font-family: sans-serif;
-}
-
-.click-checker {
-  position: absolute;
-  width: 100%;
-  height: 100%;
 }
 
 .target .sprite {

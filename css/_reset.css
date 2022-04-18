@@ -1,0 +1,11 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  cursor: default;
+  user-select: none;
+}
+
+body {
+  margin: 0;
+}
