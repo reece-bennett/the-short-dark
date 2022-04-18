@@ -23,7 +23,11 @@ export default class PlayerInventory extends Inventory {
     })
 
     this.gameObject.addEventListener('openContainer', event => {
-      this.open(event.detail.container)
+      if (this.isOpen) {
+        this.close()
+      } else {
+        this.open(event.detail.container)
+      }
     })
   }
 
