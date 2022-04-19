@@ -1,9 +1,13 @@
 import Component from './component.js'
 
 export default class Inventory extends Component {
-  constructor({ items, ...params }) {
+  constructor({ items = [], columns = 2, rows = 5, ...params }) {
     super(params)
-    this.items = items ?? []
+    // TODO: Use the cols & rows variables to set CSS vars?
+    this.columns = columns
+    this.rows = rows
+    items.forEach(item => item.inventory = this)
+    this.items = items.concat(Array(this.columns * this.rows - items.length).fill(null))
   }
 
   create() {
@@ -12,15 +16,23 @@ export default class Inventory extends Component {
     })
   }
 
+  // TODO: Check if there's enough space for multi-cell items
+  hasRoomFor() {
+    return this.items.indexOf(null) !== -1
+  }
+
   add(item) {
-    this.items.push(item)
+    item.inventory = this
+    this.items[this.items.indexOf(null)] = item // Assumes there is room
   }
 
   remove(item) {
-    this.items.splice(this.items.indexOf(item), 1)
-  }
-
-  removeAtIndex(index) {
-    return this.items.splice(index, 1)
+    for (let i = 0; i < this.items.length; i++) {
+      if (this.items[i] === item) {
+        item.inventory = null // This item no longer belongs to this inventory
+        this.items[i] = null // Reset this spot in this inventory item array
+        // ...The removed item will be garbage collected if there's no other refs to it
+      }
+    }
   }
 }

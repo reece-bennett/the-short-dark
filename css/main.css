@@ -1,26 +1,28 @@
-@import '_object.css';
-@import '_sprite.css';
+@import '_reset.css';
 @import '_bear.css';
-@import '_player.css';
-@import '_rock.css';
-@import '_tree.css';
 @import '_building.css';
+@import '_bullet.css';
 @import '_container.css';
 @import '_door.css';
-@import '_ui.css';
-@import '_bullet.css';
+@import '_object.css';
+@import '_player.css';
+@import '_rock.css';
+@import '_sprite.css';
 @import '_tracks.css';
+@import '_tree.css';
+@import 'ui/_colors.css';
+@import 'ui/_inventory-cell.css';
+@import 'ui/_inventory-grid.css';
+@import 'ui/_inventory.css';
+@import 'ui/_items.css';
+@import 'ui/_screen.css';
+@import 'ui/_title-screen.css';
+@import 'ui/_gameover.css';
+@import 'ui/_ui.css';
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  cursor: default;
-  user-select: none;
-}
-
-*[aria-hidden='true'] {
-  display: none !important;
+.gameover[aria-hidden='true'],
+.title-screen[aria-hidden='true'] {
+  display: none;
 }
 
 :root {
@@ -35,15 +37,8 @@ body {
 }
 
 body {
-  margin: 0;
   background: #efeff0;
   font-family: sans-serif;
-}
-
-.click-checker {
-  position: absolute;
-  width: 100%;
-  height: 100%;
 }
 
 .target .sprite {

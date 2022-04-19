@@ -1,0 +1,18 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  cursor: default;
+  user-select: none;
+}
+
+body {
+  margin: 0;
+}
+
+button {
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: unset;
+}

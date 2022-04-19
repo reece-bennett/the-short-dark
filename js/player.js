@@ -216,7 +216,7 @@ export default class Player extends Creature {
 
   draw() {
     super.draw()
-    $('.game').style.transform = `translate(${-this.game.camera.x}px, ${-this.game.camera.y}px)`
+    $('.world').style.transform = `translate(${-this.game.camera.x}px, ${-this.game.camera.y}px)`
     $('.inventory').setAttribute('aria-hidden', !this.inventoryOpen)
     this.updateStatsUi()
   }

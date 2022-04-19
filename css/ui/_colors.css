@@ -1,0 +1,10 @@
+:root {
+  --ui-neo-bg: #333;
+  --ui-neo-dark: #0004;
+  --ui-neo-light: #fff1;
+  --ui-neo-angle: 145deg;
+  --ui-neo-bg-concave: linear-gradient(var(--ui-neo-angle), #0002, #bbb1);
+  --ui-neo-bg-convex: linear-gradient(var(--ui-neo-angle), #bbb1, #0002);
+  /* --ui-grey-lightest: #eee;
+  --ui-grey-light: #ddd; */
+}

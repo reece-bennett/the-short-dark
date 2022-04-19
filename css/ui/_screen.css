@@ -1,0 +1,11 @@
+.screen {
+  /* position: absolute; */
+  display: flex;
+  gap: 20px;
+  border-radius: 24px;
+  padding: 16px;
+  box-shadow:
+    0 0 50vw #0004,
+    0 0 0 50vw #0005;
+  background: #333;
+}

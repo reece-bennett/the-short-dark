@@ -1,0 +1,22 @@
+.inventory .grid {
+  --cell-size: 80px;
+  --gap: 8px;
+
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), var(--cell-size));
+  grid-template-rows: repeat(var(--grid-rows), var(--cell-size));
+  grid-auto-flow: dense; /* Fill in gaps automagically */
+  height: calc(var(--grid-rows) * var(--cell-size) + (var(--grid-rows) - 1) * var(--gap));
+  width: calc(var(--grid-cols) * var(--cell-size) + (var(--grid-cols) - 1) * var(--gap));
+  gap: var(--gap);
+}
+
+.inventory .player .grid {
+  --grid-cols: 4;
+  --grid-rows: 5;
+}
+
+.inventory .container .grid {
+  --grid-cols: 2;
+  --grid-rows: 5;
+}

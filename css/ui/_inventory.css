@@ -1,0 +1,19 @@
+.inventory {
+  color: #eee;
+}
+
+.inventory[aria-hidden='true'] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.inventory .section {
+  display: flex;
+  flex-direction: column;
+}
+
+.info {
+  flex-grow: 1;
+  width: 250px;
+  /* Should have box shadow to make indented/stand-out ? */
+}

@@ -1,0 +1,21 @@
+.gameover {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.gameover .title {
+  font-weight: bold;
+  font-size: 6em;
+}
+
+.gameover .message {
+  font-size: 1.5em;
+  text-align: center;
+}

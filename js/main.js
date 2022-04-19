@@ -15,6 +15,8 @@ import BodyType from './bodyType.js'
 import Physics from './physics.js'
 import Container from './container.js'
 import Item from './item.js'
+import waterBottle from './items/waterBottle.js'
+import cola from './items/cola.js'
 import PlayerInventory from './playerInventory.js'
 import createBuilding from './building.js'
 
@@ -32,7 +34,7 @@ function generateWorld() {
     name: 'Scene'
   })
 
-  $('.game').innerHTML = '' // Should go inside scene.create()?
+  $('.world').innerHTML = '' // Should go inside scene.create()?
 
   scene.addChild(new GameObject({
     name: 'Camera',
@@ -47,7 +49,28 @@ function generateWorld() {
       new KeyboardMovement({}),
       new FollowMouse({}),
       new PlayerBehaviour({}),
-      new PlayerInventory({}),
+      new PlayerInventory({
+        items: [
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+        ]
+      }),
       new Body({
         type: BodyType.KINEMATIC,
         layer: 5
@@ -128,7 +151,7 @@ function generateWorld() {
         layer: 3
       }),
       new Container({
-        items: [Item.waterBottle(), Item.energyBar(), Item.rifle(), Item.revolver()]
+        items: [new Item(waterBottle), new Item(cola), new Item(waterBottle)]
       })
     ]
   }))
