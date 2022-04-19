@@ -13,7 +13,7 @@ function checkBoxBox(a, b) {
 
 function checkBoxCircle(box, circle) {
   const bounding = box.getBoundingBox()
-  const circlePos = circle.gameObject.getGlobalPosition()
+  const circlePos = circle.getGlobalPosition()
   // The point inside box closest to circle
   const point = new Vec2(
     Math.max(Math.min(circlePos.x, bounding.right), bounding.left),
@@ -23,13 +23,13 @@ function checkBoxCircle(box, circle) {
 }
 
 function checkCircleCircle(a, b) {
-  return a.gameObject.getGlobalPosition().subtract(b.gameObject.getGlobalPosition()).length() < (a.radius + b.radius)
+  return a.getGlobalPosition().subtract(b.getGlobalPosition()).length() < (a.radius + b.radius)
 }
 
 // https://developer.ibm.com/tutorials/wa-build2dphysicsengine/
 function resolveBoxBox(a, b) {
-  const aPos = a.gameObject.getGlobalPosition()
-  const diff = b.gameObject.getGlobalPosition().subtract(aPos)
+  const aPos = a.getGlobalPosition()
+  const diff = b.getGlobalPosition().subtract(aPos)
   const dx = diff.x / (b.width / 2)
   const dy = diff.y / (b.height / 2)
 
@@ -38,25 +38,25 @@ function resolveBoxBox(a, b) {
   if (Math.abs(dx) > Math.abs(dy)) {
     if (diff.x > 0) {
       // From left
-      a.gameObject.setGlobalPosition(new Vec2(bBounding.left - (a.width / 2), aPos.y))
+      a.gameObject.setGlobalPosition(new Vec2(bBounding.left - (a.width / 2), aPos.y).subtract(a.position))
     } else {
       // From right
-      a.gameObject.setGlobalPosition(new Vec2(bBounding.right + (a.width / 2), aPos.y))
+      a.gameObject.setGlobalPosition(new Vec2(bBounding.right + (a.width / 2), aPos.y).subtract(a.position))
     }
   } else {
     if (diff.y > 0) {
       // From top
-      a.gameObject.setGlobalPosition(new Vec2(aPos.x, bBounding.top - (a.height / 2)))
+      a.gameObject.setGlobalPosition(new Vec2(aPos.x, bBounding.top - (a.height / 2)).subtract(a.position))
     } else {
       // From bottom
-      a.gameObject.setGlobalPosition(new Vec2(aPos.x, bBounding.bottom + (a.height / 2)))
+      a.gameObject.setGlobalPosition(new Vec2(aPos.x, bBounding.bottom + (a.height / 2)).subtract(a.position))
     }
   }
 }
 
 function resolveCircleBox(circle, box) {
-  const circlePos = circle.gameObject.getGlobalPosition()
-  const diff = box.gameObject.getGlobalPosition().subtract(circlePos)
+  const circlePos = circle.getGlobalPosition()
+  const diff = box.getGlobalPosition().subtract(circlePos)
   const dx = diff.x / (box.width / 2)
   const dy = diff.y / (box.height / 2)
 
@@ -65,18 +65,18 @@ function resolveCircleBox(circle, box) {
   if (Math.abs(dx) > Math.abs(dy)) {
     if (diff.x > 0) {
       // From left
-      circle.gameObject.setGlobalPosition(new Vec2(bounding.left - circle.radius, circlePos.y))
+      circle.gameObject.setGlobalPosition(new Vec2(bounding.left - circle.radius, circlePos.y).subtract(circle.position))
     } else {
       // From right
-      circle.gameObject.setGlobalPosition(new Vec2(bounding.right + circle.radius, circlePos.y))
+      circle.gameObject.setGlobalPosition(new Vec2(bounding.right + circle.radius, circlePos.y).subtract(circle.position))
     }
   } else {
     if (diff.y > 0) {
       // From top
-      circle.gameObject.setGlobalPosition(new Vec2(circlePos.x, bounding.top - circle.radius))
+      circle.gameObject.setGlobalPosition(new Vec2(circlePos.x, bounding.top - circle.radius).subtract(circle.position))
     } else {
       // From bottom
-      circle.gameObject.setGlobalPosition(new Vec2(circlePos.x, bounding.bottom + circle.radius))
+      circle.gameObject.setGlobalPosition(new Vec2(circlePos.x, bounding.bottom + circle.radius).subtract(circle.position))
     }
   }
 }
@@ -91,28 +91,28 @@ function resolveBoxCircle(box, circle) {
   if (Math.abs(dx) > Math.abs(dy)) {
     if (diff.x > 0) {
       // From left
-      box.gameObject.setGlobalPosition(new Vec2(circlePos.x - circle.radius - (box.width / 2), boxPos.y))
+      box.gameObject.setGlobalPosition(new Vec2(circlePos.x - circle.radius - (box.width / 2), boxPos.y).subtract(box.position))
     } else {
       // From right
-      box.gameObject.setGlobalPosition(new Vec2(circlePos.x + circle.radius + (box.width / 2), boxPos.y))
+      box.gameObject.setGlobalPosition(new Vec2(circlePos.x + circle.radius + (box.width / 2), boxPos.y).subtract(box.position))
     }
   } else {
     if (diff.y > 0) {
       // From top
-      box.gameObject.setGlobalPosition(new Vec2(boxPos.x, circlePos.y - circle.radius - (box.height / 2)))
+      box.gameObject.setGlobalPosition(new Vec2(boxPos.x, circlePos.y - circle.radius - (box.height / 2)).subtract(box.position))
     } else {
       // From bottom
-      box.gameObject.setGlobalPosition(new Vec2(boxPos.x, circlePos.y + circle.radius + (box.height / 2)))
+      box.gameObject.setGlobalPosition(new Vec2(boxPos.x, circlePos.y + circle.radius + (box.height / 2)).subtract(box.position))
     }
   }
 }
 
 function resolveCircleCircle(a, b) {
-  const aPos = a.gameObject.getGlobalPosition()
-  const diff = aPos.subtract(b.gameObject.getGlobalPosition())
+  const aPos = a.getGlobalPosition()
+  const diff = aPos.subtract(b.getGlobalPosition())
   const depth = (a.radius + b.radius) - diff.length()
   const resized = diff.resize(depth)
-  a.gameObject.setGlobalPosition(aPos.add(resized))
+  a.gameObject.setGlobalPosition(aPos.add(resized).subtract(a.position))
 }
 
 

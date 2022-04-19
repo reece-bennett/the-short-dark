@@ -1,40 +1,81 @@
-import Object from './object.js'
+import Component from './component.js'
+import Vec2 from './vec2.js'
 
-export default class Door extends Object {
-  interactive = true
-  collider = {
-    type: 'box',
-    halfWidth: 15,
-    halfHeight: 4
+export default class Door extends Component {
+  constructor(params) {
+    super(params)
+    this.isOpen = false
+    this.body = null
+    this.collider = null
   }
 
-  constructor({game, x, y}) {
-    super({
-      game,
-      name: 'door',
-      x,
-      y,
+  create() {
+    this.body = this.gameObject.getComponent('Body')
+    this.collider = this.gameObject.getComponent('BoxCollider')
+    this.gameObject.addEventListener('interact', () => {
+      if (this.isOpen) {
+        this.close()
+      } else {
+        this.open()
+      }
     })
   }
 
   open() {
-    this.isOpen = this.collider.disabled = true
-  }
-
-  close() {
-    this.isOpen = this.collider.disabled = false
-  }
-
-  use() {
-    if (this.isOpen) {
-      this.close()
-    } else {
-      this.open()
+    this.isOpen = true
+    this.gameObject.rotation -= Math.PI * 0.5
+    this.body.layer = 2
+    // TODO: This is super hacky, would be nice to get a better way of rotating
+    // the collider around a point
+    switch(this.gameObject.rotation) {
+      case Math.PI * -0.5: // Top
+        this.collider.width = 8
+        this.collider.height = 30
+        this.gameObject.position = this.gameObject.position.add(new Vec2(-15, -15))
+        break
+      case 0: // Right
+        this.collider.width = 30
+        this.collider.height = 8
+        this.gameObject.position = this.gameObject.position.add(new Vec2(15, -15))
+        break
+      case Math.PI * 0.5: // Bottom
+        this.collider.width = 8
+        this.collider.height = 30
+        this.gameObject.position = this.gameObject.position.add(new Vec2(15, 15))
+        break
+      case Math.PI: // Left
+        this.collider.width = 30
+        this.collider.height = 8
+        this.gameObject.position = this.gameObject.position.add(new Vec2(-15, 15))
+        break
     }
   }
 
-  draw() {
-    super.draw()
-    this.spriteElement.style.transform = `${this.isOpen ? 'rotate(-90deg)' : ''}`
+  close() {
+    switch(this.gameObject.rotation) {
+      case Math.PI * -0.5: // Top
+        this.collider.width = 30
+        this.collider.height = 8
+        this.gameObject.position = this.gameObject.position.subtract(new Vec2(-15, -15))
+        break
+      case 0: // Right
+        this.collider.width = 8
+        this.collider.height = 30
+        this.gameObject.position = this.gameObject.position.subtract(new Vec2(15, -15))
+        break
+      case Math.PI * 0.5: // Bottom
+        this.collider.width = 30
+        this.collider.height = 8
+        this.gameObject.position = this.gameObject.position.subtract(new Vec2(15, 15))
+        break
+      case Math.PI: // Left
+        this.collider.width = 8
+        this.collider.height = 30
+        this.gameObject.position = this.gameObject.position.subtract(new Vec2(-15, 15))
+        break
+    }
+    this.isOpen = false
+    this.gameObject.rotation += Math.PI * 0.5
+    this.body.layer = 3
   }
 }

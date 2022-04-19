@@ -82,3 +82,23 @@ body {
   outline: red 1px solid;
   border-radius: 50%;
 }
+
+.circle .sprite {
+  background: red;
+  border-radius: 50%;
+}
+
+.circleOffset .sprite {
+  background: blue;
+  border-radius: 50%;
+  transform: translate(0, 20px) !important;
+}
+
+.box .sprite {
+  background: red;
+}
+
+.boxOffset .sprite {
+  background: blue;
+  transform: translate(0, -20px) !important;
+}
