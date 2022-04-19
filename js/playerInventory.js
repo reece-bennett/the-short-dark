@@ -46,81 +46,72 @@ export default class PlayerInventory extends Inventory {
   }
 
   generateCells(gridElement, thisInventory, otherInventory) {
-    for (let rowIndex = 0; rowIndex < thisInventory.rows; rowIndex++) {
-      for (let colIndex = 0; colIndex < thisInventory.columns; colIndex++) {
-        const cell = document.createElement('button')
-        cell.classList.add('inventory-cell')
-        gridElement.append(cell)
+    thisInventory.items.forEach((item) => {
+      const cell = document.createElement('button')
+      cell.classList.add('inventory-cell')
+      gridElement.append(cell)
 
-        const itemInThisCell = thisInventory.items.find((item) =>
-          item.column === colIndex && item.row === rowIndex
-        )
+      if (item === null) {
+        cell.disabled = true
+        return
+      }
 
-        if (itemInThisCell) {
-          cell.handleLeftMouseUp = () => {
-            cell.classList.remove('active-left')
+      cell.handleLeftMouseUp = () => {
+        cell.classList.remove('active-left')
 
-            if (otherInventory) {
-              thisInventory.remove(itemInThisCell)
-              otherInventory.add(itemInThisCell)
-              this.updateInventoryUi()
-            }
-          }
-
-          cell.handleRightMouseUp = () => {
-            cell.classList.remove('active-right')
-            itemInThisCell.user = this.gameObject
-            itemInThisCell.use()
-            this.updateInventoryUi()
-          }
-
-          cell.addEventListener('contextmenu', event => event.preventDefault())
-
-          cell.addEventListener('mousedown', event => {
-            switch (event.button) {
-              case 0:
-                cell.removeEventListener('mouseup', cell.handleRightMouseUp)
-                cell.addEventListener('mouseup', cell.handleLeftMouseUp)
-                cell.classList.add('active-left')
-                cell.handleMouseMove = cell.addEventListener('mousemove', () => {
-                  // TODO: Do click and drag stuff
-                })
-                break
-              case 2:
-                cell.removeEventListener('mouseup', cell.handleLeftMouseUp)
-                cell.classList.add('active-right')
-                // We're about to use the item?
-                cell.addEventListener('mouseup', cell.handleRightMouseUp)
-                break
-            }
-          })
-
-          cell.addEventListener('mouseleave', () => {
-            cell.classList.remove('active-left')
-            cell.classList.remove('active-right')
-          })
-
-          cell.addEventListener('mouseenter', () => {
-            $('.inventory .info .box').innerHTML = `
-              <h2>${itemInThisCell.name}</h2>
-              <p>${itemInThisCell.description}</p>
-            `
-          })
-
-          const actionElement = document.createElement('div')
-          actionElement.innerText = itemInThisCell.action
-          actionElement.classList = 'action'
-          cell.append(actionElement)
-          cell.append(itemInThisCell.createUiElement())
-
-          // TODO: Increment indexes if it's a big item?
-          // So we don't end up with too many cells?
-        } else {
-          // Cells with nothing in are disabled
-          cell.disabled = true
+        if (otherInventory) {
+          thisInventory.remove(item)
+          otherInventory.add(item)
+          this.updateInventoryUi()
         }
       }
-    }
+
+      cell.handleRightMouseUp = () => {
+        cell.classList.remove('active-right')
+        item.user = this.gameObject
+        item.use()
+        this.updateInventoryUi()
+      }
+
+      cell.addEventListener('contextmenu', event => event.preventDefault())
+
+      cell.addEventListener('mousedown', event => {
+        switch (event.button) {
+          case 0:
+            cell.removeEventListener('mouseup', cell.handleRightMouseUp)
+            cell.addEventListener('mouseup', cell.handleLeftMouseUp)
+            cell.classList.add('active-left')
+            cell.handleMouseMove = cell.addEventListener('mousemove', () => {
+              // TODO: Do click and drag stuff
+            })
+            break
+          case 2:
+            cell.removeEventListener('mouseup', cell.handleLeftMouseUp)
+            cell.classList.add('active-right')
+            // We're about to use the item?
+            cell.addEventListener('mouseup', cell.handleRightMouseUp)
+            break
+        }
+      })
+
+      cell.addEventListener('mouseleave', () => {
+        cell.classList.remove('active-left')
+        cell.classList.remove('active-right')
+      })
+
+      cell.addEventListener('mouseenter', () => {
+        $('.inventory .info .box').innerHTML = `
+          <h2>${item.name}</h2>
+          <p>${item.description}</p>
+        `
+      })
+
+      const actionElement = document.createElement('div')
+      actionElement.innerText = item.action
+      actionElement.classList = 'action'
+      cell.append(actionElement)
+      cell.append(item.createUiElement())
+    })
   }
 
   updateInventoryUi() {

@@ -125,7 +125,7 @@ function generateWorld() {
         layer: 3
       }),
       new Container({
-        items: [new Item(waterBottle), new Item(cola)]
+        items: [new Item(waterBottle), new Item(cola), new Item(waterBottle)]
       })
     ]
   }))
