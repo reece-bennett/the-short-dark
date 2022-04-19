@@ -1,21 +1,13 @@
 import Component from './component.js'
 
 export default class Inventory extends Component {
-  constructor({ items = [], columns, rows, ...params }) {
+  constructor({ items = [], columns = 2, rows = 5, ...params }) {
     super(params)
     // TODO: Use the cols & rows variables to set CSS vars?
-    this.columns = columns ?? 2
-    this.rows = rows ?? 5
-    this.items = []
-
-    for (let i = 0; i < this.columns * this.rows; i++) {
-      if (items[i]) {
-        this.items.push(items[i])
-        items[i].inventory = this
-      } else {
-        this.items.push(null)
-      }
-    }
+    this.columns = columns
+    this.rows = rows
+    items.forEach(item => item.inventory = this)
+    this.items = items.concat(Array(this.columns * this.rows - items.length).fill(null))
   }
 
   create() {
@@ -40,8 +32,9 @@ export default class Inventory extends Component {
   remove(item) {
     for (let i = 0; i < this.items.length; i++) {
       if (this.items[i] === item) {
-        this.items[i].inventory = null // This item no longer belongs to this inventory
-        this.items[i] = null // Reset this spot in the inventories item array
+        item.inventory = null // This item no longer belongs to this inventory
+        this.items[i] = null // Reset this spot in this inventory item array
+        // ...The removed item will be garbage collected if there's no other refs to it
       }
     }
   }
