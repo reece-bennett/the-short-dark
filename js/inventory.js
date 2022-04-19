@@ -21,8 +21,9 @@ export default class Inventory extends Component {
   }
 
   add(item) {
-    // TODO: All the item init stuff in the constructor?
+    // TODO: figure out columns and rows for this item?
     this.items.push(item)
+    item.inventory = this
   }
 
   remove(item) {

@@ -1,0 +1,56 @@
+.inventory-cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: calc(var(--cell-size) / 8);
+  user-select: none;
+}
+
+.inventory-cell * {
+  pointer-events: none;
+}
+
+.inventory-cell:empty {
+  box-shadow:
+    inset calc(var(--cell-size) / 40) calc(var(--cell-size) / 40) calc(var(--cell-size) / 20) var(--ui-neo-dark),
+    inset calc(var(--cell-size) / -40) calc(var(--cell-size) / -40) calc(var(--cell-size) / 20) var(--ui-neo-light);
+}
+
+.inventory-cell:not(:empty) {
+  box-shadow:
+    calc(var(--cell-size) / 40) calc(var(--cell-size) / 40) calc(var(--cell-size) / 20) var(--ui-neo-dark),
+    calc(var(--cell-size) / -40) calc(var(--cell-size) / -40) calc(var(--cell-size) / 20) var(--ui-neo-light);
+}
+
+.inventory-cell:not(:empty)::before {
+  position: absolute;
+  content: '';
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: var(--ui-neo-bg-concave);
+  transition: opacity .2s;
+}
+
+.inventory-cell:not(:empty).active-left::before {
+  opacity: 0;
+}
+
+.inventory-cell:not(:empty).active-right {
+  box-shadow:
+    inset calc(var(--cell-size) / 40) calc(var(--cell-size) / 40) calc(var(--cell-size) / 20) var(--ui-neo-dark),
+    inset calc(var(--cell-size) / -40) calc(var(--cell-size) / -40) calc(var(--cell-size) / 20) var(--ui-neo-light);
+}
+
+.inventory-cell .action {
+  position: absolute;
+  font-size: 12px;
+  top: .25rem;
+  right: .25rem;
+}
+
+.inventory-cell:not(:hover) .action {
+  opacity: 0;
+}

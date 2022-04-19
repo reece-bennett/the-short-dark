@@ -1,3 +1,4 @@
+@import '_reset.css';
 @import '_bear.css';
 @import '_building.css';
 @import '_bullet.css';
@@ -10,6 +11,7 @@
 @import '_tracks.css';
 @import '_tree.css';
 @import 'ui/_colors.css';
+@import 'ui/_inventory-cell.css';
 @import 'ui/_inventory-grid.css';
 @import 'ui/_inventory.css';
 @import 'ui/_items.css';
