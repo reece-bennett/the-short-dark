@@ -128,7 +128,7 @@ function generateWorld() {
         layer: 3
       }),
       new Container({
-        items: [Item.waterBottle(), Item.energyBar(), Item.rifle(), Item.revolver()]
+        items: [new Item(waterBottle), new Item(cola), new Item(waterBottle)]
       })
     ]
   }))
