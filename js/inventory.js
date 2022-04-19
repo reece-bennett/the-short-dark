@@ -20,10 +20,27 @@ export default class Inventory extends Component {
     })
   }
 
+  hasRoomForItem() {
+    // TODO: Take into account space for multi-cell items
+    return this.items.length < this.columns * this.rows
+  }
+
+  getFirstEmptyCellLocation() {
+    return [
+      this.items.length % this.columns,
+      Math.floor(this.items.length / this.columns)
+    ]
+  }
+
   add(item) {
-    // TODO: figure out columns and rows for this item?
-    this.items.push(item)
+    if (!this.hasRoomForItem(item)) {
+      // TODO: Show some sort of 'no inventory space left' message
+      return
+    }
+
+    [item.column, item.row] = this.getFirstEmptyCellLocation()
     item.inventory = this
+    this.items.push(item)
   }
 
   remove(item) {
