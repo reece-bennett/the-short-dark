@@ -16,17 +16,14 @@ export default class Inventory extends Component {
     })
   }
 
+  // TODO: Check if there's enough space for multi-cell items
+  hasRoomFor() {
+    return this.items.indexOf(null) !== -1
+  }
+
   add(item) {
-    // TODO: Check if there's enough space for multi-cell items
-    const firstEmptyIndex = this.items.indexOf(null)
-
-    if (firstEmptyIndex === -1) {
-      // TODO: Show some sort of 'no inventory space left' message
-      return false
-    }
-
     item.inventory = this
-    this.items[firstEmptyIndex] = item
+    this.items[this.items.indexOf(null)] = item // Assumes there is room
   }
 
   remove(item) {

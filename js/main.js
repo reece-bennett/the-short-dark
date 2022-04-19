@@ -48,7 +48,28 @@ function generateWorld() {
       new KeyboardMovement({}),
       new FollowMouse({}),
       new PlayerBehaviour({}),
-      new PlayerInventory({}),
+      new PlayerInventory({
+        items: [
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+          new Item(waterBottle),
+        ]
+      }),
       new Body({
         type: BodyType.KINEMATIC
       }),

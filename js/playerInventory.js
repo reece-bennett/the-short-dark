@@ -59,9 +59,9 @@ export default class PlayerInventory extends Inventory {
       cell.handleLeftMouseUp = () => {
         cell.classList.remove('active-left')
 
-        if (otherInventory) {
-          thisInventory.remove(item)
+        if (otherInventory && otherInventory.hasRoomFor(item)) {
           otherInventory.add(item)
+          thisInventory.remove(item)
           this.updateInventoryUi()
         }
       }
