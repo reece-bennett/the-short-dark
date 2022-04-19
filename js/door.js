@@ -31,22 +31,22 @@ export default class Door extends Component {
       case Math.PI * -0.5: // Top
         this.collider.width = 8
         this.collider.height = 30
-        this.collider.position = this.collider.position.add(new Vec2(-15, -15))
+        this.gameObject.position = this.gameObject.position.add(new Vec2(-15, -15))
         break
       case 0: // Right
         this.collider.width = 30
         this.collider.height = 8
-        this.collider.position = this.collider.position.add(new Vec2(15, -15))
+        this.gameObject.position = this.gameObject.position.add(new Vec2(15, -15))
         break
       case Math.PI * 0.5: // Bottom
         this.collider.width = 8
         this.collider.height = 30
-        this.collider.position = this.collider.position.add(new Vec2(15, 15))
+        this.gameObject.position = this.gameObject.position.add(new Vec2(15, 15))
         break
       case Math.PI: // Left
         this.collider.width = 30
         this.collider.height = 8
-        this.collider.position = this.collider.position.add(new Vec2(-15, 15))
+        this.gameObject.position = this.gameObject.position.add(new Vec2(-15, 15))
         break
     }
   }
@@ -56,22 +56,22 @@ export default class Door extends Component {
       case Math.PI * -0.5: // Top
         this.collider.width = 30
         this.collider.height = 8
-        this.collider.position = this.collider.position.subtract(new Vec2(-15, -15))
+        this.gameObject.position = this.gameObject.position.subtract(new Vec2(-15, -15))
         break
       case 0: // Right
         this.collider.width = 8
         this.collider.height = 30
-        this.collider.position = this.collider.position.subtract(new Vec2(15, -15))
+        this.gameObject.position = this.gameObject.position.subtract(new Vec2(15, -15))
         break
       case Math.PI * 0.5: // Bottom
         this.collider.width = 30
         this.collider.height = 8
-        this.collider.position = this.collider.position.subtract(new Vec2(15, 15))
+        this.gameObject.position = this.gameObject.position.subtract(new Vec2(15, 15))
         break
       case Math.PI: // Left
         this.collider.width = 8
         this.collider.height = 30
-        this.collider.position = this.collider.position.subtract(new Vec2(-15, 15))
+        this.gameObject.position = this.gameObject.position.subtract(new Vec2(-15, 15))
         break
     }
     this.isOpen = false

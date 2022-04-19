@@ -84,19 +84,19 @@ export default function createBuilding({ position, doorSide }) {
       door.addComponent(new BoxCollider({ width: 30, height: 8 }))
       break
     case 'right':
-      door.position = new Vec2(90, -15)
+      door.position = new Vec2(75, 0)
       door.rotation = Math.PI * 0.5
-      door.addComponent(new BoxCollider({ width: 8, height: 30, position: new Vec2(-15, 15) }))
+      door.addComponent(new BoxCollider({ width: 8, height: 30 }))
       break
     case 'bottom':
-      door.position = new Vec2(30, 75)
+      door.position = new Vec2(0, 75)
       door.rotation = Math.PI
-      door.addComponent(new BoxCollider({ width: 30, height: 8, position: new Vec2(-30, 0) }))
+      door.addComponent(new BoxCollider({ width: 30, height: 8 }))
       break
     case 'left':
-      door.position = new Vec2(-60, 15)
+      door.position = new Vec2(-75, 0)
       door.rotation = Math.PI * 1.5
-      door.addComponent(new BoxCollider({ width: 8, height: 30, position: new Vec2(-15, -15) }))
+      door.addComponent(new BoxCollider({ width: 8, height: 30 }))
       break
   }
 
