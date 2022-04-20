@@ -13,6 +13,7 @@ import PlayerBehaviour from './playerBehaviour.js'
 import Body from './body.js'
 import BodyType from './bodyType.js'
 import Physics from './physics.js'
+import PlayerVitals from './playerVitals.js'
 import Container from './container.js'
 import Item from './item.js'
 import waterBottle from './items/waterBottle.js'
@@ -88,7 +89,13 @@ function generateWorld() {
             <head/>
             <item/>
           </sprite>`
-      })
+      }),
+      new PlayerVitals({
+        hitPoints: 20,
+        temperature: 1,
+        food: 1,
+        water: 1,
+      }),
     ]
   }))
 
@@ -230,6 +237,8 @@ function step(timestamp) {
   const dt = (timestamp - previousTimestamp) * 0.001
   game.timestamp = timestamp
   game.duration += timestamp - previousTimestamp
+
+  scene.timestamp = timestamp
 
   Input.update()
   scene.update(dt)

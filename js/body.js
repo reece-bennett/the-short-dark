@@ -12,7 +12,7 @@ export default class Body extends Component {
   }
 
   create() {
-    this.colliders = this.gameObject.getComponentByClass(Collider)
+    this.colliders = this.gameObject.getComponentsByClass(Collider)
     this.colliders.forEach(collider => collider.body = this)
     Physics.addBody(this)
   }
