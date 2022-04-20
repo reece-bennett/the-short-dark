@@ -1,6 +1,7 @@
 // function addClamped(stat, amount) {
 //   return Math.max(Math.min(stat + amount, 1), 0)
 // }
+import Vitals from './vitals.js'
 
 export default class Item {
   constructor({
@@ -33,9 +34,9 @@ export default class Item {
 
   use() {
     for (const [stat, value] of Object.entries(this.stats)) {
-      // WHERE IS THE WATER I NEED TO PUT WATER INTO THE PLAYER
-      // (and IMO there should be a .add which automatically does the clamping)
-      // this.user[stat].add(value)
+      // TODO: Optional chaning so if the thing using the item doesn't
+      // have the stat, instead of erroring, it just does nothing?
+      this.user.getComponentsByClass(Vitals)[0][stat].add(value)
     }
 
     console.log('Using a', this.name, 'from this inventory:')
